@@ -1,24 +1,25 @@
 import axios from 'axios';
 
 const Api = axios.create({
-  baseURL: process.env.API_BASE_URL || '',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || '',
+  contentType: 'application/json',
 });
 Api.defaults.timeout = 2500;
 Api.interceptors.request.use(
-  (config) => {
+  (config: any) => {
     return config;
   },
-  (error) => {
+  (error: any) => {
     console.log(error);
     return Promise.reject(error);
   },
 );
 Api.interceptors.response.use(
-  (response) => {
+  (response: any) => {
     const res = response.data;
     return res;
   },
-  (error) => {
+  (error: any) => {
     console.log(error);
     return Promise.reject(error);
   },

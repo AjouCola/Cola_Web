@@ -33,5 +33,17 @@ const Auth = {
     console.log('signup', payload);
     return promiseResponse('회원가입 성공');
   },
+  async isUser(user: any) {
+    const data = await Api.post('/user/isUser', {
+      name: user.name,
+      email: user.email,
+      image: user.image,
+    });
+    return data;
+  },
+  async test() {
+    const data = await Api.get('/test');
+    return data;
+  },
 };
 export default Auth;
