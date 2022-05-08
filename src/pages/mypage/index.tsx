@@ -1,74 +1,70 @@
+import { useState } from 'react';
+
 import type { NextPage } from 'next';
 
-import {
-  Container,
-  FlexRow,
-  ProfileSection,
-  ProfileImage,
-  ProfileDetailWrapper,
-  ProfileDetail,
-  MypageSection,
-  ContentWrapper,
-} from '@styles/mypage';
+import Card from '@components/atoms/card';
+import Modal from '@components/molecules/modal';
+import PostContent from '@components/molecules/postContent';
+import { Container, Title, CardContainer, ContentContainer, BackgroundImage, ModalContainer } from '@styles/mypage';
+
+const data = {
+  name: '김이름',
+  department: '소프트웨어학과',
+  ajouEmail: 'maxcha98@ajou.ac.kr',
+  githubEmail: 'maxcha98@naver.com',
+};
 
 const Mypage: NextPage = () => {
+  const [modalOnOff, setModalOnOff] = useState(false);
+
+  const handleModalOnOff = () => setModalOnOff(!modalOnOff);
   return (
-    <Container>
-      <ProfileSection>
-        <ProfileImage></ProfileImage>
-        <ProfileDetailWrapper>
-          <h4>프로필</h4>
-          <ProfileDetail>
-            <div>
-              <span>이름 : 아주인</span>
-              <span>
-                소프트웨어학과<span style={{ marginLeft: 10 }}>icon</span>
-              </span>
-            </div>
-            <p>아주대 메일</p>
-            <p>Github : github@git.co</p>
-          </ProfileDetail>
-        </ProfileDetailWrapper>
-      </ProfileSection>
-      <MypageSection>
-        <FlexRow>
-          <h3>내가 쓴 게시물</h3>
-          <span>더보기 +</span>
-        </FlexRow>
-        <ContentWrapper>
-          <li>게시글 1</li>
-          <li>게시글 1</li>
-          <li>게시글 1</li>
-          <li>게시글 1</li>
-        </ContentWrapper>
-      </MypageSection>
-      <MypageSection>
-        <FlexRow>
-          <h3>내가 쓴 댓글</h3>
-          <span>더보기 +</span>
-        </FlexRow>
-        <ContentWrapper>
-          <li>댓글 1</li>
-          <li>댓글 2</li>
-          <li>댓글 3</li>
-          <li>댓글 4</li>
-          <li>댓글 5</li>
-        </ContentWrapper>
-      </MypageSection>
-      <MypageSection>
-        <FlexRow>
-          <h3>내가 좋아하는 게시물</h3>
-          <span>더보기 +</span>
-        </FlexRow>
-        <ContentWrapper>
-          <li>게시글 1</li>
-          <li>게시글 1</li>
-          <li>게시글 1</li>
-          <li>게시글 1</li>
-          <li>게시글 1</li>
-        </ContentWrapper>
-      </MypageSection>
-    </Container>
+    <>
+      <Container>
+        <Title>마이페이지</Title>
+        <CardContainer>
+          <BackgroundImage>
+            <pre>{`캐릭터가\n명함을 쥐고\n매달려 있는 느낌`}</pre>
+          </BackgroundImage>
+          <Card {...data} handleModalOnOff={handleModalOnOff} />
+        </CardContainer>
+        <ContentContainer>
+          <PostContent
+            title="내가 쓴 게시글"
+            postData={[
+              { title: '제목', kind: '00게시판', date: new Date() },
+              { title: '제목', kind: '00게시판', date: new Date() },
+              { title: '제목', kind: '00게시판', date: new Date() },
+            ]}
+          />
+          <PostContent
+            title="내가 쓴 댓글"
+            postData={[
+              { title: '제목', kind: '00게시판', date: new Date() },
+              { title: '제목', kind: '00게시판', date: new Date() },
+              { title: '제목', kind: '00게시판', date: new Date() },
+            ]}
+          />
+          <PostContent
+            title="내가 쓴 좋아요한 게시글"
+            postData={[
+              { title: '제목', kind: '00게시판', date: new Date() },
+              { title: '제목', kind: '00게시판', date: new Date() },
+              { title: '제목', kind: '00게시판', date: new Date() },
+            ]}
+          />
+        </ContentContainer>
+      </Container>
+      {modalOnOff && (
+        <Modal onClick={handleModalOnOff}>
+          <ModalContainer>
+            <h3>계정 설정</h3>
+            <button>정보수정</button>
+            <button>회원탈퇴</button>
+          </ModalContainer>
+        </Modal>
+      )}
+    </>
   );
 };
 export default Mypage;
