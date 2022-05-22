@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
+import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 
 import UserDefault from '@atoms/icon/userDefault';
 import BoardContent from '@organisms/boardContent';
 import Comment from '@organisms/comment';
 import { theme } from '@styles/theme';
+import { Board as BoardApi } from '@utils/api/Board';
 import { CommentApi } from '@utils/api/Comment';
 
 const Container = styled.div`
@@ -69,7 +71,29 @@ interface IComment {
   content: string;
   userInfo: IUserInfo;
 }
-const BoardDetail = () => {
+
+interface IPost {
+  postId: number;
+  title: string;
+  content: string;
+  userInfo: {
+    userId: number;
+    userName: string;
+  };
+  comments: [
+    {
+      commentId: number;
+      userInfo: {
+        userId: number;
+        userName: string;
+      };
+      content: string;
+    },
+  ];
+  createdDate: string;
+  modifiedDate: string;
+}
+const BoardDetail = ({ postData }: { postData: IPost }) => {
   const router = useRouter();
 
   const [comments, setComments] = useState<IComment[]>(DUMMY_COMMENTS as IComment[]);
@@ -83,13 +107,20 @@ const BoardDetail = () => {
 
     router.events.on('routeChangeStart', handleRouteChange);
 
+    console.log(postData);
     return () => {
       router.events.off('routeChangeStart', handleRouteChange);
     };
   }, []);
   return (
     <div style={{ maxWidth: '1200px' }}>
-      <BoardContent content="제목" />
+      <BoardContent
+        title={postData.title}
+        content={postData.content}
+        userName={postData.userInfo.userName || '유저이름'}
+        createdDate={postData.createdDate}
+        modifiedDate={postData.modifiedDate}
+      />
       <CommentForm />
       {/* 추후 lazy loading 지원 예정  */}
       <CommentWrapper>
@@ -101,3 +132,10 @@ const BoardDetail = () => {
   );
 };
 export default BoardDetail;
+BoardDetail.getInitialProps = async (ctx: NextPageContext) => {
+  const res = await BoardApi.get(5);
+  console.log('postData', res);
+  return {
+    postData: res,
+  };
+};

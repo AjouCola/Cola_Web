@@ -25,7 +25,11 @@ import RightArrow from 'public/right_arrow.svg';
 import Visit from 'public/visit.svg';
 
 interface Props {
+  title: string;
+  userName: string;
   content: string;
+  createdDate: string;
+  modifiedDate: string;
 }
 
 const HashTagBar = ({ data }: { data: string[] }) => {
@@ -70,7 +74,7 @@ const HashTagBar = ({ data }: { data: string[] }) => {
   );
 };
 
-const BoardContent = ({ content }: Props) => {
+const BoardContent = ({ title, userName, content, createdDate, modifiedDate }: Props) => {
   return (
     <Container>
       <Header>
@@ -78,10 +82,13 @@ const BoardContent = ({ content }: Props) => {
       </Header>
       <Content>
         <div>
-          <Title>{content}</Title>
+          <Title>{title}</Title>
           <ContentDetail>
             <ContentDetailRow>
-              <span>2022월04월18일</span>
+              <span>
+                {createdDate}
+                {createdDate !== modifiedDate ? '(수정됨)' : ''}
+              </span>
               <DetailInfoWrapper>
                 <Heart />
                 <span>100</span>
@@ -94,7 +101,7 @@ const BoardContent = ({ content }: Props) => {
             <ContentDetailRow>
               <DetailInfoWrapper>
                 <UserDefault />
-                <span>작성자 이름</span>
+                <span>{userName}</span>
               </DetailInfoWrapper>
               <DetailInfoWrapper>
                 <HeartBig />
@@ -103,7 +110,7 @@ const BoardContent = ({ content }: Props) => {
             </ContentDetailRow>
           </ContentDetail>
         </div>
-        <TextArea></TextArea>
+        <TextArea>{content}</TextArea>
         <HashTagBar
           data={[
             'java',
