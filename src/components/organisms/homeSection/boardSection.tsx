@@ -79,10 +79,7 @@ const InterestBtnWrapper = styled.div`
   }
 `;
 
-interface IInterestBtn {
-  on: boolean;
-}
-const InterestBtn = styled.div<IInterestBtn>`
+const InterestBtn = styled.div`
   width: 36px;
   height: 20px;
   border-radius: 11px;
@@ -90,16 +87,16 @@ const InterestBtn = styled.div<IInterestBtn>`
   cursor: pointer;
   transition: all 300ms linear;
   position: relative;
-  span {
-    transition: all 200ms linear;
-    position: absolute;
-    top: calc(50% - 8px);
-    left: ${({ on }) => (on ? '4px' : '16px')};
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: ${({ theme: { colors } }) => colors.blue[500]};
-  }
+`;
+const IsOn = styled.span<{ isOn: boolean }>`
+  transition: all 200ms linear;
+  position: absolute;
+  top: calc(50% - 8px);
+  left: ${({ isOn }) => (isOn ? '4px' : '16px')};
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: ${({ theme: { colors } }) => colors.blue[500]};
 `;
 
 const BoardSection = () => {
@@ -115,8 +112,8 @@ const BoardSection = () => {
       <BoardTitle>인기글</BoardTitle>
       <InterestBtnWrapper>
         <span>관심</span>
-        <InterestBtn on={on} onClick={onClickInterest}>
-          <span />
+        <InterestBtn onClick={onClickInterest}>
+          <IsOn isOn={on} />
         </InterestBtn>
       </InterestBtnWrapper>
       <BoardItemSection>
