@@ -4,7 +4,8 @@ const Api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || '',
   withCredentials: true,
 });
-Api.defaults.timeout = 2500;
+Api.defaults.timeout = 10000;
+Api.defaults.withCredentials = true;
 Api.interceptors.request.use(
   (config) => {
     return config;
