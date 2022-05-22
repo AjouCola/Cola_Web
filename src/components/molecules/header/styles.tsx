@@ -60,6 +60,12 @@ const HeaderSection = styled.div`
   margin: 0 2rem;
   justify-content: space-around;
   align-items: center;
+  @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.md}) {
+    margin: 0 1rem;
+  }
+  @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.sm}) {
+    margin: 0 0.5rem;
+  }
 `;
 const HeaderBtn = styled.button`
   background: none;
