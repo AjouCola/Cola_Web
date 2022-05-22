@@ -23,7 +23,7 @@ const CommentInput = styled.input`
 
 const CommentWrapper = styled.div``;
 
-const TEST_POST_ID = 0;
+const TEST_POST_ID = 5;
 
 const CommentForm = () => {
   const [comment, setComment] = useState('');
@@ -76,8 +76,8 @@ const BoardDetail = () => {
 
   useEffect(() => {
     const handleRouteChange = async (url: string, { shallow }: any) => {
-      console.log(url.split('/')[2]);
-      const res = await CommentApi.get(+url.split('/')[2]).catch((err) => console.log(err));
+      console.log(url);
+      const res = await CommentApi.get(5).catch((err) => console.log(err));
       console.log(res);
     };
 
