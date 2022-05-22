@@ -57,6 +57,7 @@ const Header = () => {
 
   const openMenu = () => {
     // setProfileMenu((prev) => !prev)
+    console.log(loginState, getCookies('SESSION'));
     if (loginState) {
       setProfileMenu(true);
     } else {
