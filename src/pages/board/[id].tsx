@@ -96,21 +96,10 @@ interface IPost {
 const BoardDetail = ({ postData }: { postData: IPost }) => {
   const router = useRouter();
 
-  const [comments, setComments] = useState<IComment[]>(DUMMY_COMMENTS as IComment[]);
+  const [comments, setComments] = useState<IComment[]>([]);
 
   useEffect(() => {
-    const handleRouteChange = async (url: string, { shallow }: any) => {
-      console.log(url);
-      const res = await CommentApi.get(5).catch((err) => console.log(err));
-      console.log(res);
-    };
-
-    router.events.on('routeChangeStart', handleRouteChange);
-
-    console.log(postData);
-    return () => {
-      router.events.off('routeChangeStart', handleRouteChange);
-    };
+    setComments(postData.comments);
   }, []);
   return (
     <div style={{ maxWidth: '1200px' }}>
