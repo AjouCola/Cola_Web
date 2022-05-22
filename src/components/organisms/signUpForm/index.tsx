@@ -36,7 +36,6 @@ const MajorSelectBox = ({ major, handleModalOnOff, register }: SelectBoxProps) =
 
 const SignUpForm = ({ handleModalOnOff, major }: Props) => {
   const [checkEmail, setCheckEmail] = useState(false);
-  const [emailCode, setEmailCode] = useState('');
   const [isEmailValid, setIsEmailValid] = useState(false);
   const {
     register,
@@ -59,6 +58,7 @@ const SignUpForm = ({ handleModalOnOff, major }: Props) => {
     if (!result) return;
 
     const emailValue = getValues('email');
+    const emailCodeValue = getValues('emailCheck');
     if (!checkEmail) {
       // 이메일 인증 필요
       try {
@@ -70,12 +70,10 @@ const SignUpForm = ({ handleModalOnOff, major }: Props) => {
       }
     } else {
       // 이메일 인증 코드 확인
-      console.log(emailCode);
       try {
-        const resData = await Auth.checkEmailCode(emailCode);
+        const resData = await Auth.checkEmailCode(emailCodeValue);
         console.log('checkEmailCode data : ', resData);
         if (resData) {
-          setEmailCode('');
           setIsEmailValid(true);
         }
       } catch (err) {
@@ -117,6 +115,7 @@ const SignUpForm = ({ handleModalOnOff, major }: Props) => {
       </FlexDiv>
       {checkEmail && !isEmailValid && (
         <SignUpInput
+          type="password"
           placeholder="인증번호를 입력하세요"
           buttonContent="확인"
           onClick={onClickEmailAuth}

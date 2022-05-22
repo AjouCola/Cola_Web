@@ -2,12 +2,10 @@ import Api from './core';
 
 const Auth = {
   async checkEmail(email: string) {
-    const res = await Api.post('/api/v1/auth/mail', { email }).catch((err) => console.error(err));
-    return res;
+    return await Api.post('/api/v1/auth/mail', { email }).catch((err) => console.error(err));
   },
   async checkEmailCode(token: string) {
-    const res = await Api.post('/api/v1/auth/confirm', { token }).catch((err) => console.error(err));
-    return res;
+    return await Api.post('/api/v1/auth/confirm', { token }).catch((err) => console.error(err));
   },
 };
 export default Auth;
