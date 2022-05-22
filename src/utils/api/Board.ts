@@ -10,7 +10,6 @@ export const Board = {
   },
   async get(postId: number) {
     //
-    const { data }: any = await Api.get('/api/v1/posts/' + (postId + '')).catch((err) => console.log(err));
-    return data;
+    return await Api.get('/api/v1/posts/' + (postId + '')).catch((err) => console.log(err));
   },
 };

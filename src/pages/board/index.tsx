@@ -1,3 +1,4 @@
+import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
 
@@ -7,10 +8,9 @@ import BoardCard from '@molecules/boardType/boardCard';
 import BoardPreviewItem from '@molecules/boardType/boardPreviewItem';
 import BoardSimpleItem from '@molecules/boardType/boardSimpleItem';
 import { Container, BoardList } from '@styles/board';
-// import { useEffect } from 'react';
+import { Board as BoardApi } from '@utils/api/Board';
 
-// import { Board } from '@utils/api/Board';
-const Board = () => {
+const Board = ({ ...pageProps }) => {
   const router = useRouter();
   const [boardType, setBoardType] = useRecoilState(boardTypeState);
 
@@ -57,3 +57,11 @@ const Board = () => {
   );
 };
 export default Board;
+
+Board.getInitialProps = async (ctx: NextPageContext) => {
+  const res = await BoardApi.get(5);
+  console.log('postData', res);
+  return {
+    postData: res,
+  };
+};
