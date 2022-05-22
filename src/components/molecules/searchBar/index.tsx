@@ -9,12 +9,14 @@ import {
   HistoryItem,
   HistoryWrapper,
   HistoryControlWrapper,
+  MSearchIconWrapper,
   Divider,
 } from './styles';
 
 import SearchIcon from '@assets/icon/search.svg';
 import HashtagChip from '@components/atoms/hashtagChip';
 import Input from '@components/atoms/input';
+import MobileSearchModal from '@components/molecules/modal/mobileSearchModal';
 
 interface ISearch {
   id: number;
@@ -147,27 +149,40 @@ const SearchBar = () => {
     return () => document.removeEventListener('mousedown', handleClick);
   }, [divRef]);
 
+  const [mSearchModal, setMSearchModal] = useState(false);
+  const onClickMSearch = () => {
+    // open searchModal
+    setMSearchModal((prev) => !prev);
+  };
   return (
-    <Container focus={focus}>
-      <InputWrapper
-        focus={focus}
-        ref={(el) => (divRef.current = el as HTMLInputElement)}
-        onFocus={(e) => setFocus(true)}
-      >
-        <Input
-          type="medium"
-          width="calc(100% - 54px)"
-          height="100%"
-          style={inputStyle}
-          ref={(el) => (inputRef.current = el as HTMLInputElement)}
-          onKeyUp={addChipList}
-        />
-        {focus && <SearchDropdown hashtags={chipList} deleteChip={deleteChip} />}
-        <HeaderBtn type="button" onClick={handleSubmit}>
+    <>
+      <Container focus={focus}>
+        <InputWrapper
+          focus={focus}
+          ref={(el) => (divRef.current = el as HTMLInputElement)}
+          onFocus={(e) => setFocus(true)}
+        >
+          <Input
+            type="medium"
+            width="calc(100% - 54px)"
+            height="100%"
+            style={inputStyle}
+            ref={(el) => (inputRef.current = el as HTMLInputElement)}
+            onKeyUp={addChipList}
+          />
+          {focus && <SearchDropdown hashtags={chipList} deleteChip={deleteChip} />}
+          <HeaderBtn type="button" onClick={handleSubmit}>
+            <SearchIcon />
+          </HeaderBtn>
+        </InputWrapper>
+      </Container>
+      <MSearchIconWrapper>
+        <HeaderBtn type="button" onClick={onClickMSearch}>
           <SearchIcon />
         </HeaderBtn>
-      </InputWrapper>
-    </Container>
+      </MSearchIconWrapper>
+      {mSearchModal && <MobileSearchModal onClickMSearch={onClickMSearch}></MobileSearchModal>}
+    </>
   );
 };
 

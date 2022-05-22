@@ -6,8 +6,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 10px;
-  min-width: 520px;
-  min-height: 240px;
+  width: 100%;
+  height: 100%;
   padding: 1rem;
   background: ${theme.colors.blue[500]};
   h2,

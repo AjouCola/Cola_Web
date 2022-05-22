@@ -7,11 +7,23 @@ const Container = styled.div`
   display: flex;
   border-radius: 10px;
   padding: 4rem;
-  width: 650px;
+  width: 100%;
   box-sizing: border-box;
   border: 1px solid ${theme.colors.blue[500]};
   box-shadow: 10px 10px 6px ${theme.colors.blue[300]};
   background: ${theme.colors.white};
+`;
+
+const UserProfile = styled.p`
+  border-radius: 100vw;
+  background: green;
+  width: 8rem;
+  height: 8rem;
+  @media (max-width: ${theme.breakpoints.md}) {
+  }
+  @media (max-width: ${theme.breakpoints.sm}) {
+    display: none;
+  }
 `;
 
 const CardWrapper = styled.div`
@@ -47,4 +59,4 @@ const IconWrapper = styled.div`
   justify-content: space-between;
 `;
 
-export { Container, CardWrapper, TextWrapper, IconWrapper };
+export { Container, UserProfile, CardWrapper, TextWrapper, IconWrapper };

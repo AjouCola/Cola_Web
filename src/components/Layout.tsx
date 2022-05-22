@@ -1,46 +1,47 @@
 import { ReactChild, ReactChildren, isValidElement } from 'react';
 
+import styled from '@emotion/styled';
+
+import TopButton from './atoms/topbutton';
 import Navigation from './organisms/Navigation';
 import AuthNavigation from './organisms/Navigation/AuthNavigation';
+
+const NormalContainer = styled.div<{ flag: boolean }>`
+  display: flex;
+  justify-content: center;
+  padding-top: ${({ flag }) => (flag ? '' : '6rem')};
+  transition: 0.2s ease-in-out;
+  width: 100%;
+`;
+
+const AuthContainer = styled.div`
+  width: 100vw;
+  height: calc(100vh - 8rem);
+  display: flex;
+  justify-content: center;
+  transition: 0.2s ease-in-out;
+`;
 
 export default function Layout({ children }: { children: ReactChild | ReactChildren }) {
   const NOT_NAVIGATION_LIST = ['SignUp', 'SignIn', 'SignUpPolicy'];
   return (
     <>
-      {isValidElement(children) &&
-      typeof children.type !== 'string' &&
-      !NOT_NAVIGATION_LIST.includes(children.type.name) ? (
-        <>
-          <Navigation />
-          <div className="children">{children}</div>
-        </>
+      {isValidElement(children) && typeof children.type !== 'string' && children.type.name !== 'GatherMap' ? (
+        !NOT_NAVIGATION_LIST.includes(children.type.name) ? (
+          <>
+            <Navigation />
+            <NormalContainer flag={children.type.name === 'Home'}>{children}</NormalContainer>
+          </>
+        ) : (
+          <>
+            <AuthNavigation />
+            <AuthContainer>{children}</AuthContainer>
+          </>
+        )
       ) : (
-        <>
-          <AuthNavigation />
-          <div className="not">{children}</div>
-        </>
+        <div>{children}</div>
       )}
-
-      <style jsx>
-        {`
-          .children {
-            display: flex;
-            justify-content: center;
-            padding-top: 5rem;
-            padding-left: 1rem;
-            transition: 0.2s ease-in-out;
-            width: calc(100vw - 5rem);
-            height: calc(100vh - 1rem);
-          }
-          .not {
-            width: 100vw;
-            height: calc(100vh - 8rem);
-            display: flex;
-            justify-content: center;
-            transition: 0.2s ease-in-out;
-          }
-        `}
-      </style>
+      <TopButton />
     </>
   );
 }

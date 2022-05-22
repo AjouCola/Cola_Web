@@ -1,77 +1,75 @@
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import { GetServerSideProps } from 'next';
 import type { NextPage } from 'next';
-import { DragDropContext, DropResult, Droppable, resetServerContext } from 'react-beautiful-dnd'; // eslint-disable-line
-import { useRecoilState } from 'recoil';
+import { DragDropContext, Droppable, resetServerContext } from 'react-beautiful-dnd'; // eslint-disable-line
 
+import { useRecoilState, useRecoilValue } from 'recoil';
+
+import TodoArea from '@components/molecules/todoArea';
+import { DeleteBlock, TodoInfoWrapper, TodoWrapper } from '@components/molecules/todoContent/styles';
+import TodoMenuModal from '@components/molecules/todoMenuModal';
 import Calender from '@molecules/calender';
-import TodoArea from '@molecules/todoArea';
-import { Container, CalendarContainer } from '@styles/todolist';
-import { todoState } from 'src/store';
+import TodoContent from '@molecules/todoContent';
+import EditTodoContent from '@molecules/todoContent/edit';
+import { todoModal } from '@store/todo';
+import {
+  BackgroundView,
+  BackgroundSecondView,
+  Container,
+  CalendarContainer,
+  TodoContainer,
+  MenuBtn,
+  TodoDate,
+  TodoUtils,
+  DeleteBtn,
+} from '@styles/todolist';
+import { getTodoList, saveTodoList } from '@utils/api/Todo';
+import { ITodoState, todoState } from 'src/store';
 
-const Todolist: NextPage = () => {
-  const [isWindowReady, setWindowReady] = useState(false);
-  useEffect(() => {
-    setWindowReady(true);
-  }, []);
+export const useCalendar = (): [Date, Date, (condition: number) => void] => {
   const [date, setDate] = useState(new Date());
 
+  const today = new Date();
   const handleChangeMonth = (condition: number) => setDate(new Date(date.getFullYear(), date.getMonth() + condition));
 
-  const [toDos, setToDos] = useRecoilState(todoState);
+  return [today, date, handleChangeMonth];
+};
 
-  const onDragEnd = (info: DropResult) => {
-    console.log(info);
-    const { destination, draggableId, source } = info;
-    if (!destination) return;
-    if (destination?.droppableId === source.droppableId) {
-      // same board movement.
-      setToDos((allBoards) => {
-        const boardCopy = [...allBoards[source.droppableId]];
-        const toMoveTodo = boardCopy.splice(source.index, 1)[0];
-        boardCopy.splice(destination?.index, 0, toMoveTodo);
-        return {
-          ...allBoards,
-          [source.droppableId]: boardCopy,
-        };
-      });
+const useTodoList = (date: string | Date): [ITodoState, Dispatch<SetStateAction<ITodoState>>] => {
+  const [toDos, setTodos] = useRecoilState<ITodoState>(todoState);
+
+  useEffect(() => {
+    async function fetchTodo(date: Date) {
+      const toDos = await getTodoList(date);
+      setTodos(toDos);
     }
-    if (destination.droppableId !== source.droppableId) {
-      // cross board movement
-      setToDos((allBoards) => {
-        const sourceBoard = [...allBoards[source.droppableId]];
-        const destinationBoard = [...allBoards[destination.droppableId]];
-        const toMoveTodo = sourceBoard.splice(source.index, 1)[0];
-        destinationBoard.splice(destination?.index, 0, toMoveTodo);
-        return {
-          ...allBoards,
-          [source.droppableId]: sourceBoard,
-          [destination.droppableId]: destinationBoard,
-        };
-      });
+    if (date) {
+      fetchTodo(new Date(date));
     }
-  };
+  }, [date]);
+  return [toDos, setTodos];
+};
+
+const Todolist: NextPage = () => {
+  const [today, date, handleChangeMonth] = useCalendar();
+  const [mode, setMode] = useState('default');
+  const [toDos, setToDos] = useTodoList(date);
+
+  useEffect(() => {
+    saveTodoList(date, toDos);
+  }, [toDos]);
+
   return (
     <Container>
       <CalendarContainer>
         <Calender {...{ date, handleChangeMonth }} />
       </CalendarContainer>
-      {isWindowReady && (
-        <DragDropContext onDragEnd={onDragEnd}>
-          {Object.keys(toDos).map((board: string, idx) => (
-            <Droppable key={board + (idx + '')} droppableId={board}>
-              {(provided, snapshot) => (
-                <div ref={provided.innerRef} {...provided.droppableProps}>
-                  <TodoArea area={board} idx={idx} dragMode={true}>
-                    {provided.placeholder}
-                  </TodoArea>
-                </div>
-              )}
-            </Droppable>
-          ))}
-        </DragDropContext>
-      )}
+      <TodoContainer>
+        {mode === 'default' && <TodoContent today={today} />}
+        {mode === 'edit' && <EditTodoContent />}
+        <MenuBtn onClick={() => setMode((v) => (v === 'default' ? 'edit' : 'default'))}>메뉴</MenuBtn>
+      </TodoContainer>
     </Container>
   );
 };

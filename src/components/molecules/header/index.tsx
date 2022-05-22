@@ -1,34 +1,49 @@
 import { useState, useRef, useEffect } from 'react';
 
 import { useRouter } from 'next/router';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { accessTokenState, loginSelector } from '../../../store';
 import SearchBar from '../searchBar';
 
-import { Container, TitleWrapper, Title, HeaderBtn, DropDownWrapper, DropDownContent, DropDownItem } from './styles';
+import {
+  Container,
+  TitleWrapper,
+  Title,
+  HeaderSection,
+  HeaderBtn,
+  DropDownWrapper,
+  DropDownContent,
+  DropDownItem,
+  ContentWrapper,
+} from './styles';
 
 import Heart from '@assets/icon/heart.svg';
 import Logo from '@assets/icon/logo.svg';
 import UserDefault from '@components/atoms/icon/userDefault';
+import NotifyDropdown from '@components/organisms/notifyDropdown';
 import { NAV_MENU } from '@constants/index';
 import SideBar from '@molecules/sidebar';
+import { setCookies, getCookies } from '@utils/cookie';
 
 const Header = () => {
   const router = useRouter();
 
-  const setToken = useSetRecoilState(accessTokenState);
-  const isLogin = useRecoilValue(loginSelector);
+  const [loginState, setLoginState] = useState(getCookies('SESSION'));
   const dropdownRef = useRef() as React.MutableRefObject<HTMLDivElement>;
+  const notifyRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   const [profileMenu, setProfileMenu] = useState(false);
+  const [notifyMenu, setNotifyMenu] = useState(false);
 
   useEffect(() => {
     const handleRouteChange = () => {
       setProfileMenu(false);
+      setNotifyMenu(false);
     };
     const handleOutsideClick = (event: MouseEvent | React.BaseSyntheticEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setProfileMenu(false);
+      }
+      if (notifyRef.current && !notifyRef.current.contains(event.target)) {
+        setNotifyMenu(false);
       }
     };
     document.addEventListener('click', handleOutsideClick, true);
@@ -39,16 +54,26 @@ const Header = () => {
       router.events.off('routeChangeStart', handleRouteChange);
     };
   }, []);
+
   const openMenu = () => {
-    setProfileMenu((prev) => !prev);
+    // setProfileMenu((prev) => !prev)
+    if (loginState) {
+      setProfileMenu(true);
+    } else {
+      router.push('/signIn');
+    }
   };
+
+  const openNotifyMenu = () => setNotifyMenu((prev) => !prev);
+
   const authMenu = () =>
     NAV_MENU.filter((v) => v.division === 'AUTH').map((menu) => (
       <DropDownItem
         key={menu.id}
         onClick={() => {
           if (menu.link === 'logout') {
-            setToken('');
+            setCookies('SESSION', '');
+            setLoginState('');
             router.push('/');
           } else {
             router.push(menu.link);
@@ -58,13 +83,13 @@ const Header = () => {
         {menu.content}
       </DropDownItem>
     ));
+
   const notAuthMenu = () =>
     NAV_MENU.filter((v) => v.division === 'NOT_AUTH').map((menu) => (
       <DropDownItem key={menu.id} onClick={() => router.push(menu.link)}>
         {menu.content}
       </DropDownItem>
     ));
-  const dropDownMenu = () => (isLogin ? authMenu() : notAuthMenu());
 
   return (
     <Container>
@@ -74,19 +99,23 @@ const Header = () => {
           <Logo />
         </Title>
       </TitleWrapper>
-      <div style={{ display: 'flex', margin: '0 2rem', justifyContent: 'space-around', alignItems: 'center' }}>
+      <HeaderSection>
         <SearchBar />
-        <HeaderBtn>알림</HeaderBtn>
         <DropDownWrapper>
-          <Heart />
+          <HeaderBtn onClick={openNotifyMenu}>
+            <Heart />
+          </HeaderBtn>
+          <DropDownContent isOpen={notifyMenu} ref={notifyRef}>
+            <NotifyDropdown />
+          </DropDownContent>
           <HeaderBtn onClick={openMenu}>
             <UserDefault />
           </HeaderBtn>
           <DropDownContent isOpen={profileMenu} ref={dropdownRef}>
-            {dropDownMenu()}
+            <ContentWrapper>{authMenu()}</ContentWrapper>
           </DropDownContent>
         </DropDownWrapper>
-      </div>
+      </HeaderSection>
     </Container>
   );
 };

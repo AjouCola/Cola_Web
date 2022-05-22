@@ -1,10 +1,13 @@
-import { RefObject, useRef, useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 
 import { GetServerSideProps } from 'next';
 import { resetServerContext } from 'react-beautiful-dnd';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { CheckBoxWrapper, CheckBox } from './styles';
+import { FlexRow, CheckBoxWrapper, CheckBox, MenuWrapper, DeleteCheckBox } from './styles';
 
+import { IToDo } from '@store/index';
+import { todoEditMode, todoModal, todoModalContent } from '@store/todo';
 import { theme } from '@styles/theme';
 
 export interface Props {
@@ -12,8 +15,10 @@ export interface Props {
   toDoContent: string;
   target: string;
   inputRef: RefObject<HTMLInputElement>;
-  handleFocus: (key: string) => void;
+  handleFocus: (key: string, value: string, toDoId?: number) => void;
   index: number;
+  deleteMode: boolean;
+  checkDelete: (todoArea: string, todoId: number) => void;
 }
 
 export const Type = {
@@ -22,27 +27,78 @@ export const Type = {
   done: theme.colors.red[600],
 };
 
-const TodoCheckBox = ({ toDoId, toDoContent, target, handleFocus, inputRef, index }: Props) => {
+const TodoCheckBox = ({
+  toDoId,
+  toDoContent,
+  target,
+  handleFocus,
+  inputRef,
+  index,
+  deleteMode,
+  checkDelete,
+}: Props) => {
+  const [inputValue, setInputValue] = useState('');
   const [typeStatus, setTypeStatus] = useState<keyof typeof Type>('todo');
 
+  const [deleteChecked, setDeleteCheck] = useState(false);
+
+  const editMode = useRecoilValue(todoEditMode);
+
+  const setTodoMenuModal = useSetRecoilState(todoModal);
+  const [modalContent, setTodoModalContent] = useRecoilState(todoModalContent);
+
+  useEffect(() => {
+    if (editMode === toDoId) {
+      setInputValue(modalContent.content);
+    }
+  }, [editMode]);
+  useEffect(() => {
+    setDeleteCheck(false);
+  }, [deleteMode]);
   const handleChangeType = () =>
     setTypeStatus(typeStatus === 'todo' ? 'inProgress' : typeStatus === 'inProgress' ? 'done' : 'todo');
 
+  const onClickMenu = () => {
+    setTodoMenuModal(true);
+    setTodoModalContent({ id: toDoId, content: toDoContent });
+  };
+
   return (
     <>
-      {toDoContent && toDoId ? (
+      {toDoContent && toDoId && editMode !== toDoId ? (
         <CheckBoxWrapper>
           {/* <input type="checkbox" /> */}
-          <CheckBox onClick={handleChangeType} typeColor={Type[typeStatus]}></CheckBox>
-          <div key={toDoId}>{toDoContent}</div>
+          <FlexRow>
+            <CheckBox onClick={handleChangeType} typeColor={Type[typeStatus]}></CheckBox>
+            <div key={toDoId}>{toDoContent}</div>
+          </FlexRow>
+          <MenuWrapper>
+            {!deleteMode && <span onClick={onClickMenu}>...</span>}
+            {deleteMode && (
+              <DeleteCheckBox
+                checked={deleteChecked}
+                onClick={() => {
+                  setDeleteCheck((prev) => !prev);
+                  checkDelete(target, toDoId);
+                }}
+              />
+            )}
+          </MenuWrapper>
         </CheckBoxWrapper>
       ) : (
         <input
-          ref={inputRef}
-          onBlur={() => handleFocus(target)}
+          style={{ width: '100%', padding: '0.5rem' }}
+          // ref={inputRef}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.currentTarget.value)}
+          onBlur={() => {
+            handleFocus(target, inputValue, toDoId);
+            setInputValue('');
+          }}
           onKeyPress={(e) => {
             if (e.key === 'Enter') {
-              handleFocus(target);
+              handleFocus(target, inputValue, toDoId);
+              setInputValue('');
             }
           }}
           autoFocus

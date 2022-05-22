@@ -1,4 +1,4 @@
-import { Container, CardWrapper, TextWrapper, IconWrapper } from './styles';
+import { Container, CardWrapper, TextWrapper, UserProfile, IconWrapper } from './styles';
 
 import Logo from 'public/logo.svg';
 import Setting from 'public/setting.svg';
@@ -14,7 +14,7 @@ const Card = ({ name, department, ajouEmail, githubEmail, handleModalOnOff }: Pr
   return (
     <Container>
       <CardWrapper>
-        <p style={{ borderRadius: '100vw', background: 'green', width: '159px', height: '159px' }}></p>
+        <UserProfile />
         <TextWrapper>
           <h2>{name}</h2>
           <p>{department}</p>

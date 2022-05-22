@@ -4,14 +4,22 @@ const Container = styled.div<{ focus: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 527px;
+  width: 36rem;
   height: 53px;
+  margin-right: 2rem;
   border-radius: ${({ focus }) => (focus ? '0px' : '28px')};
   border-top-left-radius: 28px;
   border-top-right-radius: 28px;
   box-shadow: ${({ focus, theme: { colors } }) =>
     focus ? `2px -2px 4px ${colors.shadow}` : `0px 1px 4px 2px ${colors.shadow}`};
   background: transparent;
+  transition: all 200ms linear;
+  @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.lg}) {
+    width: 20rem;
+  }
+  @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.md}) {
+    display: none;
+  }
 `;
 
 const InputWrapper = styled.div<{ focus: boolean }>`
@@ -22,6 +30,19 @@ const InputWrapper = styled.div<{ focus: boolean }>`
   border-radius: ${({ focus }) => (focus ? '0px' : '28px')};
   border-top-left-radius: 28px;
   border-top-right-radius: 28px;
+  @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.md}) {
+    display: none;
+  }
+`;
+const MSearchIconWrapper = styled.div`
+  display: none;
+  position: relative;
+  height: 53px;
+  @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.md}) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 `;
 const HeaderBtn = styled.button`
   background: none;
@@ -32,6 +53,9 @@ const HeaderBtn = styled.button`
   position: absolute;
   right: 5px;
   top: 5px;
+  @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.md}) {
+    top: 0.5rem;
+  }
 `;
 
 const InputModal = styled.div`
@@ -143,5 +167,6 @@ export {
   HistoryWrapper,
   HistoryItem,
   HistoryControlWrapper,
+  MSearchIconWrapper,
   Divider,
 };

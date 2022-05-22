@@ -9,5 +9,5 @@ export const middleware = async (req: NextRequest) => {
   const loginUrlList = ['/lobby'];
 
   if (token && notLoginUrlList.some((path) => pathname === path)) return NextResponse.redirect('/lobby');
-  if (!token && loginUrlList.some((path) => pathname.includes(path))) return NextResponse.redirect('/');
+  if (!token && loginUrlList.some((path) => pathname.includes(path))) return NextResponse.redirect('/main');
 };

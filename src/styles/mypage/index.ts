@@ -3,25 +3,28 @@ import { theme } from '@styles/theme';
 
 const Container = styled.div`
   display: grid;
-  /* padding: 1rem;
-  box-sizing: border-box; */
+  padding: 1rem;
+
+  box-sizing: border-box;
   grid-template:
     'title .' 1fr
     'info content' 10fr
-    / 5fr 4fr;
+    / 7fr 4fr;
   column-gap: 4rem;
   @media (max-width: ${theme.breakpoints.md}) {
+    width: 60%;
     grid-template:
-      'title' 1fr
-      'info ' 3fr
+      'title' 2rem
+      'info ' 2fr
       'content' 4fr
       / 1fr;
   }
   @media (max-width: ${theme.breakpoints.sm}) {
+    width: 100%;
     grid-template:
-      'title' 1fr
-      'info ' 10fr
-      'content' 10fr
+      'title' 2rem
+      'info ' 2fr
+      'content' 4fr
       / 1fr;
   }
 `;
@@ -49,9 +52,9 @@ const ContentContainer = styled.div`
 const BackgroundImage = styled.div`
   z-index: 2;
   position: absolute;
-  left: -98px;
-  width: 192px;
-  height: 196px;
+  left: -5rem;
+  width: 8rem;
+  height: 8rem;
   border-radius: 100vw;
   background: ${theme.colors.white};
   border: 1px solid ${theme.colors.gray[600]};
@@ -59,6 +62,12 @@ const BackgroundImage = styled.div`
   align-items: center;
   text-align: center;
   justify-content: center;
+  @media (max-width: ${theme.breakpoints.md}) {
+    /* display: none; */
+  }
+  @media (max-width: ${theme.breakpoints.sm}) {
+    display: none;
+  }
 `;
 
 const ModalContainer = styled.div`

@@ -75,12 +75,6 @@ export const NAV_MENU: INavMenu[] = [
     link: '/signIn',
   },
   {
-    id: 'signUp',
-    content: '회원가입',
-    division: 'NOT_AUTH',
-    link: '/signUp',
-  },
-  {
     id: 'logout',
     content: '로그아웃',
     division: 'AUTH',

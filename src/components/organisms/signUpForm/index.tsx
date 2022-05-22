@@ -10,6 +10,7 @@ import SignUpInput from '@components/organisms/signUpInput';
 import { MAJOR_TYPE } from '@constants/index';
 import { FlexDiv } from '@styles/index';
 import { Select, Triangle, SubTitle } from '@styles/signUp';
+import Auth from '@utils/api/Auth';
 
 interface Props {
   handleModalOnOff: () => void;
@@ -41,6 +42,7 @@ const SignUpForm = ({ handleModalOnOff, major }: Props) => {
     register,
     handleSubmit,
     trigger,
+    getValues,
     formState: { errors },
   } = useForm<SignUpFormInterface>({
     mode: 'onBlur',
@@ -55,22 +57,37 @@ const SignUpForm = ({ handleModalOnOff, major }: Props) => {
     // onSubmit이 아니기때문에 validation을 trigger한다.
     const result = await trigger('email');
     if (!result) return;
+
+    const emailValue = getValues('email');
     if (!checkEmail) {
       // 이메일 인증 필요
-      setCheckEmail(true);
+      try {
+        const data = await Auth.checkEmail(emailValue);
+        console.log('checkEmail data:', data);
+        setCheckEmail(true);
+      } catch (err) {
+        console.log(err);
+      }
     } else {
       // 이메일 인증 코드 확인
       console.log(emailCode);
-
+      try {
+        const resData = await Auth.checkEmailCode(emailCode);
+        console.log('checkEmailCode data : ', resData);
+        if (resData) {
+          setEmailCode('');
+          setIsEmailValid(true);
+        }
+      } catch (err) {
+        console.log(err);
+      }
       // TODO: email code 비교 및 체크하기
-      setEmailCode('');
-      setIsEmailValid(true);
     }
   };
 
-  const onSubmit = (dd: any) => {
+  const onSubmit = (data: SignUpFormInterface) => {
     if (!isEmailValid) return;
-    console.log(dd);
+    console.log(data);
   };
 
   const handleChange = () => {

@@ -37,6 +37,7 @@ const categories = [
     link: '/todolist',
     icon: <TodoIcon />,
   },
+  { id: 5, title: 'AjouGather', link: '/gather', icon: <TodoIcon /> },
 ];
 
 const hashtags = [

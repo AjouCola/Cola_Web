@@ -8,8 +8,6 @@ const Container = styled.nav`
   left: 0;
   width: 54px;
   height: 54px;
-  /* width: 250px;
-  height: calc(100vh - 3rem); */
   border-radius: 0px 30px 30px 0px;
   background-color: ${(props) => props.theme.colors.blue[500]};
   overflow: hidden;
@@ -21,10 +19,13 @@ const Container = styled.nav`
   flex-direction: column;
   align-items: center;
   gap: 3rem;
-  transition: all 100ms;
+  transition: all 150ms ease-in;
   &:hover {
     width: 250px;
     height: calc(100vh - 3rem);
+  }
+  @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.md}) {
+    top: 1rem;
   }
   @media screen and (max-width: 426px) {
     gap: 1.5rem;

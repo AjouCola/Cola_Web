@@ -1,4 +1,6 @@
-import { Container, Box } from './styles';
+import DoneImg from '../doneImg';
+
+import { Container, DayText } from './styles';
 interface Props {
   date: number;
   day: number;
@@ -6,9 +8,9 @@ interface Props {
 }
 const CalenderDayElement = ({ status, date, day }: Props) => {
   return (
-    <Container style={status === 'prev' ? { visibility: 'hidden' } : {}}>
-      <Box />
-      <p style={status === 'today' ? { borderBottom: '1px solid' } : {}}>{day}</p>
+    <Container status={status}>
+      <DayText status={status}>{day}</DayText>
+      <DoneImg data={['', '', '', '']} />
     </Container>
   );
 };
