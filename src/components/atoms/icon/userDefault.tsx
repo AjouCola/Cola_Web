@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 
+import UserSmallIcon from '@assets/icon/user_default_small.svg';
 import UserIcon from '@assets/icon/userDefault.svg';
 
 interface IIconWrapperProps {
@@ -14,16 +15,28 @@ const IconWrapper = styled.div<IIconWrapperProps>`
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  svg {
-    // width: 80%;
-    // height: 80%;
+  @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.sm}) {
+    width: 36px;
+    height: 36px;
+  }
+  .mobile_icon {
+    display: none;
+    @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.sm}) {
+      display: block;
+    }
+  }
+  .desktop_icon {
+    @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.sm}) {
+      display: none;
+    }
   }
 `;
 
 const UserDefault = ({ width, height }: IIconWrapperProps) => {
   return (
     <IconWrapper width={width} height={height}>
-      <UserIcon />
+      <UserIcon className="desktop_icon" />
+      <UserSmallIcon className="mobile_icon" />
     </IconWrapper>
   );
 };

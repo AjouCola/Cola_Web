@@ -96,7 +96,7 @@ const Header = () => {
       <SideBar />
       <TitleWrapper>
         <Title onClick={() => router.push('/')}>
-          <Logo />
+          <Logo width="120px" height="50px" />
         </Title>
       </TitleWrapper>
       <HeaderSection>
@@ -109,7 +109,7 @@ const Header = () => {
             <NotifyDropdown />
           </DropDownContent>
           <HeaderBtn onClick={openMenu}>
-            <UserDefault />
+            <UserDefault width="3rem" height="3rem" />
           </HeaderBtn>
           <DropDownContent isOpen={profileMenu} ref={dropdownRef}>
             <ContentWrapper>{authMenu()}</ContentWrapper>
