@@ -112,7 +112,6 @@ const BoardSection = () => {
 
   return (
     <Container>
-      {/* <BoardLeftWrapper> */}
       <BoardTitle>인기글</BoardTitle>
       <InterestBtnWrapper>
         <span>관심</span>
@@ -120,7 +119,6 @@ const BoardSection = () => {
           <span />
         </InterestBtn>
       </InterestBtnWrapper>
-      {/* </BoardLeftWrapper> */}
       <BoardItemSection>
         {boardItems.map((_, idx) => (
           <BoardItem key={idx} />

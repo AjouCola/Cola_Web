@@ -2,17 +2,20 @@ import styled from '@emotion/styled';
 
 import Calender from '@components/molecules/calender';
 import { useCalendar } from '@pages/todolist';
+import { theme } from '@styles/theme';
 
 const CalendarWrapper = styled.div`
   display: flex;
   flex-direction: column;
   box-shadow: 0px 0px 6px #00000029;
+  padding: 1rem;
+  box-sizing: border-box;
   border-radius: 5px;
-  padding: 2rem;
   width: 100%;
-  gap: 1rem;
   height: 100%;
-
+  * {
+    margin: 0px;
+  }
   h2 {
     font-size: 1.6rem;
     margin: 0;
@@ -23,25 +26,10 @@ const CalendarWrapper = styled.div`
     margin: 0;
     padding: 0;
   }
-  div {
-    margin: 0 0.1rem;
-    span {
-      font-size: 1rem;
-    }
-    div > div {
-      width: 2rem;
-      height: 2rem;
-    }
-  }
-  p {
-    font-size: 0.9rem;
-    margin: 0.2rem;
-  }
 `;
 
 const ProgressWrapper = styled.div`
   height: 100%;
-  width: 20rem;
   box-shadow: 0px 0px 6px #00000029;
   background: ${({ theme: { colors } }) => colors.blue[500]};
   border-radius: 5px;
@@ -64,24 +52,42 @@ const ProgressDateWrapper = styled.div`
   }
 `;
 const ProgressItemWrapper = styled.div`
-  flex: 1;
   background: white;
   width: 100%;
   border-radius: 5px;
 `;
 const TodoWrapper = styled.div`
-  flex: 1;
   box-shadow: 0px 0px 6px #00000029;
   background: ${({ theme: { colors } }) => colors.blue[500]};
-  display: flex;
+  display: grid;
+  max-height: 60vh;
+  grid-template:
+    'date content' 1fr
+    '. content' 4fr
+    'title content' 1fr
+    /1fr 1fr;
+  @media (max-width: ${theme.breakpoints.md}) {
+    padding: 1rem;
+    grid-template:
+      'date . title' 1fr
+      'content content content' 4fr
+      /1fr 4fr 1fr;
+  }
+  @media (max-width: ${theme.breakpoints.sm}) {
+    padding: 1rem;
+    grid-template:
+      'date . title' 1fr
+      'content content content' 4fr
+      /1fr 4fr 1fr;
+  }
 `;
-const LeftSection = styled.div`
-  height: 100%;
-  width: 12rem;
+const DateTitle = styled.div`
+  grid-area: date;
+  justify-self: center;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 2rem;
+  padding: 2rem 0px;
   color: white;
   h2 {
     margin: 0;
@@ -92,30 +98,38 @@ const LeftSection = styled.div`
     font-size: 1.8rem;
   }
 `;
-const RightSection = styled.div`
-  background: white;
-  flex: 1;
+
+const Title = styled.div`
+  grid-area: title;
+  padding: 2rem 0px;
+  white-space: nowrap;
+  justify-self: center;
+  color: white;
 `;
+const RightSection = styled.div`
+  grid-area: content;
+  background: white;
+`;
+
+const DAY = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
 
 const TodoSection = () => {
   const [today, date, handleChangeMonth] = useCalendar();
 
   return (
     <>
-      {/* <CalendarWrapper>
+      <CalendarWrapper>
         <Calender date={date} handleChangeMonth={handleChangeMonth} />
-      </CalendarWrapper> */}
+      </CalendarWrapper>
       <TodoWrapper>
-        <LeftSection>
-          <div>
-            <h2>{today.getDate()}</h2>
-            <h3>{today.getDay()}</h3>
-          </div>
-          <div>
-            <p>오늘의 할 일</p>
-            <span>0 / 8</span>
-          </div>
-        </LeftSection>
+        <DateTitle>
+          <h2>{today.getDate()}</h2>
+          <h3>{DAY[today.getDay()]}</h3>
+        </DateTitle>
+        <Title>
+          <p>오늘의 할 일</p>
+          <span>0 / 8</span>
+        </Title>
         <RightSection></RightSection>
       </TodoWrapper>
       <ProgressWrapper>

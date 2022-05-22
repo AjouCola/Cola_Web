@@ -6,11 +6,14 @@ import BoardSection from '@organisms/homeSection/boardSection';
 import { theme } from '@styles/theme';
 
 const SectionWrapper = styled.div`
+  /* gap: 2rem; */
   width: 100%;
-  gap: 2rem;
-  padding: 2rem 1rem;
+  row-gap: 1rem;
   display: grid;
   height: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+  column-gap: 1rem;
   grid-template-columns: repeat(3, 1fr);
   @media (max-width: ${theme.breakpoints.md}) {
     grid-template-columns: repeat(1, 1fr);

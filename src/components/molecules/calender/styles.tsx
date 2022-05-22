@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import { theme } from '@styles/theme';
+
 const FlexColumn = styled.div`
   display: flex;
   flex-direction: column;
@@ -8,7 +10,7 @@ const CalenderNav = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: start;
-  margin-bottom: 2.4rem;
+  margin-bottom: 1.6rem;
   button {
     border: none;
     background: transparent;
@@ -36,15 +38,18 @@ const YearText = styled.h3`
 const DayWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+
   text-align: center;
 `;
 const DayText = styled.span`
+  justify-self: center;
   font-size: 1.2rem;
   font-weight: 600;
   color: ${({ theme: { colors } }) => colors.gray[900]};
   position: relative;
-  padding: 0 0.5rem;
-  /* border-bottom: 0.3rem solid ${({ theme: { colors } }) => colors.blue[500]}; ; */
+  @media (max-width: ${theme.breakpoints.sm}) {
+    font-size: 0.4rem;
+  }
 `;
 
 interface ICurrentDay {
@@ -53,7 +58,6 @@ interface ICurrentDay {
 const CurrentDayMarker = styled.div<ICurrentDay>`
   display: ${({ isCurrent }) => (isCurrent ? 'block' : 'none')};
   margin-top: 0.2rem;
-  width: 100%;
   height: 0.3rem;
   border-radius: 0.2rem;
   background-color: ${({ theme: { colors } }) => colors.blue[500]};
