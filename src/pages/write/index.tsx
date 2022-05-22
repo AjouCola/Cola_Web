@@ -7,6 +7,7 @@ import MarkdownEditor from '@components/organisms/markdownEditor';
 import { MODE, WRITE_REF } from '@constants/index';
 import { FlexWrapper } from '@styles/global';
 import { Container, HashtagBar, Wrapper, TitleInput } from '@styles/write';
+import { Board } from '@utils/api/Board';
 import All from 'public/all.svg';
 import AllCheck from 'public/all_check.svg';
 import Edit from 'public/edit.svg';
@@ -19,6 +20,7 @@ const Write = () => {
   const [editMode, setEditMode] = useState<typeof MODE[number]>('all');
   const [chipList, setChipList] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement[]>([]);
+  const [editorContent, setEditorContent] = useState('');
   const selectRef = (el: HTMLInputElement | null) => (value: WRITE_REF) =>
     (inputRef.current[value] = el as HTMLInputElement);
 
@@ -32,6 +34,11 @@ const Write = () => {
 
   const deleteChip = (index: number) => setChipList(chipList.filter((v, i) => i !== index));
 
+  const onSubmit = async () => {
+    // console.log(inputRef.current[WRITE_REF.title]?.value, editorContent);
+    const res = await Board.create({ content: editorContent, title: inputRef.current[WRITE_REF.title]?.value });
+    console.log(res);
+  };
   return (
     <Container>
       {/* <h2>글쓰기</h2> */}
@@ -41,7 +48,15 @@ const Write = () => {
         <div onClick={() => handleChangeMode('all')}>{editMode === 'all' ? <AllCheck /> : <All />}</div>
         <div onClick={() => handleChangeMode('view')}>{editMode === 'view' ? <PreviewCheck /> : <Preview />}</div>
       </Wrapper>
-      <MarkdownEditor {...{ editMode, title: inputRef.current[WRITE_REF.title]?.value, chipList }} />
+      <MarkdownEditor
+        {...{
+          editMode,
+          title: inputRef.current[WRITE_REF.title]?.value,
+          chipList,
+          content: editorContent,
+          setContent: setEditorContent,
+        }}
+      />
       <HashtagBar>
         {chipList.map((chip, i) => (
           <HashtagChip key={chip} title={chip} onRemoveChip={() => deleteChip(i)} size="small" />
@@ -49,7 +64,9 @@ const Write = () => {
         <input {...InputProps.hashtag} ref={(el) => selectRef(el)(WRITE_REF.hashtag)} onKeyPress={addChipList} />
       </HashtagBar>
       <FlexWrapper style={{ gridArea: 'btn', justifyContent: 'flex-end' }}>
-        <SubmitBtn size="small">완료</SubmitBtn>
+        <SubmitBtn size="small" onClick={onSubmit}>
+          완료
+        </SubmitBtn>
       </FlexWrapper>
     </Container>
   );

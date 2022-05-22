@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 import dynamic from 'next/dynamic';
 
@@ -13,15 +13,17 @@ interface Props {
   editMode: typeof MODE[number];
   chipList: string[];
   title: string;
+  content: string;
+  setContent: Dispatch<SetStateAction<string>>;
 }
 
-const MarkdownEditor = ({ editMode, chipList, title }: Props) => {
+const MarkdownEditor = ({ editMode, chipList, title, content, setContent }: Props) => {
   const [markdownContent, setMarkdownContent] = useState<string>(WRITE_EXAMPLE);
   return (
     <Container>
-      {editMode !== 'view' && <PostEditor markdownContent={markdownContent} setMarkdownContent={setMarkdownContent} />}
+      {editMode !== 'view' && <PostEditor markdownContent={content} setMarkdownContent={setContent} />}
       {editMode === 'all' && <VerticalLine />}
-      {editMode !== 'edit' && <PostViewer markdownContent={markdownContent} title={title} chipList={chipList} />}
+      {editMode !== 'edit' && <PostViewer markdownContent={content} title={title} chipList={chipList} />}
     </Container>
   );
 };
