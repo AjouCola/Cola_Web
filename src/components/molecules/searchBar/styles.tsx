@@ -51,7 +51,7 @@ const HeaderBtn = styled.button`
   color: whitesmoke;
   cursor: pointer;
   position: absolute;
-  right: 5px;
+  right: 0;
   top: 5px;
   @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.md}) {
     top: 0.5rem;

@@ -25,6 +25,10 @@ const TitleWrapper = styled.div`
   align-items: center;
   padding: 0 1rem;
   gap: 2rem;
+
+  @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.sm}) {
+    padding: 0 0.5rem;
+  }
 `;
 const MenuWrapper = styled.div`
   display: flex;
@@ -40,6 +44,10 @@ const Title = styled.span`
   padding: 0px 10px;
   @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.md}) {
     padding: 0 20px 0 0;
+    svg {
+      width: 100px;
+      height: 40px;
+    }
   }
 `;
 const SubTitle = styled.span`
@@ -52,6 +60,12 @@ const HeaderSection = styled.div`
   margin: 0 2rem;
   justify-content: space-around;
   align-items: center;
+  @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.md}) {
+    margin: 0 1rem;
+  }
+  @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.sm}) {
+    margin: 0 0.5rem;
+  }
 `;
 const HeaderBtn = styled.button`
   background: none;
