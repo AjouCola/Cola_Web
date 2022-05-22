@@ -27,12 +27,44 @@ const CommentWrapper = styled.div``;
 
 const TEST_POST_ID = 5;
 
-const CommentForm = () => {
+interface IUserInfo {
+  userId?: number;
+  userName: string;
+}
+
+export interface IComment {
+  commentId: number;
+  content: string;
+  userInfo: IUserInfo;
+}
+
+interface IPost {
+  postId: number;
+  title: string;
+  content: string;
+  userInfo: IUserInfo;
+  comments: IComment[];
+  createdDate: string;
+  modifiedDate: string;
+}
+interface ICommentFormProps {
+  onAddComment: (newComment: IComment) => void;
+}
+const CommentForm = ({ onAddComment }: ICommentFormProps) => {
   const [comment, setComment] = useState('');
 
   const onSubmit = async () => {
     console.log(comment);
-    await CommentApi.create(TEST_POST_ID, comment).catch((err) => console.log(err));
+    const commentId = await CommentApi.create(TEST_POST_ID, comment).catch((err) => console.log(err));
+    if (commentId) {
+      onAddComment({
+        commentId: +commentId as number,
+        content: comment,
+        userInfo: {
+          userName: '은승균',
+        },
+      });
+    }
   };
   return (
     <Container>
@@ -54,48 +86,7 @@ const CommentForm = () => {
   );
 };
 
-interface IUserInfo {
-  userId: number;
-  userName: string;
-}
-
-const DUMMY_COMMENTS = [
-  { userInfo: { userName: 'guest1' }, content: 'comment1' },
-  { userInfo: { userName: 'guest2' }, content: 'comment2' },
-  { userInfo: { userName: 'guest3' }, content: 'comment3' },
-  { userInfo: { userName: 'guest4' }, content: 'comment4' },
-];
-
-interface IComment {
-  commentId: number;
-  content: string;
-  userInfo: IUserInfo;
-}
-
-interface IPost {
-  postId: number;
-  title: string;
-  content: string;
-  userInfo: {
-    userId: number;
-    userName: string;
-  };
-  comments: [
-    {
-      commentId: number;
-      userInfo: {
-        userId: number;
-        userName: string;
-      };
-      content: string;
-    },
-  ];
-  createdDate: string;
-  modifiedDate: string;
-}
 const BoardDetail = ({ postData }: { postData: IPost }) => {
-  const router = useRouter();
-
   const [comments, setComments] = useState<IComment[]>([]);
 
   useEffect(() => {
@@ -110,17 +101,19 @@ const BoardDetail = ({ postData }: { postData: IPost }) => {
         createdDate={postData.createdDate}
         modifiedDate={postData.modifiedDate}
       />
-      <CommentForm />
+      <CommentForm onAddComment={(newComment) => setComments((prev) => [...prev, newComment])} />
       {/* 추후 lazy loading 지원 예정  */}
       <CommentWrapper>
         {comments.map(({ userInfo: { userName }, content }, idx) => (
           <Comment key={idx} name={userName} contents={content} />
         ))}
+        {comments.length === 0 && <p>댓글이 없습니다.</p>}
       </CommentWrapper>
     </div>
   );
 };
 export default BoardDetail;
+
 BoardDetail.getInitialProps = async (ctx: NextPageContext) => {
   const res = await BoardApi.get(5);
   console.log('postData', res);

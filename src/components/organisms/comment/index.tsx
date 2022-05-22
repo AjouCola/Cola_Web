@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import UserDefault from '@components/atoms/icon/userDefault';
 import { FlexDiv } from '@styles/index';
 import { theme } from '@styles/theme';
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -33,7 +34,7 @@ const Comment = ({ name, contents }: Props) => {
     <Container>
       <FlexDiv direction="row" style={{ columnGap: '1rem' }}>
         <UserDefault />
-        <p>{name}</p>
+        <p>{name || '댓글 작성자 이름'}</p>
       </FlexDiv>
       <ContentArea>{contents}</ContentArea>
     </Container>
