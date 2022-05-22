@@ -34,10 +34,14 @@ const Write = () => {
 
   const deleteChip = (index: number) => setChipList(chipList.filter((v, i) => i !== index));
 
+  // const
   const onSubmit = async () => {
     // console.log(inputRef.current[WRITE_REF.title]?.value, editorContent);
-    const res = await Board.create({ content: editorContent, title: inputRef.current[WRITE_REF.title]?.value });
-    console.log(res);
+    const res = await Board.create({ content: editorContent, title: inputRef.current[WRITE_REF.title]?.value }).catch(
+      (err) => {
+        console.log(err);
+      },
+    );
   };
   return (
     <Container>

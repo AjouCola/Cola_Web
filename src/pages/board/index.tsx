@@ -7,11 +7,14 @@ import BoardCard from '@molecules/boardType/boardCard';
 import BoardPreviewItem from '@molecules/boardType/boardPreviewItem';
 import BoardSimpleItem from '@molecules/boardType/boardSimpleItem';
 import { Container, BoardList } from '@styles/board';
+// import { useEffect } from 'react';
 
+// import { Board } from '@utils/api/Board';
 const Board = () => {
   const router = useRouter();
   const [boardType, setBoardType] = useRecoilState(boardTypeState);
 
+  // useEffect(() => {}, []);
   return (
     <Container>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
