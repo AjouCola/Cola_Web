@@ -7,8 +7,11 @@ interface Props {
 }
 
 const Editor = ({ markdownContent, setMarkdownContent }: Props) => {
+  const handleUploadImage = (e: any) => {};
+
   return (
     <TextArea
+      onDragEnd={handleUploadImage}
       onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setMarkdownContent(e.target.value)}
       rows={9}
       value={markdownContent}

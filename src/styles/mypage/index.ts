@@ -3,14 +3,27 @@ import { theme } from '@styles/theme';
 
 const Container = styled.div`
   display: grid;
-
-  padding: 1rem;
-  box-sizing: border-box;
+  /* padding: 1rem;
+  box-sizing: border-box; */
   grid-template:
     'title .' 1fr
     'info content' 10fr
     / 5fr 4fr;
   column-gap: 4rem;
+  @media (max-width: ${theme.breakpoints.md}) {
+    grid-template:
+      'title' 1fr
+      'info ' 3fr
+      'content' 4fr
+      / 1fr;
+  }
+  @media (max-width: ${theme.breakpoints.sm}) {
+    grid-template:
+      'title' 1fr
+      'info ' 10fr
+      'content' 10fr
+      / 1fr;
+  }
 `;
 
 const Title = styled.h2`

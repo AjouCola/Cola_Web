@@ -1,8 +1,9 @@
 import Link from 'next/link';
+
 import LoginBtn from '@components/atoms/button/login';
 import Seo from '@components/Seo';
-import { Container, Header, AuthContentWrapper } from '@styles/signIn';
 import { GOOGLE_OAUTH_URL, GITHUB_OAUTH_URL } from '@constants/index';
+import { Container, Header, AuthContentWrapper } from '@styles/signIn';
 
 const SignIn = () => {
   return (
