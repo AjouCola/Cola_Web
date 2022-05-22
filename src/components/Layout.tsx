@@ -1,6 +1,7 @@
 import { ReactChild, ReactChildren, isValidElement } from 'react';
 
 import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
 
 import TopButton from './atoms/topbutton';
 import Navigation from './organisms/Navigation';
@@ -24,13 +25,16 @@ const AuthContainer = styled.div`
 
 export default function Layout({ children }: { children: ReactChild | ReactChildren }) {
   const NOT_NAVIGATION_LIST = ['SignUp', 'SignIn', 'SignUpPolicy'];
+
+  const router = useRouter();
+
   return (
     <>
       {isValidElement(children) && typeof children.type !== 'string' && children.type.name !== 'GatherMap' ? (
         !NOT_NAVIGATION_LIST.includes(children.type.name) ? (
           <>
             <Navigation />
-            <NormalContainer flag={children.type.name === 'Home'}>{children}</NormalContainer>
+            <NormalContainer flag={router.pathname === '/'}>{children}</NormalContainer>
           </>
         ) : (
           <>
