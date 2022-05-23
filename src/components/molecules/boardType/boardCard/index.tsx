@@ -47,16 +47,14 @@ const BoardCard = ({ id }: IBoardItem) => {
         <div
           style={{
             display: 'flex',
-            height: '3rem',
             alignItems: 'center',
-            borderRadius: 22,
+            borderRadius: '100vw',
             justifyContent: 'space-between',
             backgroundColor: `${theme.colors.blue[100]}`,
           }}
         >
           <UserInfo>
-            {/* <img></img> */}
-            <UserDefault width={'38px'} height={'38px'} />
+            <UserDefault />
           </UserInfo>
           <DescriptionWrapper>
             <p style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
