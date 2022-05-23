@@ -59,8 +59,9 @@ const Header = () => {
 
   const openMenu = () => {
     // setProfileMenu((prev) => !prev)
-    console.log(user?.id, 'user id');
-    if (user?.id) {
+    const session = getCookies('SESSION');
+    console.log(session, user?.id, 'user id');
+    if (session) {
       setProfileMenu(true);
     } else {
       router.push('/signIn');
