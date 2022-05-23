@@ -9,6 +9,7 @@ const Background = styled.div`
   align-items: center;
   justify-content: center;
   position: fixed;
+  z-index: 998;
   left: 0;
   top: 0;
   text-align: center;
@@ -16,9 +17,16 @@ const Background = styled.div`
 `;
 
 const Content = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+`;
+
+const MajorContainer = styled.div`
   display: flex;
   flex-direction: column;
-  z-index: 999;
   align-items: center;
   background: white;
   min-width: 22vw;
@@ -81,4 +89,4 @@ const Span = styled.span<{ selected: boolean }>`
   color: ${({ selected, theme }) => (selected ? theme.colors.blue[500] : theme.colors.gray[100])};
 `;
 
-export { Background, Content, Title, MajorWrapper, FooterWrapper, CheckBox, Span };
+export { Background, MajorContainer, Content, Title, MajorWrapper, FooterWrapper, CheckBox, Span };

@@ -12,6 +12,7 @@ declare module '@emotion/react' {
       };
       gray: {
         100: string;
+        600: string;
         900: string;
       };
       green: {
@@ -46,6 +47,7 @@ export const theme: Theme = {
     },
     gray: {
       '900': '#4F4F53',
+      '600': '#4F4F53',
       '100': '#AAAAAA',
     },
     background: {

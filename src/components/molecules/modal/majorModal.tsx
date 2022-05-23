@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 
-import { Title, MajorWrapper, FooterWrapper, CheckBox, Span } from './styles';
+import { Title, MajorWrapper, MajorContainer, FooterWrapper, CheckBox, Span } from './styles';
 
 import { MAJOR_TYPE } from '@constants/index';
 import { theme } from '@styles/theme';
@@ -14,7 +14,7 @@ interface Props {
 const MajorModal = ({ major, setMajor, setModalOnOff }: Props) => {
   const [tempMajor, setTempMajor] = useState<keyof typeof MAJOR_TYPE>(major);
   return (
-    <>
+    <MajorContainer>
       <Title>학과</Title>
       <MajorWrapper>
         {Object.entries(MAJOR_TYPE).map(([key, value]) => (
@@ -36,7 +36,7 @@ const MajorModal = ({ major, setMajor, setModalOnOff }: Props) => {
           확인
         </p>
       </FooterWrapper>
-    </>
+    </MajorContainer>
   );
 };
 

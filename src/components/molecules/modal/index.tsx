@@ -6,16 +6,16 @@ import Portal from '@pages/portal';
 const Modal = ({
   children,
   onClick,
-}: // onClick,
-{
+}: {
   children: ReactChild | ReactChildren;
   onClick?: (e: React.MouseEvent<HTMLElement>) => void;
 }) => {
   return (
     <Portal>
-      <Background onClick={onClick}>
+      <>
+        <Background onClick={onClick}></Background>
         <Content>{children}</Content>
-      </Background>
+      </>
     </Portal>
   );
 };
