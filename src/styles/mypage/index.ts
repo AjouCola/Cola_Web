@@ -83,6 +83,7 @@ const ModalContainer = styled.div`
   background: ${theme.colors.white};
   h3 {
     border-bottom: 1px solid black;
+    white-space: nowrap;
     font-weight: 400;
     padding-bottom: 1rem;
   }
