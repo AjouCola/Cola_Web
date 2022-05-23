@@ -8,7 +8,7 @@ const Auth = {
     return await Api.post('/api/v1/auth/confirm', { token }).catch((err) => console.error(err));
   },
   async signUp({ name, department, ajouEmail, gitEmail }: any) {
-    return await Api.post('/api/v1/users', {
+    return await Api.post('/api/v1/users/sign-up', {
       name,
       department,
       ajouEmail,
