@@ -57,10 +57,13 @@ const Header = () => {
     };
   }, []);
 
+  useEffect(() => {
+    console.log('user changed', user);
+  }, [user]);
   const openMenu = () => {
     // setProfileMenu((prev) => !prev)
     const session = getCookies('SESSION');
-    console.log(session, user?.id, 'user id');
+    console.log(session, user, 'open Menu');
     if (session) {
       setProfileMenu(true);
     } else {
