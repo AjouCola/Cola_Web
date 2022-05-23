@@ -17,5 +17,6 @@ const Redirect = () => {
       router.push('/');
     })();
   }, []);
+  return <div>Redirect...</div>;
 };
 export default Redirect;
