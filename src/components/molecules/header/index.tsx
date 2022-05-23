@@ -76,7 +76,7 @@ const Header = () => {
         onClick={() => {
           if (menu.link === 'logout') {
             setCookies('SESSION', '');
-            setLoginState('');
+            setUser('');
             router.push('/');
           } else {
             router.push(menu.link);
