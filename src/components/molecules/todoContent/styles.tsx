@@ -6,7 +6,7 @@ const TodoContainer = styled.div`
   position: relative;
   border-radius: 0px 5px 5px 0px;
   z-index: 10;
-  width: 600px;
+  width: 100%;
   height: 100%;
   padding: 2rem 4rem;
   overflow: hidden;
@@ -19,6 +19,12 @@ const TodoContainer = styled.div`
     width: 6px;
     background-color: ${({ theme: { colors } }) => colors.blue[100]};
     border-radius: 4px;
+  }
+  @media (max-width: ${theme.breakpoints.md}) {
+    padding: 1rem;
+  }
+  @media (max-width: ${theme.breakpoints.sm}) {
+    padding: 1rem;
   }
 `;
 const TodoInfoWrapper = styled.div`

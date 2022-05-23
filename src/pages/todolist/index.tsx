@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-
 import { GetServerSideProps } from 'next';
 import type { NextPage } from 'next';
 import { DragDropContext, Droppable, resetServerContext } from 'react-beautiful-dnd'; // eslint-disable-line
@@ -23,6 +22,7 @@ import {
   TodoDate,
   TodoUtils,
   DeleteBtn,
+  SheetButton,
 } from '@styles/todolist';
 import { getTodoList, saveTodoList } from '@utils/api/Todo';
 import { ITodoState, todoState } from 'src/store';
@@ -55,6 +55,7 @@ const Todolist: NextPage = () => {
   const [today, date, handleChangeMonth] = useCalendar();
   const [mode, setMode] = useState('default');
   const [toDos, setToDos] = useTodoList(date);
+  const [bottomSheetOnOff, setBottomSheetOnOff] = useState(false);
 
   useEffect(() => {
     saveTodoList(date, toDos);
@@ -62,14 +63,15 @@ const Todolist: NextPage = () => {
 
   return (
     <Container>
-      <CalendarContainer>
-        <Calender {...{ date, handleChangeMonth }} />
-      </CalendarContainer>
       <TodoContainer>
         {mode === 'default' && <TodoContent today={today} />}
         {mode === 'edit' && <EditTodoContent />}
         <MenuBtn onClick={() => setMode((v) => (v === 'default' ? 'edit' : 'default'))}>메뉴</MenuBtn>
       </TodoContainer>
+      <SheetButton onClick={() => setBottomSheetOnOff((v) => !v)}>ㅡ</SheetButton>
+      <CalendarContainer flag={bottomSheetOnOff}>
+        <Calender {...{ date, handleChangeMonth }} />
+      </CalendarContainer>
     </Container>
   );
 };
