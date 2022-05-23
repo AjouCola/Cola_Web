@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 
+import { useRouter } from 'next/router';
+
 import Modal from '@components/molecules/modal';
 import MajorModal from '@components/molecules/modal/majorModal';
 import SignUpForm from '@components/organisms/signUpForm';
 import { MAJOR_TYPE } from '@constants/index';
 import { Container, Title } from '@styles/signUp';
-import { useRouter } from 'next/router';
 import Api from '@utils/api/core';
 
 const Modify = () => {
@@ -24,7 +25,7 @@ const Modify = () => {
     <>
       <Container>
         <Title>정보 수정</Title>
-        <SignUpForm handleModalOnOff={handleModalOnOff} major={major} />
+        {/* <SignUpForm handleModalOnOff={handleModalOnOff} major={major} /> */}
       </Container>
       {modalOnOff && (
         <Modal onClick={handleModalOnOff}>
