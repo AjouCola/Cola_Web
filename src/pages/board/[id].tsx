@@ -25,8 +25,6 @@ const CommentInput = styled.input`
 
 const CommentWrapper = styled.div``;
 
-const TEST_POST_ID = 5;
-
 interface IUserInfo {
   userId?: number;
   userName: string;
@@ -51,11 +49,14 @@ interface ICommentFormProps {
   onAddComment: (newComment: IComment) => void;
 }
 const CommentForm = ({ onAddComment }: ICommentFormProps) => {
+  const router = useRouter();
+  const { id } = router.query;
   const [comment, setComment] = useState('');
 
   const onSubmit = async () => {
     console.log(comment);
-    const commentId = await CommentApi.create(TEST_POST_ID, comment).catch((err) => console.log(err));
+
+    const commentId = await CommentApi.create(+id!, comment).catch((err) => console.log(err));
     if (commentId) {
       onAddComment({
         commentId: +commentId as number,
@@ -64,6 +65,7 @@ const CommentForm = ({ onAddComment }: ICommentFormProps) => {
           userName: '은승균',
         },
       });
+      setComment('');
     }
   };
   return (
@@ -115,8 +117,11 @@ const BoardDetail = ({ postData }: { postData: IPost }) => {
 export default BoardDetail;
 
 BoardDetail.getInitialProps = async (ctx: NextPageContext) => {
-  const res = await BoardApi.get(5);
-  console.log('postData', res);
+  let res;
+  if (ctx.query.id) {
+    res = await BoardApi.get(+ctx.query?.id);
+    console.log('postData', res);
+  }
   return {
     postData: res,
   };
