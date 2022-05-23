@@ -1,11 +1,16 @@
-import { ReactChild, ReactChildren, isValidElement } from 'react';
+import { ReactChild, ReactChildren, isValidElement, useCallback } from 'react';
 
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
+import { useRecoilState } from 'recoil';
 
 import TopButton from './atoms/topbutton';
 import Navigation from './organisms/Navigation';
 import AuthNavigation from './organisms/Navigation/AuthNavigation';
+
+import { userState } from '@store/user';
+import User from '@utils/api/User';
+import { getCookies } from '@utils/cookie';
 
 const NormalContainer = styled.div<{ flag: boolean }>`
   display: flex;
@@ -27,6 +32,16 @@ export default function Layout({ children }: { children: ReactChild | ReactChild
   const NOT_NAVIGATION_LIST = ['SignUp', 'SignIn', 'SignUpPolicy'];
 
   const router = useRouter();
+  const [user, setUser] = useRecoilState(userState);
+  useCallback(async () => {
+    const session = getCookies('SESSION');
+
+    console.log(session);
+    if (session && user?.id === undefined) {
+      const data = (await User.getUserInfo()) as unknown as any;
+      setUser(data);
+    }
+  }, []);
 
   return (
     <>
