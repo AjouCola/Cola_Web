@@ -62,17 +62,7 @@ const CommentForm = ({ onAddComment, getPostData }: ICommentFormProps) => {
         content,
         userInfo: { userId, userName },
       } = (await CommentApi.create(+id, comment).catch((err) => console.log(err))) as unknown as any;
-      // if (commentId) {
-      //   onAddComment({
-      //     commentId: +commentId,
-      //     content,
-      //     userInfo: {
-      //       userId,
-      //       userName,
-      //     },
-      //   });
-      //   setComment('');
-      // }
+      setComment('');
       getPostData();
     }
   };
