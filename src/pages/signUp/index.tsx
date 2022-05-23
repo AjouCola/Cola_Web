@@ -10,6 +10,7 @@ import { MAJOR_TYPE } from '@constants/index';
 import { IUserInfo, userState } from '@store/user';
 import { Container, Title } from '@styles/signUp';
 import Auth from '@utils/api/Auth';
+import { setCookies } from '@utils/cookie';
 
 const SignUp = () => {
   const [major, setMajor] = useState<keyof typeof MAJOR_TYPE>('sw');
@@ -20,10 +21,10 @@ const SignUp = () => {
   const router = useRouter();
   const handleModalOnOff = () => setModalOnOff(!modalOnOff);
   const onSubmitForm = async (name: string, department: string, ajouEmail: string, gitEmail: string) => {
-    const userData = await Auth.signUp({ name, department, ajouEmail, gitEmail });
-    console.log('회원가입 완료', userData);
-    setUserData(userData as unknown as IUserInfo);
-    router.push('/');
+    await Auth.signUp({ name, department, ajouEmail, gitEmail });
+
+    setCookies('SESSION', '');
+    router.push('/signIn');
   };
   return (
     <>
