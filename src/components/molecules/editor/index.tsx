@@ -7,7 +7,9 @@ interface Props {
 }
 
 const Editor = ({ markdownContent, setMarkdownContent }: Props) => {
-  const handleUploadImage = (e: any) => {};
+  const handleUploadImage = (e: any) => {
+    //
+  };
 
   return (
     <TextArea
