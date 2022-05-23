@@ -23,7 +23,7 @@ import UserDefault from '@components/atoms/icon/userDefault';
 import NotifyDropdown from '@components/organisms/notifyDropdown';
 import { NAV_MENU } from '@constants/index';
 import SideBar from '@molecules/sidebar';
-import { userState } from '@store/user';
+import { IUserInfo, userState } from '@store/user';
 import { setCookies, getCookies } from '@utils/cookie';
 
 const Header = () => {
@@ -76,7 +76,7 @@ const Header = () => {
         onClick={() => {
           if (menu.link === 'logout') {
             setCookies('SESSION', '');
-            setUser('');
+            setUser({} as IUserInfo);
             router.push('/');
           } else {
             router.push(menu.link);
