@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 
 import { useRouter } from 'next/router';
+import { useRecoilState } from 'recoil';
 
 import SearchBar from '../searchBar';
 
@@ -22,12 +23,13 @@ import UserDefault from '@components/atoms/icon/userDefault';
 import NotifyDropdown from '@components/organisms/notifyDropdown';
 import { NAV_MENU } from '@constants/index';
 import SideBar from '@molecules/sidebar';
+import { userState } from '@store/user';
 import { setCookies, getCookies } from '@utils/cookie';
 
 const Header = () => {
   const router = useRouter();
 
-  const [loginState, setLoginState] = useState(getCookies('SESSION'));
+  const [user, setUser] = useRecoilState(userState);
   const dropdownRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   const notifyRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   const [profileMenu, setProfileMenu] = useState(false);
@@ -57,8 +59,8 @@ const Header = () => {
 
   const openMenu = () => {
     // setProfileMenu((prev) => !prev)
-    console.log(loginState, getCookies('SESSION'));
-    if (loginState) {
+    console.log(user?.id, 'user id');
+    if (user?.id) {
       setProfileMenu(true);
     } else {
       router.push('/signIn');
