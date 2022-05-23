@@ -15,5 +15,8 @@ const Auth = {
       gitEmail,
     }).catch((err) => console.error(err));
   },
+  async getUser() {
+    return await Api.get('/api/v1/users').catch((err) => console.log(err));
+  },
 };
 export default Auth;

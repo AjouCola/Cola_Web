@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 
 import { useRouter } from 'next/router';
+import { useRecoilState } from 'recoil';
 
 import SearchBar from '../searchBar';
 
@@ -22,12 +23,13 @@ import UserDefault from '@components/atoms/icon/userDefault';
 import NotifyDropdown from '@components/organisms/notifyDropdown';
 import { NAV_MENU } from '@constants/index';
 import SideBar from '@molecules/sidebar';
+import { IUserInfo, userState } from '@store/user';
 import { setCookies, getCookies } from '@utils/cookie';
 
 const Header = () => {
   const router = useRouter();
 
-  const [loginState, setLoginState] = useState(getCookies('SESSION'));
+  const [user, setUser] = useRecoilState(userState);
   const dropdownRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   const notifyRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   const [profileMenu, setProfileMenu] = useState(false);
@@ -55,10 +57,14 @@ const Header = () => {
     };
   }, []);
 
+  useEffect(() => {
+    console.log('user changed', user);
+  }, [user]);
   const openMenu = () => {
     // setProfileMenu((prev) => !prev)
-    console.log(loginState, getCookies('SESSION'));
-    if (loginState) {
+    const session = getCookies('SESSION');
+    console.log(session, user, 'open Menu');
+    if (user?.id) {
       setProfileMenu(true);
     } else {
       router.push('/signIn');
@@ -74,7 +80,7 @@ const Header = () => {
         onClick={() => {
           if (menu.link === 'logout') {
             setCookies('SESSION', '');
-            setLoginState('');
+            setUser({} as IUserInfo);
             router.push('/');
           } else {
             router.push(menu.link);
