@@ -1,29 +1,25 @@
 import { useState } from 'react';
 
 import { useRouter } from 'next/router';
-import { useSetRecoilState } from 'recoil';
 
 import Modal from '@components/molecules/modal';
 import MajorModal from '@components/molecules/modal/majorModal';
 import SignUpForm from '@components/organisms/signUpForm';
 import { MAJOR_TYPE } from '@constants/index';
-import { IUserInfo, userState } from '@store/user';
 import { Container, Title } from '@styles/signUp';
 import Auth from '@utils/api/Auth';
-import { setCookies } from '@utils/cookie';
+import { removeCookies } from '@utils/cookie';
 
 const SignUp = () => {
   const [major, setMajor] = useState<keyof typeof MAJOR_TYPE>('sw');
   const [modalOnOff, setModalOnOff] = useState(false);
-
-  const setUserData = useSetRecoilState(userState);
 
   const router = useRouter();
   const handleModalOnOff = () => setModalOnOff(!modalOnOff);
   const onSubmitForm = async (name: string, department: string, ajouEmail: string, gitEmail: string) => {
     await Auth.signUp({ name, department, ajouEmail, gitEmail });
 
-    setCookies('SESSION', '');
+    removeCookies('SESSION');
     router.push('/signIn');
   };
   return (

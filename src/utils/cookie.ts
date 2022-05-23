@@ -8,3 +8,6 @@ export const setCookies = (name: string, value: string, option?: any) => {
 export const getCookies = (name: string) => {
   return cookies.get(name);
 };
+export const removeCookies = (name: string) => {
+  return cookies.remove(name);
+};
