@@ -119,7 +119,7 @@ const SubInfo = styled.div`
 
 const DescriptionWrapper = styled.div`
   padding: 0 1rem;
-  height: 38px;
+  height: 100%;
   width: calc(100% - 50px);
   display: flex;
   justify-content: space-between;
@@ -142,8 +142,6 @@ const UserInfo = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-right: 10px;
-  flex: 1;
   // img {
   //   width: 38px;
   //   height: 38px;
