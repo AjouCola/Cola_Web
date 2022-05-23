@@ -1,5 +1,7 @@
 import { DetailedHTMLProps, InputHTMLAttributes, useRef, useState } from 'react';
 
+import { useRouter } from 'next/router';
+
 import Button from '@components/atoms/button';
 import SubmitBtn from '@components/atoms/button/submit';
 import HashtagChip from '@components/atoms/hashtagChip';
@@ -17,6 +19,7 @@ import PreviewCheck from 'public/preview_check.svg';
 import { InputProps } from '~/types/write';
 
 const Write = () => {
+  const router = useRouter();
   const [editMode, setEditMode] = useState<typeof MODE[number]>('all');
   const [chipList, setChipList] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement[]>([]);
@@ -42,6 +45,7 @@ const Write = () => {
         console.log(err);
       },
     );
+    if (!res) router.push('/board');
   };
   return (
     <Container>
