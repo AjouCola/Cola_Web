@@ -47,25 +47,33 @@ interface IPost {
 }
 interface ICommentFormProps {
   onAddComment: (newComment: IComment) => void;
+  getPostData: () => void;
 }
-const CommentForm = ({ onAddComment }: ICommentFormProps) => {
+const CommentForm = ({ onAddComment, getPostData }: ICommentFormProps) => {
   const router = useRouter();
   const { id } = router.query;
   const [comment, setComment] = useState('');
 
   const onSubmit = async () => {
     console.log(comment);
-
-    const commentId = await CommentApi.create(+id!, comment).catch((err) => console.log(err));
-    if (commentId) {
-      onAddComment({
-        commentId: +commentId as number,
-        content: comment,
-        userInfo: {
-          userName: '은승균',
-        },
-      });
-      setComment('');
+    if (id) {
+      const {
+        commentId,
+        content,
+        userInfo: { userId, userName },
+      } = (await CommentApi.create(+id, comment).catch((err) => console.log(err))) as unknown as any;
+      // if (commentId) {
+      //   onAddComment({
+      //     commentId: +commentId,
+      //     content,
+      //     userInfo: {
+      //       userId,
+      //       userName,
+      //     },
+      //   });
+      //   setComment('');
+      // }
+      getPostData();
     }
   };
   return (
@@ -88,12 +96,27 @@ const CommentForm = ({ onAddComment }: ICommentFormProps) => {
   );
 };
 
-const BoardDetail = ({ postData }: { postData: IPost }) => {
+const BoardDetail = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [comments, setComments] = useState<IComment[]>([]);
+  const [postData, setPostData] = useState<IPost>({} as IPost);
+  const router = useRouter();
+
+  const getPostData = async () => {
+    if (router.query?.id) {
+      const data = (await BoardApi.get(+router.query.id)) as unknown as IPost;
+      setPostData(data);
+
+      setComments(data.comments);
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    setComments(postData.comments);
+    getPostData();
   }, []);
+
+  if (isLoading) return <div>Loading...</div>;
   return (
     <div style={{ maxWidth: '1200px' }}>
       <BoardContent
@@ -103,7 +126,10 @@ const BoardDetail = ({ postData }: { postData: IPost }) => {
         createdDate={postData.createdDate}
         modifiedDate={postData.modifiedDate}
       />
-      <CommentForm onAddComment={(newComment) => setComments((prev) => [...prev, newComment])} />
+      <CommentForm
+        onAddComment={(newComment) => setComments((prev) => [...prev, newComment])}
+        getPostData={getPostData}
+      />
       {/* 추후 lazy loading 지원 예정  */}
       <CommentWrapper>
         {comments.map(({ userInfo: { userName }, content }, idx) => (
