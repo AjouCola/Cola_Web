@@ -15,6 +15,7 @@ import Auth from '@utils/api/Auth';
 interface Props {
   handleModalOnOff: () => void;
   major: keyof typeof MAJOR_TYPE;
+  onSubmitForm: (name: string, department: string, ajouEmail: string, gitEmail: string) => void;
 }
 
 interface SelectBoxProps extends Props {
@@ -34,7 +35,7 @@ const MajorSelectBox = ({ major, handleModalOnOff, register }: SelectBoxProps) =
   );
 };
 
-const SignUpForm = ({ handleModalOnOff, major }: Props) => {
+const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
   const [checkEmail, setCheckEmail] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(false);
   const {
@@ -86,6 +87,7 @@ const SignUpForm = ({ handleModalOnOff, major }: Props) => {
   const onSubmit = (data: SignUpFormInterface) => {
     if (!isEmailValid) return;
     console.log(data);
+    onSubmitForm(data.name, major, data.email, data.gitEmailId);
   };
 
   const handleChange = () => {
@@ -125,7 +127,12 @@ const SignUpForm = ({ handleModalOnOff, major }: Props) => {
       )}
       <FlexDiv direction="row">
         <SubTitle>학과</SubTitle>
-        <MajorSelectBox major={major} register={register} handleModalOnOff={handleModalOnOff} />
+        <MajorSelectBox
+          major={major}
+          register={register}
+          handleModalOnOff={handleModalOnOff}
+          onSubmitForm={onSubmitForm}
+        />
       </FlexDiv>
       <SignUpInput
         placeholder="GIT 이메일"
