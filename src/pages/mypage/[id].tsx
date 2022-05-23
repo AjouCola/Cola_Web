@@ -25,7 +25,7 @@ const Modify = () => {
     <>
       <Container>
         <Title>정보 수정</Title>
-        <SignUpForm handleModalOnOff={handleModalOnOff} major={major} />
+        {/* <SignUpForm handleModalOnOff={handleModalOnOff} major={major} /> */}
       </Container>
       {modalOnOff && (
         <Modal onClick={handleModalOnOff}>
