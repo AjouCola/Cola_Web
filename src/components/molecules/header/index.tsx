@@ -110,7 +110,7 @@ const Header = () => {
             <NotifyDropdown />
           </DropDownContent>
           <HeaderBtn onClick={openMenu}>
-            <UserDefault width="3rem" height="3rem" />
+            <UserDefault />
           </HeaderBtn>
           <DropDownContent isOpen={profileMenu} ref={dropdownRef}>
             <ContentWrapper>{authMenu()}</ContentWrapper>

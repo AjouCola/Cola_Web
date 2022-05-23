@@ -5,6 +5,7 @@ import { RecoilRoot } from 'recoil';
 
 import Layout from '@components/Layout';
 import { theme } from '@styles/theme';
+import { getCookies } from '@utils/cookie';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

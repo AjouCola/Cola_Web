@@ -118,9 +118,20 @@ export default BoardDetail;
 
 BoardDetail.getInitialProps = async (ctx: NextPageContext) => {
   let res;
+
   if (ctx.query.id) {
     res = await BoardApi.get(+ctx.query?.id);
     console.log('postData', res);
+  } else {
+    if (ctx.res) {
+      ctx.res.writeHead(302, {
+        Location: '/',
+        'Content-Type': 'text/html; charset=utf-8',
+      });
+      ctx.res.end();
+
+      return {};
+    }
   }
   return {
     postData: res,
