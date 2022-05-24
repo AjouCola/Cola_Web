@@ -3,17 +3,30 @@ import Api from './core';
 interface ICreatePost {
   content: string;
   title: string;
+  boardCategory: 'info' | 'common' | 'qna';
 }
 export const Board = {
-  async create({ content, title }: ICreatePost) {
-    return await Api.post('/api/v1/posts', { content, title }).catch((err) => console.error(err));
+  async create({ content, title, boardCategory }: ICreatePost) {
+    return await Api.post(`/api/v1/posts`, { content, title, category: boardCategory }).catch((err) =>
+      console.error(err),
+    );
   },
   async get(postId: number) {
     //
     return await Api.get('/api/v1/posts/' + (postId + '')).catch((err) => console.log(err));
   },
-  async getList({ pageParam = 0, size, sort }: { pageParam: number; size?: number; sort?: string }) {
-    const data = (await Api.get('/api/v1/posts', {
+  async getList({
+    pageParam = 0,
+    size,
+    sort,
+    boardCategory,
+  }: {
+    pageParam: number;
+    size?: number;
+    sort?: string;
+    boardCategory: 'common' | 'info' | 'qna';
+  }) {
+    const data = (await Api.get(`/api/v1/posts?category=${boardCategory}`, {
       params: {
         page: pageParam,
         size,
