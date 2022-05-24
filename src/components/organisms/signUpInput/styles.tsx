@@ -1,3 +1,4 @@
+import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { FlexDiv } from '@styles/index';
@@ -27,4 +28,26 @@ const InputStyle = styled.input`
   min-width: 350px;
   min-height: 60px;
 `;
-export { Title, ErrorMessage, Wrapper, InputStyle };
+
+const rotate = keyframes`
+  0% {
+    transform: rotate(0); 
+  }
+  100% {
+    transform: rotate(360deg); 
+  } 
+  
+`;
+const Spinner = styled.span`
+  height: 1.6rem;
+  width: 1.6rem;
+  color: #b2c9ff80;
+  position: relative;
+  display: inline-block;
+  border: 5px solid;
+  border-radius: 50%;
+  border-right-color: white;
+  animation: ${rotate} 1s linear infinite;
+`;
+
+export { Title, ErrorMessage, Wrapper, InputStyle, Spinner };
