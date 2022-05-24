@@ -10,12 +10,12 @@ import HeartIcon from '@assets/icon/heart_small.svg';
 import ViewIcon from '@assets/icon/view_small.svg';
 import { IBoardItem } from '~/types/board';
 
-const BoardSimpleItem = ({ id }: IBoardItem) => {
+const BoardSimpleItem = ({ id, title, username, createdAt }: IBoardItem) => {
   const router = useRouter();
 
   return (
     <Container onClick={() => router.push(`/board/${id}`)}>
-      <Title>글 제목</Title>
+      <Title>{title}</Title>
       <DescriptionWrapper>
         <a>
           <ProfileThumb>
@@ -31,8 +31,8 @@ const BoardSimpleItem = ({ id }: IBoardItem) => {
             gap: 10,
           }}
         >
-          <span>username</span>
-          <span>2022년 03월 12일</span>
+          <span>{username}</span>
+          <span>{createdAt}</span>
         </div>
 
         <SubDescription>

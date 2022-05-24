@@ -23,7 +23,7 @@ import UserDefault from '@components/atoms/icon/userDefault';
 import { theme } from '@styles/theme';
 import { IBoardItem } from '~/types/board';
 
-const BoardCard = ({ id }: IBoardItem) => {
+const BoardCard = ({ id, username, createdAt, title }: IBoardItem) => {
   const router = useRouter();
 
   return (
@@ -37,11 +37,11 @@ const BoardCard = ({ id }: IBoardItem) => {
         </div>
         <TextWrapper>
           <a href="#">
-            <Title>글 제목</Title>
+            <Title>{title}</Title>
             <BodyText>본문 내용 일부</BodyText>
           </a>
           <SubInfo>
-            <span>2022년 3월 13일</span>
+            <span>{createdAt.slice(0, 10)}</span>
           </SubInfo>
         </TextWrapper>
         <div
@@ -58,7 +58,7 @@ const BoardCard = ({ id }: IBoardItem) => {
           </UserInfo>
           <DescriptionWrapper>
             <p style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              <b>username</b>
+              <b>{username}</b>
             </p>
             <div style={{ display: 'flex', gap: '5px' }}>
               <Likes>

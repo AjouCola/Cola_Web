@@ -50,7 +50,7 @@ const Board = ({ ...pageProps }) => {
     console.log(isLoading, ' data: ', data);
     const fetchPages = data?.pages;
     console.log('post', fetchPages?.map((pages) => pages.result).flat());
-    // setPosts(...fetchPages?.map((pages) => pages.result).flat());
+    setPosts(fetchPages?.map((pages) => pages.result).flat() as IPost[]);
   }, [isLoading, data]);
   // useEffect(() => {
   //   const data = (async function () {
@@ -92,10 +92,37 @@ const Board = ({ ...pageProps }) => {
         <button onClick={() => router.push('/write')}>게시글 작성</button>
         <button onClick={() => fetchNextPage()}>게시글 불러오기</button>
         <BoardList type={boardType}>
-          {[...new Array(20)].map((_, i) => {
-            if (boardType === BoardLayout.TILE) return <BoardCard key={i} id={i} />;
-            else if (boardType === BoardLayout.PREVIEW_LIST) return <BoardPreviewItem key={i} id={i} />;
-            else return <BoardSimpleItem key={i} id={i} />;
+          {posts.map((post, i) => {
+            if (boardType === BoardLayout.TILE)
+              return (
+                <BoardCard
+                  key={post.postId}
+                  id={post.postId}
+                  title={post.title}
+                  username={post.userInfo.userName}
+                  createdAt={post.createdDate}
+                />
+              );
+            else if (boardType === BoardLayout.PREVIEW_LIST)
+              return (
+                <BoardPreviewItem
+                  key={post.postId}
+                  title={post.title}
+                  id={post.postId}
+                  username={post.userInfo.userName}
+                  createdAt={post.createdDate}
+                />
+              );
+            else
+              return (
+                <BoardSimpleItem
+                  key={post.postId}
+                  id={post.postId}
+                  title={post.title}
+                  username={post.userInfo.userName}
+                  createdAt={post.createdDate}
+                />
+              );
           })}
         </BoardList>
       </section>
