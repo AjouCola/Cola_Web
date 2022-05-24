@@ -47,7 +47,7 @@ const WritePost = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna'
     }).catch((err) => {
       console.log(err);
     });
-    if (!res) router.push('/board');
+    if (!res) router.push('/board/' + boardCategory);
   };
   return (
     <Container>
