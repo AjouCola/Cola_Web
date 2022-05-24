@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 import { useInfiniteQuery } from 'react-query';
@@ -11,11 +11,27 @@ import BoardPreviewItem from '@molecules/boardType/boardPreviewItem';
 import BoardSimpleItem from '@molecules/boardType/boardSimpleItem';
 import { Container, BoardList } from '@styles/board';
 import { Board as BoardApi } from '@utils/api/Board';
+
+interface IPost {
+  postId: number;
+  title: string;
+  userInfo: {
+    userId: number;
+    userName: string;
+  };
+  createdDate: string;
+  modifiedDate: string;
+}
+interface IQueryPage {
+  result: IPost[];
+  nextPage: number | null;
+  isLast: boolean;
+}
 const Board = ({ ...pageProps }) => {
   const router = useRouter();
   const [boardType, setBoardType] = useRecoilState(boardTypeState);
 
-  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery(
+  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery<IQueryPage>(
     '[boardlist]',
     ({ pageParam }) => BoardApi.getList({ pageParam }),
     {
@@ -29,16 +45,20 @@ const Board = ({ ...pageProps }) => {
       retry: 1,
     },
   );
-
+  const [posts, setPosts] = useState<IPost[]>([]);
   useEffect(() => {
-    console.log(data);
+    console.log(isLoading, ' data: ', data);
+    const fetchPages = data?.pages;
+    console.log('post', fetchPages?.map((pages) => pages.result).flat());
+    // setPosts(...fetchPages?.map((pages) => pages.result).flat());
   }, [isLoading, data]);
-  useEffect(() => {
-    const data = (async function () {
-      return await BoardApi.getList({ pageParam: 1 });
-    })();
-    console.log(data);
-  }, []);
+  // useEffect(() => {
+  //   const data = (async function () {
+  //     return await BoardApi.getList({ pageParam: 1 });
+  //   })();
+  //   console.log(data);
+  // }, []);
+  if (isLoading) return <div>로딩중...</div>;
 
   return (
     <Container>

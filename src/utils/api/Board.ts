@@ -23,8 +23,7 @@ export const Board = {
     return {
       result: data.content,
       nextPage: data.pageNumber + 1,
-      isLast: data.totalPages === data.pageNumber,
-      ...data,
+      isLast: data.last,
     };
   },
 };
