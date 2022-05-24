@@ -33,6 +33,12 @@ const Board = ({ ...pageProps }) => {
   useEffect(() => {
     console.log(data);
   }, [isLoading, data]);
+  useEffect(() => {
+    const data = (async function () {
+      return await BoardApi.getList({ pageParam: 1 });
+    })();
+    console.log(data);
+  }, []);
 
   return (
     <Container>

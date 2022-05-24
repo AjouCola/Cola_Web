@@ -24,6 +24,7 @@ export const Board = {
       result: data.content,
       nextPage: data.pageNumber + 1,
       isLast: data.totalPages === data.pageNumber,
+      ...data,
     };
   },
 };
