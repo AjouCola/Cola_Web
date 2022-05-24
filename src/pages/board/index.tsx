@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/router';
 import { useInfiniteQuery } from 'react-query';
@@ -11,6 +11,7 @@ import BoardPreviewItem from '@molecules/boardType/boardPreviewItem';
 import BoardSimpleItem from '@molecules/boardType/boardSimpleItem';
 import { Container, BoardList } from '@styles/board';
 import { Board as BoardApi } from '@utils/api/Board';
+import useIntersectionObserver from '@utils/libs/useIntersectionObserver';
 
 interface IPost {
   postId: number;
@@ -28,6 +29,10 @@ interface IQueryPage {
   isLast: boolean;
 }
 const Board = ({ ...pageProps }) => {
+  const bottomBoxRef = useRef<HTMLDivElement | null>(null);
+  const entry = useIntersectionObserver(bottomBoxRef, {});
+  const isVisible = !!entry?.isIntersecting;
+
   const router = useRouter();
   const [boardType, setBoardType] = useRecoilState(boardTypeState);
 
@@ -54,6 +59,9 @@ const Board = ({ ...pageProps }) => {
       setPosts(fetchPages?.map((pages) => pages.result).flat() as IPost[]);
     }
   }, [isLoading, data]);
+  useEffect(() => {
+    if (isVisible) fetchNextPage();
+  }, [isVisible]);
   // useEffect(() => {
   //   const data = (async function () {
   //     return await BoardApi.getList({ pageParam: 1 });
@@ -128,6 +136,7 @@ const Board = ({ ...pageProps }) => {
           })}
         </BoardList>
       </section>
+      <div ref={bottomBoxRef} style={{ width: '100%', height: '5rem' }}></div>
     </Container>
   );
 };
