@@ -49,7 +49,6 @@ const Write = () => {
   };
   return (
     <Container>
-      {/* <h2>글쓰기</h2> */}
       <TitleInput {...InputProps.title} ref={(el) => selectRef(el)(WRITE_REF.title)} autoFocus />
       <Wrapper style={{ gridArea: 'mode' }}>
         <div onClick={() => handleChangeMode('edit')}>{editMode === 'edit' ? <EditCheck /> : <Edit />}</div>
