@@ -14,6 +14,7 @@ const Redirect = () => {
     (async function () {
       const userData = (await Auth.getUser()) as unknown as IUserInfo;
       setUserState(userData);
+      console.log('check redirect, get user data', userData);
       router.push('/');
     })();
   }, []);
