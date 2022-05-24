@@ -32,7 +32,7 @@ const Board = ({ ...pageProps }) => {
 
   useEffect(() => {
     console.log(data);
-  }, [data]);
+  }, [isLoading, data]);
 
   return (
     <Container>
