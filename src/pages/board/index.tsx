@@ -49,8 +49,10 @@ const Board = ({ ...pageProps }) => {
   useEffect(() => {
     console.log(isLoading, ' data: ', data);
     const fetchPages = data?.pages;
-    console.log('post', fetchPages?.map((pages) => pages.result).flat());
-    setPosts(fetchPages?.map((pages) => pages.result).flat() as IPost[]);
+    if (fetchPages) {
+      console.log('post', fetchPages?.map((pages) => pages.result).flat());
+      setPosts(fetchPages?.map((pages) => pages.result).flat() as IPost[]);
+    }
   }, [isLoading, data]);
   // useEffect(() => {
   //   const data = (async function () {
