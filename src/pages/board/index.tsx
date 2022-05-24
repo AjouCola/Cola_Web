@@ -1,4 +1,7 @@
+import { useEffect } from 'react';
+
 import { useRouter } from 'next/router';
+import { useInfiniteQuery } from 'react-query';
 import { useRecoilState } from 'recoil';
 
 import { BoardLayout, boardTypeState } from '../../store/board';
@@ -7,12 +10,30 @@ import BoardCard from '@molecules/boardType/boardCard';
 import BoardPreviewItem from '@molecules/boardType/boardPreviewItem';
 import BoardSimpleItem from '@molecules/boardType/boardSimpleItem';
 import { Container, BoardList } from '@styles/board';
-
+import { Board as BoardApi } from '@utils/api/Board';
 const Board = ({ ...pageProps }) => {
   const router = useRouter();
   const [boardType, setBoardType] = useRecoilState(boardTypeState);
 
-  // useEffect(() => {}, []);
+  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery(
+    '[boardlist]',
+    ({ pageParam }) => BoardApi.getList({ pageParam }),
+    {
+      getNextPageParam: (lastPage, pages) => {
+        if (!lastPage.isLast) return lastPage.nextPage;
+        return undefined;
+      },
+      refetchOnWindowFocus: false,
+      refetchOnMount: true,
+      refetchOnReconnect: true,
+      retry: 1,
+    },
+  );
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
   return (
     <Container>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -43,6 +64,7 @@ const Board = ({ ...pageProps }) => {
       </div>
       <section>
         <button onClick={() => router.push('/write')}>게시글 작성</button>
+        <button onClick={() => fetchNextPage()}>게시글 불러오기</button>
         <BoardList type={boardType}>
           {[...new Array(20)].map((_, i) => {
             if (boardType === BoardLayout.TILE) return <BoardCard key={i} id={i} />;

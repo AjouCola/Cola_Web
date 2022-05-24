@@ -12,4 +12,18 @@ export const Board = {
     //
     return await Api.get('/api/v1/posts/' + (postId + '')).catch((err) => console.log(err));
   },
+  async getList({ pageParam = 0, size, sort }: { pageParam: number; size?: number; sort?: string }) {
+    const data = (await Api.get('/api/v1/posts', {
+      params: {
+        pageParam,
+        size,
+        sort,
+      },
+    })) as unknown as any;
+    return {
+      result: data.content,
+      nextPage: data.pageNumber + 1,
+      isLast: data.totalPages === data.pageNumber,
+    };
+  },
 };
