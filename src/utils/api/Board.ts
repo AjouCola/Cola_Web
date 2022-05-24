@@ -15,7 +15,7 @@ export const Board = {
   async getList({ pageParam = 0, size, sort }: { pageParam: number; size?: number; sort?: string }) {
     const data = (await Api.get('/api/v1/posts', {
       params: {
-        pageParam,
+        page: pageParam,
         size,
         sort,
       },
