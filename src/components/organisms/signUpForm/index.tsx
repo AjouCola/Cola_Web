@@ -144,6 +144,16 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
         {...register('gitEmailId', SignUpData.gitEmailId)}
         error={errors.gitEmailId?.message}
       />
+      <FlexDiv direction="column" style={{ gap: '0.5rem' }}>
+        <FlexDiv direction="row" style={{ alignItems: 'center', gap: '0.5rem' }}>
+          <input type="checkbox" name="" id="policy" />
+          <label htmlFor="policy">이용약관 동의</label>
+        </FlexDiv>
+        <FlexDiv direction="row" style={{ alignItems: 'center', gap: '0.5rem' }}>
+          <input type="checkbox" name="" id="privacy" />
+          <label htmlFor="privacy">개인정보 이용 동의</label>
+        </FlexDiv>
+      </FlexDiv>
       <SubmitBtn size="medium">SAVE</SubmitBtn>
     </SignUpFormStyle>
   );
