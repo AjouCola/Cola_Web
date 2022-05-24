@@ -51,23 +51,20 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
     },
   );
   const [posts, setPosts] = useState<IPost[]>([]);
+
   useEffect(() => {
-    console.log(isLoading, ' data: ', data);
     const fetchPages = data?.pages;
     if (fetchPages) {
       console.log('post', fetchPages?.map((pages) => pages.result).flat());
       setPosts(fetchPages?.map((pages) => pages.result).flat() as IPost[]);
     }
   }, [isLoading, data]);
-  useEffect(() => {
-    if (isVisible) fetchNextPage();
-  }, [isVisible]);
-  // useEffect(() => {
-  //   const data = (async function () {
-  //     return await BoardApi.getList({ pageParam: 1 });
-  //   })();
-  //   console.log(data);
-  // }, []);
+
+  if (isVisible) {
+    console.log('intersected!! fetch data ', isVisible);
+    fetchNextPage();
+  }
+
   if (isLoading) return <div>로딩중...</div>;
 
   return (
@@ -99,7 +96,7 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
         </div>
       </div>
       <section>
-        <button onClick={() => router.push('/write')}>게시글 작성</button>
+        <button onClick={() => router.push(`/board/${boardCategory}/write`)}>게시글 작성</button>
         <button onClick={() => fetchNextPage()}>게시글 불러오기</button>
         <BoardList type={boardType}>
           {posts.map((post, i) => {
