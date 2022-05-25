@@ -7,10 +7,13 @@ import { useRecoilState } from 'recoil';
 
 import { BoardLayout, boardTypeState } from '../../../store/board';
 
+import SimpleType from '@assets/icon/board_detail_type.svg';
+import GridType from '@assets/icon/board_grid_type.svg';
+import ListType from '@assets/icon/board_list_type.svg';
 import BoardCard from '@molecules/boardType/boardCard';
 import BoardPreviewItem from '@molecules/boardType/boardPreviewItem';
 import BoardSimpleItem from '@molecules/boardType/boardSimpleItem';
-import { Container, BoardList } from '@styles/board';
+import { Container, BoardList, BoardListTitle, BoardListUtilWrapper, FlexEnd, TypeIcon } from '@styles/board';
 import { Board as BoardApi } from '@utils/api/Board';
 
 interface IPost {
@@ -70,35 +73,44 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
   return (
     <Container>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <h2 style={{ display: 'inline-block' }}>게시판</h2>
-        <div style={{ display: 'flex', gap: '4rem', alignItems: 'center' }}>
-          <div style={{ display: 'flex', gap: '1rem' }}>
-            <span
-              style={{ cursor: 'pointer', color: boardType === BoardLayout.TILE ? 'blue' : '#222' }}
-              onClick={() => setBoardType(BoardLayout.TILE)}
-            >
-              타일
-            </span>
-            <span
-              style={{ cursor: 'pointer', color: boardType === BoardLayout.PREVIEW_LIST ? 'blue' : '#222' }}
+        <BoardListTitle>
+          {boardCategory === 'common' ? '자유' : boardCategory === 'info' ? '정보' : '질문'}게시판
+        </BoardListTitle>
+        <BoardListUtilWrapper>
+          <FlexEnd>
+            <select name="" id="">
+              <option value="">최신순</option>
+              <option value="">인기순</option>
+            </select>
+          </FlexEnd>
+          <FlexEnd>
+            <TypeIcon clicked={boardType === BoardLayout.TILE} onClick={() => setBoardType(BoardLayout.TILE)}>
+              <GridType />
+            </TypeIcon>
+            <TypeIcon
+              clicked={boardType === BoardLayout.PREVIEW_LIST}
               onClick={() => setBoardType(BoardLayout.PREVIEW_LIST)}
             >
-              상세리스트
-            </span>
-            <span
-              style={{ cursor: 'pointer', color: boardType === BoardLayout.SIMPLE_LIST ? 'blue' : '#222' }}
+              <ListType />
+            </TypeIcon>
+            <TypeIcon
+              clicked={boardType === BoardLayout.SIMPLE_LIST}
               onClick={() => setBoardType(BoardLayout.SIMPLE_LIST)}
             >
-              간단리스트
-            </span>
-          </div>
-          <p>정렬</p>
-        </div>
+              <SimpleType />
+            </TypeIcon>
+          </FlexEnd>
+        </BoardListUtilWrapper>
       </div>
       <section>
-        <button onClick={() => router.push(`/board/${boardCategory}/write`)}>게시글 작성</button>
-        <button onClick={() => fetchNextPage()}>게시글 불러오기</button>
+        {/* <button onClick={() => router.push(`/board/${boardCategory}/write`)}>게시글 작성</button>
+        <button onClick={() => fetchNextPage()}>게시글 불러오기</button> */}
         <BoardList type={boardType}>
+          {posts.length === 0 ? (
+            <div>
+              <p>게시글이 없습니다.</p>
+            </div>
+          ) : null}
           {posts.map((post, i) => {
             if (boardType === BoardLayout.TILE)
               return (
