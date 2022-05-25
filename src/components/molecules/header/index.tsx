@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
-
 import SearchBar from '../searchBar';
 
 import {
@@ -25,10 +24,10 @@ import { NAV_MENU } from '@constants/index';
 import SideBar from '@molecules/sidebar';
 import { IUserInfo, userState } from '@store/user';
 import { setCookies, getCookies } from '@utils/cookie';
+import Auth from '@utils/api/Auth';
 
 const Header = () => {
   const router = useRouter();
-
   const [user, setUser] = useRecoilState(userState);
   const dropdownRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   const notifyRef = useRef() as React.MutableRefObject<HTMLDivElement>;
@@ -59,7 +58,13 @@ const Header = () => {
 
   useEffect(() => {
     console.log('user changed', user);
+    (async function () {
+      const userData = (await Auth.getUser()) as unknown as IUserInfo;
+      setUser(userData);
+      console.log('check redirect, get user data', userData);
+    })();
   }, [user]);
+
   const openMenu = () => {
     // setProfileMenu((prev) => !prev)
     const session = getCookies('SESSION');

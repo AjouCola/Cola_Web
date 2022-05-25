@@ -32,16 +32,6 @@ export default function Layout({ children }: { children: ReactChild | ReactChild
   const NOT_NAVIGATION_LIST = ['SignUp', 'SignIn', 'SignUpPolicy'];
 
   const router = useRouter();
-  const [user, setUser] = useRecoilState(userState);
-  useCallback(async () => {
-    const session = getCookies('SESSION');
-
-    console.log(session);
-    if (session && user?.id === undefined) {
-      const data = (await User.getUserInfo()) as unknown as any;
-      setUser(data);
-    }
-  }, []);
 
   return (
     <>
