@@ -6,6 +6,7 @@ import { useInfiniteQuery } from 'react-query';
 import { useRecoilState } from 'recoil';
 
 import { BoardLayout, boardTypeState } from '../../../store/board';
+import { Spinner } from '../signUpInput/styles';
 
 import SimpleType from '@assets/icon/board_detail_type.svg';
 import GridType from '@assets/icon/board_grid_type.svg';
@@ -62,13 +63,10 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
     }
   }, [isLoading, data]);
   useEffect(() => {
-    if (hasNextPage && inView) {
-      console.log('inview');
+    if (!isLoading && hasNextPage && inView) {
       fetchNextPage();
     }
   }, [inView]);
-
-  if (isLoading) return <div>로딩중...</div>;
 
   return (
     <Container>
@@ -103,47 +101,52 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
         </BoardListUtilWrapper>
       </div>
       <section>
-        {/* <button onClick={() => router.push(`/board/${boardCategory}/write`)}>게시글 작성</button>
-        <button onClick={() => fetchNextPage()}>게시글 불러오기</button> */}
-        <BoardList type={boardType}>
-          {posts.length === 0 ? (
-            <div>
-              <p>게시글이 없습니다.</p>
-            </div>
-          ) : null}
-          {posts.map((post, i) => {
-            if (boardType === BoardLayout.TILE)
-              return (
-                <BoardCard
-                  key={post.postId}
-                  id={post.postId}
-                  title={post.title}
-                  username={post.userInfo.userName}
-                  createdAt={post.createdDate}
-                />
-              );
-            else if (boardType === BoardLayout.PREVIEW_LIST)
-              return (
-                <BoardPreviewItem
-                  key={post.postId}
-                  title={post.title}
-                  id={post.postId}
-                  username={post.userInfo.userName}
-                  createdAt={post.createdDate}
-                />
-              );
-            else
-              return (
-                <BoardSimpleItem
-                  key={post.postId}
-                  id={post.postId}
-                  title={post.title}
-                  username={post.userInfo.userName}
-                  createdAt={post.createdDate}
-                />
-              );
-          })}
-        </BoardList>
+        {isLoading && (
+          <BoardList type={boardType}>
+            <Spinner size="3rem" color="#b2c9ff" />
+          </BoardList>
+        )}
+        {!isLoading && (
+          <BoardList type={boardType}>
+            {posts.length === 0 ? (
+              <div>
+                <p>게시글이 없습니다.</p>
+              </div>
+            ) : null}
+            {posts.map((post, i) => {
+              if (boardType === BoardLayout.TILE)
+                return (
+                  <BoardCard
+                    key={post.postId}
+                    id={post.postId}
+                    title={post.title}
+                    username={post.userInfo.userName}
+                    createdAt={post.createdDate}
+                  />
+                );
+              else if (boardType === BoardLayout.PREVIEW_LIST)
+                return (
+                  <BoardPreviewItem
+                    key={post.postId}
+                    title={post.title}
+                    id={post.postId}
+                    username={post.userInfo.userName}
+                    createdAt={post.createdDate}
+                  />
+                );
+              else
+                return (
+                  <BoardSimpleItem
+                    key={post.postId}
+                    id={post.postId}
+                    title={post.title}
+                    username={post.userInfo.userName}
+                    createdAt={post.createdDate}
+                  />
+                );
+            })}
+          </BoardList>
+        )}
       </section>
       <div ref={ref} style={{ width: '100%', height: '5rem' }}></div>
     </Container>
