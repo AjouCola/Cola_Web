@@ -2,7 +2,7 @@ import { useSetRecoilState } from 'recoil';
 
 import Api from './core';
 
-import { doings, toDos, dones } from '@constants/todoDummy';
+// import { doings, toDos, dones } from '@constants/todoDummy';
 import { IToDo, ITodoState, todoState } from '@store/index';
 
 export interface IItemDto {
