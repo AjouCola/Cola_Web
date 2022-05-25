@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/router';
+import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery } from 'react-query';
 import { useRecoilState } from 'recoil';
 
@@ -11,7 +12,6 @@ import BoardPreviewItem from '@molecules/boardType/boardPreviewItem';
 import BoardSimpleItem from '@molecules/boardType/boardSimpleItem';
 import { Container, BoardList } from '@styles/board';
 import { Board as BoardApi } from '@utils/api/Board';
-import useIntersectionObserver from '@utils/libs/useIntersectionObserver';
 
 interface IPost {
   postId: number;
@@ -30,15 +30,14 @@ interface IQueryPage {
 }
 const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) => {
   const bottomBoxRef = useRef<HTMLDivElement | null>(null);
-  const entry = useIntersectionObserver(bottomBoxRef, {});
-  const isVisible = !!entry?.isIntersecting;
 
+  const { ref, inView, entry } = useInView();
   const router = useRouter();
   const [boardType, setBoardType] = useRecoilState(boardTypeState);
 
   const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery<IQueryPage>(
     ['boardlist', boardCategory],
-    ({ pageParam }) => BoardApi.getList({ pageParam, boardCategory }),
+    ({ pageParam = 0 }) => BoardApi.getList({ pageParam, boardCategory }),
     {
       getNextPageParam: (lastPage, pages) => {
         if (!lastPage.isLast) return lastPage.nextPage;
@@ -59,11 +58,12 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
       setPosts(fetchPages?.map((pages) => pages.result).flat() as IPost[]);
     }
   }, [isLoading, data]);
-
-  if (isVisible) {
-    console.log('intersected!! fetch data ', isVisible);
-    fetchNextPage();
-  }
+  useEffect(() => {
+    if (hasNextPage && inView) {
+      console.log('inview');
+      fetchNextPage();
+    }
+  }, [inView]);
 
   if (isLoading) return <div>로딩중...</div>;
 
@@ -133,7 +133,7 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
           })}
         </BoardList>
       </section>
-      <div ref={bottomBoxRef} style={{ width: '100%', height: '5rem' }}></div>
+      <div ref={ref} style={{ width: '100%', height: '5rem' }}></div>
     </Container>
   );
 };
