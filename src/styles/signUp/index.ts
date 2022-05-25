@@ -16,6 +16,7 @@ const Wrapper = styled.div`
 const Title = styled.h1`
   font-size: 5rem;
   color: ${theme.colors.blue[500]};
+  padding: 55px 0px 70px 0;
 `;
 
 const SubTitle = styled.h3`
@@ -79,7 +80,7 @@ const Select = styled.select`
   appearance: none;
   min-width: 350px;
   min-height: 60px;
-  padding-left: 1rem;
+  padding-left: 12px;
   border: none;
   background: white;
   box-shadow: 0px 0px 5px ${({ theme }) => theme.colors.shadow};

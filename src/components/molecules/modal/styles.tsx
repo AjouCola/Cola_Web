@@ -42,6 +42,7 @@ const Title = styled.h2`
   max-width: 5vw;
   color: ${theme.colors.blue[500]};
   border-bottom: 0.3rem solid ${theme.colors.blue[500]};
+  margin: 20px 0px 30px 0px;
 `;
 
 const MajorWrapper = styled.div`
@@ -52,6 +53,7 @@ const MajorWrapper = styled.div`
   max-height: 32vh;
   overflow: auto;
   row-gap: 1vmin;
+  margin: 0 0 35px 0;
   label {
     display: flex;
     align-items: center;
@@ -71,6 +73,7 @@ const FooterWrapper = styled.div`
   display: flex;
   width: 80%;
   justify-content: space-between;
+  padding-bottom: 25px;
   p {
     cursor: pointer;
     color: ${({ theme }) => theme.colors.gray[100]};
