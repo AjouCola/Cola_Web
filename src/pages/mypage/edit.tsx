@@ -6,7 +6,8 @@ import Modal from '@components/molecules/modal';
 import MajorModal from '@components/molecules/modal/majorModal';
 import SignUpForm from '@components/organisms/signUpForm';
 import { MAJOR_TYPE } from '@constants/index';
-import { Container, Title } from '@styles/signUp';
+import { ContentContainer, Title, EditProfileContainer } from '@styles/mypage';
+// import { Container } from '@styles/signUp';
 import Api from '@utils/api/core';
 
 const Modify = () => {
@@ -20,13 +21,18 @@ const Modify = () => {
   // useEffect(() => {
   //   setUserData(Api.get('/user/?' + id));
   // }, []);
-
+  const onSubmitForm = () => {
+    console.log('submit');
+  };
   return (
     <>
-      <Container>
+      <EditProfileContainer>
         <Title>정보 수정</Title>
-        {/* <SignUpForm handleModalOnOff={handleModalOnOff} major={major} /> */}
-      </Container>
+        <ContentContainer>
+          <SignUpForm handleModalOnOff={handleModalOnOff} major={major} onSubmitForm={onSubmitForm} />
+        </ContentContainer>
+      </EditProfileContainer>
+
       {modalOnOff && (
         <Modal onClick={handleModalOnOff}>
           <MajorModal major={major} setMajor={setMajor} setModalOnOff={setModalOnOff} />
