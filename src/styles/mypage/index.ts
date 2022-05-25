@@ -31,6 +31,9 @@ const Container = styled.div`
 
 const Title = styled.h2`
   grid-area: title;
+  font-size: 2.4rem;
+  display: flex;
+  align-items: flex-end;
   color: ${theme.colors.blue[500]};
 `;
 
@@ -103,4 +106,28 @@ const ModalContainer = styled.div`
   }
 `;
 
-export { Container, Title, CardContainer, ContentContainer, BackgroundImage, ModalContainer };
+const EditProfileContainer = styled(Container)`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  max-width: 1280px;
+  padding: 1.7rem 4rem;
+  justify-content: center;
+  align-items: center;
+  h2 {
+    width: 80%;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  @media (max-width: ${theme.breakpoints.md}) {
+    h2 {
+      width: 100%;
+    }
+  }
+  @media (max-width: ${theme.breakpoints.sm}) {
+  }
+`;
+
+export { Container, Title, CardContainer, ContentContainer, BackgroundImage, ModalContainer, EditProfileContainer };
