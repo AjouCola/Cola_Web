@@ -125,9 +125,9 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
                 <p>게시글이 없습니다.</p>
               </div>
             ) : null}
-            {posts.map((post, i) => {
-              if (boardType === BoardLayout.TILE)
-                return (
+            {posts.map((post, i) => (
+              <>
+                {boardType === BoardLayout.TILE && (
                   <BoardCard
                     key={post.postId}
                     id={post.postId}
@@ -135,9 +135,8 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
                     username={post.userInfo.userName}
                     createdAt={post.createdDate}
                   />
-                );
-              else if (boardType === BoardLayout.PREVIEW_LIST)
-                return (
+                )}
+                {boardType === BoardLayout.PREVIEW_LIST && (
                   <BoardPreviewItem
                     key={post.postId}
                     title={post.title}
@@ -145,9 +144,8 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
                     username={post.userInfo.userName}
                     createdAt={post.createdDate}
                   />
-                );
-              else
-                return (
+                )}
+                {boardType === BoardLayout.TILE && (
                   <BoardSimpleItem
                     key={post.postId}
                     id={post.postId}
@@ -155,8 +153,9 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
                     username={post.userInfo.userName}
                     createdAt={post.createdDate}
                   />
-                );
-            })}
+                )}
+              </>
+            ))}
           </BoardList>
         )}
       </section>

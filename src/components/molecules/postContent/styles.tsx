@@ -22,6 +22,9 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   color: ${theme.colors.white};
+  h2 {
+    font-size: larger;
+  }
   p {
     font-size: larger;
   }

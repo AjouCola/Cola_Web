@@ -38,7 +38,7 @@ const YearText = styled.h3`
 const DayWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-
+  row-gap: 1rem;
   text-align: center;
 `;
 const DayText = styled.span`
