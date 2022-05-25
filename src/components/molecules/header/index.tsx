@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
+
 import SearchBar from '../searchBar';
 
 import {
@@ -23,8 +24,8 @@ import NotifyDropdown from '@components/organisms/notifyDropdown';
 import { NAV_MENU } from '@constants/index';
 import SideBar from '@molecules/sidebar';
 import { IUserInfo, userState } from '@store/user';
-import { setCookies, getCookies } from '@utils/cookie';
 import Auth from '@utils/api/Auth';
+import { setCookies, getCookies } from '@utils/cookie';
 
 const Header = () => {
   const router = useRouter();
