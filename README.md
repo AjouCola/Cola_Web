@@ -14,5 +14,9 @@
 2. 댓글
    1. 댓글 수정 및 삭제
 3. 투두
+   1. item controller => 거의 모든 상황에서 post만 사용함
+   2. folder controller
+      1. 처음에 폴더 생성 post
+      2. get folder => 폴더 정보(색,이름)
 4. 마이페이지
 5. 네비게이션 세션값에 따라

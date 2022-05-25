@@ -17,41 +17,34 @@ import { DragDropContext, DropResult, Droppable, resetServerContext } from 'reac
 import TodoMenuModal from '@components/molecules/todoMenuModal';
 import TodoArea from '@molecules/todoArea';
 import { todoModal } from '@store/todo';
+import { ITodoFolder } from '@utils/api/Todo';
 import { todoState, IToDo, ITodoState } from 'src/store';
 
 const useDragableTodo = () => {
-  const [toDos, setToDos] = useRecoilState(todoState);
+  const [toDos, setToDos] = useRecoilState<ITodoFolder[]>(todoState);
 
   const onDragEnd = (info: DropResult) => {
     console.log(info);
     const { destination, draggableId, source } = info;
-    if (!destination) return;
-    if (destination?.droppableId === source.droppableId) {
-      // same board movement.
-      setToDos((allBoards) => {
-        const boardCopy = [...allBoards[source.droppableId]];
-        const toMoveTodo = boardCopy.splice(source.index, 1)[0];
-        boardCopy.splice(destination?.index, 0, toMoveTodo);
-        return {
-          ...allBoards,
-          [source.droppableId]: boardCopy,
-        };
-      });
-    }
-    if (destination.droppableId !== source.droppableId) {
-      // cross board movement
-      setToDos((allBoards) => {
-        const sourceBoard = [...allBoards[source.droppableId]];
-        const destinationBoard = [...allBoards[destination.droppableId]];
-        const toMoveTodo = sourceBoard.splice(source.index, 1)[0];
-        destinationBoard.splice(destination?.index, 0, toMoveTodo);
-        return {
-          ...allBoards,
-          [source.droppableId]: sourceBoard,
-          [destination.droppableId]: destinationBoard,
-        };
-      });
-    }
+    // if (!destination) return;
+    // if (destination?.droppableId === source.droppableId) {
+    //   // same board movement.
+    //   console.log()
+    // }
+    // if (destination.droppableId !== source.droppableId) {
+    //   // cross board movement
+    //   setToDos((folder) => {
+    //     const sourceBoard = [...folder[source.droppableId]];
+    //     const destinationBoard = [...folder[destination.droppableId]];
+    //     const toMoveTodo = sourceBoard.splice(source.index, 1)[0];
+    //     destinationBoard.splice(destination?.index, 0, toMoveTodo);
+    //     return {
+    //       ...folder,
+    //       [source.droppableId]: sourceBoard,
+    //       [destination.droppableId]: destinationBoard,
+    //     };
+    //   });
+    // }
   };
 
   return onDragEnd;
@@ -87,16 +80,16 @@ const useDeleteTodo = (): [boolean, () => void, (todoArea: string, todoId: numbe
   };
 
   const deleteTodo = () => {
-    for (const folder in toDeleteItems) {
-      setToDos((allFolder) => {
-        const items = [...allFolder[folder]];
-        for (const item of toDeleteItems[folder]) {
-          const itemIdx = items.findIndex((v) => v.id === item);
-          items.splice(itemIdx, 1);
-        }
-        return { ...allFolder, [folder]: items };
-      });
-    }
+    // for (const folder in toDeleteItems) {
+    //   setToDos((allFolder) => {
+    //     const items = [...allFolder[folder]];
+    //     for (const item of toDeleteItems[folder]) {
+    //       const itemIdx = items.findIndex((v) => v.id === item);
+    //       items.splice(itemIdx, 1);
+    //     }
+    //     return { ...allFolder, [folder]: items };
+    //   });
+    // }
   };
 
   return [deleteMode, onClickDelete, onCheckDeleteItem];

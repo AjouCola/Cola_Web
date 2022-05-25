@@ -32,7 +32,6 @@ export const SignUpData = {
     required: '학과를 입력해주세요',
   },
   gitEmailId: {
-    required: '이메일을 입력해주세요',
     pattern: {
       value: /^[A-Za-z0-9._%+-]+@[\S+.]+$/,
       message: '이메일만 사용할 수 있습니다.',

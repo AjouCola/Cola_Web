@@ -13,14 +13,21 @@ import {
 } from './styles';
 
 import FolderItem from '@atoms/folderItem';
+import TodoApi from '@utils/api/Todo';
 
 const FolderContent = ({ setIsEdit }: { setIsEdit: Dispatch<SetStateAction<any>> }) => {
+  const createFolder = async () => {
+    /** dummy */
+    const color = '#9779D3';
+    const name = '할 일';
+    await TodoApi.createFolder(name, color);
+  };
   return (
     <>
       <FolderConrtainer>
         <FolderWrapper>
           <p>사용 중인 폴더</p>
-          <p>+</p>
+          <p onClick={createFolder}>+</p>
         </FolderWrapper>
         <FolderItemContainer>
           {forderExample.map((v, i) => (
