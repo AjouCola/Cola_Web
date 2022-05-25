@@ -56,4 +56,18 @@ const TypeIcon = styled.span<{ clicked: boolean }>`
   }
 `;
 
-export { Container, BoardList, BoardListTitle, FlexEnd, BoardListUtilWrapper, TypeIcon };
+const WritePost = styled.div`
+  font-size: 1.3rem;
+  font-weight: 500;
+  padding: 0.1rem 1rem;
+  border: 1px solid ${({ theme: { colors } }) => colors.blue[500]};
+  border-radius: 24px;
+  color: ${({ theme: { colors } }) => colors.blue[500]};
+  cursor: pointer;
+  transition: all 200ms ease-in-out;
+  &:hover {
+    background: ${({ theme: { colors } }) => colors.blue[400]};
+    color: white;
+  }
+`;
+export { Container, BoardList, BoardListTitle, WritePost, FlexEnd, BoardListUtilWrapper, TypeIcon };

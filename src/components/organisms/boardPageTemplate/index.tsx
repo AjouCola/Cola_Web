@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery } from 'react-query';
@@ -14,7 +15,15 @@ import ListType from '@assets/icon/board_list_type.svg';
 import BoardCard from '@molecules/boardType/boardCard';
 import BoardPreviewItem from '@molecules/boardType/boardPreviewItem';
 import BoardSimpleItem from '@molecules/boardType/boardSimpleItem';
-import { Container, BoardList, BoardListTitle, BoardListUtilWrapper, FlexEnd, TypeIcon } from '@styles/board';
+import {
+  Container,
+  BoardList,
+  BoardListTitle,
+  BoardListUtilWrapper,
+  WritePost,
+  FlexEnd,
+  TypeIcon,
+} from '@styles/board';
 import { Board as BoardApi } from '@utils/api/Board';
 
 interface IPost {
@@ -33,8 +42,6 @@ interface IQueryPage {
   isLast: boolean;
 }
 const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) => {
-  const bottomBoxRef = useRef<HTMLDivElement | null>(null);
-
   const { ref, inView, entry } = useInView();
   const router = useRouter();
   const [boardType, setBoardType] = useRecoilState(boardTypeState);
@@ -76,9 +83,14 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
         </BoardListTitle>
         <BoardListUtilWrapper>
           <FlexEnd>
+            <Link href={`/board/${boardCategory}/write`}>
+              <WritePost>글쓰기</WritePost>
+            </Link>
+          </FlexEnd>
+          <FlexEnd>
             <select name="" id="">
-              <option value="">최신순</option>
-              <option value="">인기순</option>
+              <option value="recent">최신순</option>
+              <option value="popular">인기순</option>
             </select>
           </FlexEnd>
           <FlexEnd>
