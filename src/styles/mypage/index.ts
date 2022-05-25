@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 import { theme } from '@styles/theme';
 
 const Container = styled.div`
@@ -73,8 +74,8 @@ const BackgroundImage = styled.div`
 const ModalContainer = styled.div`
   display: flex;
   border-radius: 10px;
-  box-shadow: 0px 0px 6px ${theme.colors.shadow};
-  padding: 3rem;
+  box-shadow: 0px 0px 10px ${theme.colors.shadow};
+  padding: 1.5rem 2.5rem;
   box-sizing: border-box;
   flex-direction: column;
   text-align: center;
@@ -82,18 +83,23 @@ const ModalContainer = styled.div`
   row-gap: 1rem;
   background: ${theme.colors.white};
   h3 {
+    color: ${({ theme: { colors } }) => colors.gray[900]};
     border-bottom: 1px solid black;
     white-space: nowrap;
-    font-weight: 400;
+    font-weight: 600;
+    font-size: 1.3rem;
     padding-bottom: 1rem;
   }
   button {
     border: none;
     background: none;
     color: ${theme.colors.blue[500]};
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 0.2rem;
     :hover {
       border-radius: 18px;
-      background-color: ${theme.colors.blue[300]};
+      background-color: ${theme.colors.blue[100]};
     }
   }
 `;
