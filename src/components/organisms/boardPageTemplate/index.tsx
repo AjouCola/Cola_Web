@@ -99,9 +99,9 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
         <button onClick={() => router.push(`/board/${boardCategory}/write`)}>게시글 작성</button>
         <button onClick={() => fetchNextPage()}>게시글 불러오기</button>
         <BoardList type={boardType}>
-          {posts.map((post, i) => {
-            if (boardType === BoardLayout.TILE)
-              return (
+          {posts.map((post, i) => (
+            <>
+              {boardType === BoardLayout.TILE && (
                 <BoardCard
                   key={post.postId}
                   id={post.postId}
@@ -109,9 +109,8 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
                   username={post.userInfo.userName}
                   createdAt={post.createdDate}
                 />
-              );
-            else if (boardType === BoardLayout.PREVIEW_LIST)
-              return (
+              )}
+              {boardType === BoardLayout.PREVIEW_LIST && (
                 <BoardPreviewItem
                   key={post.postId}
                   title={post.title}
@@ -119,9 +118,8 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
                   username={post.userInfo.userName}
                   createdAt={post.createdDate}
                 />
-              );
-            else
-              return (
+              )}
+              {boardType === BoardLayout.TILE && (
                 <BoardSimpleItem
                   key={post.postId}
                   id={post.postId}
@@ -129,8 +127,9 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
                   username={post.userInfo.userName}
                   createdAt={post.createdDate}
                 />
-              );
-          })}
+              )}
+            </>
+          ))}
         </BoardList>
       </section>
       <div ref={bottomBoxRef} style={{ width: '100%', height: '5rem' }}></div>
