@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import type { NextPage } from 'next';
+import Link from 'next/link';
 
 import Card from '@components/atoms/card';
 import Modal from '@components/molecules/modal';
@@ -59,7 +60,9 @@ const Mypage: NextPage = () => {
         <Modal onClick={handleModalOnOff}>
           <ModalContainer>
             <h3>계정 설정</h3>
-            <button>정보수정</button>
+            <button>
+              <Link href={`/mypage/edit`}>정보수정</Link>
+            </button>
             <button>회원탈퇴</button>
           </ModalContainer>
         </Modal>
