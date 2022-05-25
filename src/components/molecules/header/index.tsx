@@ -59,12 +59,14 @@ const Header = () => {
 
   useEffect(() => {
     console.log('user changed', user);
+  }, [user]);
+  useEffect(() => {
     (async function () {
       const userData = (await Auth.getUser()) as unknown as IUserInfo;
       setUser(userData);
       console.log('check redirect, get user data', userData);
     })();
-  }, [user]);
+  }, []);
 
   const openMenu = () => {
     // setProfileMenu((prev) => !prev)
