@@ -37,40 +37,40 @@ const TodoArea = ({ area, idx, dragMode = false, deleteMode, checkDelete, childr
 
   const handleClick = (key: string) => {
     console.log(key);
-    setTodoList({ ...todo, [key]: [...todo[key], { id: Date.now(), content: '' }] });
+    // setTodoList({ ...todo, [key]: [...todo[key], { id: Date.now(), content: '' }] });
     setFocus(true);
   };
   const handleFocus = (key: string, value: string, todoId?: number) => {
     setFocus(false);
     if (editValue.id) {
       // 수정 모드
-      setTodoList((todoList) => {
-        const todoIdx = todoList[key].findIndex((todo) => todo.id === editValue.id);
-        const modified = {
-          id: Date.now(),
-          content: value + '',
-        };
-        return {
-          ...todoList,
-          [key]: [...todoList[key].slice(0, todoIdx), modified, ...todoList[key].slice(todoIdx + 1)],
-        };
-      });
+      // setTodoList((todoList) => {
+      //   const todoIdx = todoList[key].findIndex((todo) => todo.id === editValue.id);
+      //   const modified = {
+      //     id: Date.now(),
+      //     content: value + '',
+      //   };
+      //   return {
+      //     ...todoList,
+      //     [key]: [...todoList[key].slice(0, todoIdx), modified, ...todoList[key].slice(todoIdx + 1)],
+      //   };
+      // });
       setEditValue({
         id: null,
         content: null,
       });
     } else {
-      if (!value) setTodoList({ ...todo, [key]: todo[key].slice(0, -1) });
-      else {
-        const newToDo = {
-          id: Date.now(),
-          content: value + '',
-        };
-        setTodoList((prev) => ({
-          ...prev,
-          [key]: [...prev[key].slice(0, -1), newToDo],
-        }));
-      }
+      // if (!value) setTodoList({ ...todo, [key]: todo[key].slice(0, -1) });
+      // else {
+      //   const newToDo = {
+      //     id: Date.now(),
+      //     content: value + '',
+      //   };
+      //   setTodoList((prev) => ({
+      //     ...prev,
+      //     [key]: [...prev[key].slice(0, -1), newToDo],
+      //   }));
+      // }
     }
 
     // if (inputRef.current === null) return;
@@ -102,33 +102,33 @@ const TodoArea = ({ area, idx, dragMode = false, deleteMode, checkDelete, childr
       <Wrapper>
         {
           // dragMode에 따라 드래그 가능한 컴포넌트 or 일반 컴포넌트 렌더링
-          todo[area]?.map(({ id, content }, index) =>
-            dragMode ? (
-              <DraggableTodo
-                key={id}
-                toDoId={id}
-                toDoContent={content}
-                target={area}
-                handleFocus={handleFocus}
-                inputRef={inputRef}
-                index={index}
-                deleteMode={deleteMode}
-                checkDelete={checkDelete}
-              />
-            ) : (
-              <TodoCheckBox
-                key={id}
-                toDoId={id}
-                toDoContent={content}
-                target={area}
-                handleFocus={handleFocus}
-                inputRef={inputRef}
-                index={index}
-                deleteMode={deleteMode}
-                checkDelete={checkDelete}
-              />
-            ),
-          )
+          // todo[area]?.map(({ id, content }, index) =>
+          //   dragMode ? (
+          //     <DraggableTodo
+          //       key={id}
+          //       toDoId={id}
+          //       toDoContent={content}
+          //       target={area}
+          //       handleFocus={handleFocus}
+          //       inputRef={inputRef}
+          //       index={index}
+          //       deleteMode={deleteMode}
+          //       checkDelete={checkDelete}
+          //     />
+          //   ) : (
+          //     <TodoCheckBox
+          //       key={id}
+          //       toDoId={id}
+          //       toDoContent={content}
+          //       target={area}
+          //       handleFocus={handleFocus}
+          //       inputRef={inputRef}
+          //       index={index}
+          //       deleteMode={deleteMode}
+          //       checkDelete={checkDelete}
+          //     />
+          //   ),
+          // )
         }
         {dragMode && children}
       </Wrapper>
