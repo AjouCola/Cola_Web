@@ -6,6 +6,7 @@ import { theme } from '@styles/theme';
 
 const SubmitBtn = styled(Button)<{ size: 'small' | 'medium' }>`
   border-radius: 43px;
+  width: 100%;
   box-shadow: 0px 0px 5px ${({ theme }) => theme.colors.shadow};
   min-width: ${({ size }) => (size === 'medium' ? '16vw' : '6vw')};
   padding: ${({ size }) => (size === 'medium' ? '16px 4px' : '4px')};

@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import { theme } from '@styles/theme';
+
 const Container = styled.div`
   box-shadow: inset 0px 0px 6px ${({ theme }) => theme.colors.shadow};
   grid-area: contents;
@@ -13,6 +15,12 @@ const VerticalLine = styled.div`
   width: 1px;
   border: 0.5px solid;
   opacity: 50%;
+  @media (max-width: ${theme.breakpoints.md}) {
+    display: none;
+  }
+  @media (max-width: ${theme.breakpoints.sm}) {
+    display: none;
+  }
 `;
 
 export { Container, VerticalLine };

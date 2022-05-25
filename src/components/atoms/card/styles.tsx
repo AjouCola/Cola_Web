@@ -57,6 +57,12 @@ const IconWrapper = styled.div`
   right: 0px;
   top: 0px;
   justify-content: space-between;
+  svg:nth-of-type(1) {
+    cursor: pointer;
+  }
+  svg:nth-of-type(1):hover {
+    opacity: 0.7;
+  }
 `;
 
 export { Container, UserProfile, CardWrapper, TextWrapper, IconWrapper };

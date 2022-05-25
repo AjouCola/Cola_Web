@@ -16,19 +16,19 @@ const categories = [
   {
     id: 1,
     title: '자유게시판',
-    link: '/board',
+    link: '/board/common',
     icon: <FreeBoardIcon />,
   },
   {
     id: 2,
     title: '질문게시판',
-    link: '/board',
+    link: '/board/qna',
     icon: <QuestionBoardIcon />,
   },
   {
     id: 3,
     title: '정보게시판',
-    link: '/board',
+    link: '/board/info',
     icon: <InfoBoardIcon />,
   },
   {

@@ -21,14 +21,14 @@ import HeartIcon from '@assets/icon/heart_small.svg';
 import ViewIcon from '@assets/icon/view_small.svg';
 import { IBoardItem } from '~/types/board';
 
-const BoardPreviewItem = ({ id }: IBoardItem) => {
+const BoardPreviewItem = ({ id, title, username, createdAt }: IBoardItem) => {
   const router = useRouter();
   return (
     <Container onClick={() => router.push(`/board/${id}`)}>
       <Thumbnail />
       <TextWrapper>
         <TopContent>
-          <Title>글 제목</Title>
+          <Title>{title}</Title>
         </TopContent>
         <Divider />
         <BodyText>글 내용</BodyText>
@@ -39,8 +39,8 @@ const BoardPreviewItem = ({ id }: IBoardItem) => {
                 <img src="" alt="" />
               </ProfileThumb>
             </a>
-            <span style={{ flexBasis: '100%' }}>username</span>
-            <p style={{ width: '200px' }}>2022년 03월 12일</p>
+            <span style={{ flexBasis: '100%' }}>{username}</span>
+            <p style={{ width: '200px' }}>{createdAt.slice(0, 10)}</p>
           </WriterDescription>
           <BoardDescription>
             <Likes style={{ gap: 5, fontSize: 15 }}>

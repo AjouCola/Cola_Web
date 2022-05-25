@@ -15,6 +15,9 @@ const AuthBtn = styled(Button)`
   font-weight: 600;
   color: white;
   background-color: ${theme.colors.blue[500]};
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export default AuthBtn;

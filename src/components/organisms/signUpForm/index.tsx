@@ -38,6 +38,7 @@ const MajorSelectBox = ({ major, handleModalOnOff, register }: SelectBoxProps) =
 const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
   const [checkEmail, setCheckEmail] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(false);
+  const [emailCheckLoading, setEmailCheckLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -53,6 +54,7 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
   });
 
   const onClickEmailAuth = async (e: MouseEvent<HTMLButtonElement>) => {
+    if (emailCheckLoading) return; // 로딩중에는 동작 막아도 된다.
     e.preventDefault();
     // onSubmit이 아니기때문에 validation을 trigger한다.
     const result = await trigger('email');
@@ -63,9 +65,11 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
     if (!checkEmail) {
       // 이메일 인증 필요
       try {
-        const data = await Auth.checkEmail(emailValue);
-        console.log('checkEmail data:', data);
+        setEmailCheckLoading(true);
         setCheckEmail(true);
+        const data = await Auth.checkEmail(emailValue);
+        setEmailCheckLoading(false);
+        console.log('checkEmail data:', data);
       } catch (err) {
         console.log(err);
       }
@@ -80,7 +84,6 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
       } catch (err) {
         console.log(err);
       }
-      // TODO: email code 비교 및 체크하기
     }
   };
 
@@ -112,6 +115,7 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
           {...register('email', SignUpData.email)}
           error={errors.email?.message}
           onChange={handleChange}
+          authBtnSuspense={emailCheckLoading}
         />
         {isEmailValid && <CheckIcon />}
       </FlexDiv>
@@ -140,6 +144,16 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
         {...register('gitEmailId', SignUpData.gitEmailId)}
         error={errors.gitEmailId?.message}
       />
+      <FlexDiv direction="column" style={{ gap: '0.5rem' }}>
+        <FlexDiv direction="row" style={{ alignItems: 'center', gap: '0.5rem' }}>
+          <input type="checkbox" name="" id="policy" />
+          <label htmlFor="policy">이용약관 동의</label>
+        </FlexDiv>
+        <FlexDiv direction="row" style={{ alignItems: 'center', gap: '0.5rem' }}>
+          <input type="checkbox" name="" id="privacy" />
+          <label htmlFor="privacy">개인정보 이용 동의</label>
+        </FlexDiv>
+      </FlexDiv>
       <SubmitBtn size="medium">SAVE</SubmitBtn>
     </SignUpFormStyle>
   );

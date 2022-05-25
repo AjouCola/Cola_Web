@@ -18,7 +18,7 @@ import Preview from 'public/preview.svg';
 import PreviewCheck from 'public/preview_check.svg';
 import { InputProps } from '~/types/write';
 
-const Write = () => {
+const WritePost = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) => {
   const router = useRouter();
   const [editMode, setEditMode] = useState<typeof MODE[number]>('all');
   const [chipList, setChipList] = useState<string[]>([]);
@@ -40,16 +40,17 @@ const Write = () => {
   // const
   const onSubmit = async () => {
     // console.log(inputRef.current[WRITE_REF.title]?.value, editorContent);
-    const res = await Board.create({ content: editorContent, title: inputRef.current[WRITE_REF.title]?.value }).catch(
-      (err) => {
-        console.log(err);
-      },
-    );
-    if (!res) router.push('/board');
+    const res = await Board.create({
+      content: editorContent,
+      title: inputRef.current[WRITE_REF.title]?.value,
+      boardCategory,
+    }).catch((err) => {
+      console.log(err);
+    });
+    if (!res) router.push('/board/' + boardCategory);
   };
   return (
     <Container>
-      {/* <h2>글쓰기</h2> */}
       <TitleInput {...InputProps.title} ref={(el) => selectRef(el)(WRITE_REF.title)} autoFocus />
       <Wrapper style={{ gridArea: 'mode' }}>
         <div onClick={() => handleChangeMode('edit')}>{editMode === 'edit' ? <EditCheck /> : <Edit />}</div>
@@ -79,4 +80,4 @@ const Write = () => {
     </Container>
   );
 };
-export default Write;
+export default WritePost;

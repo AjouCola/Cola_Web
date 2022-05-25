@@ -2,23 +2,24 @@ import '@styles/globals.css';
 
 import { ThemeProvider } from '@emotion/react';
 import type { AppProps } from 'next/app';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
 
 import Layout from '@components/Layout';
-import { userState } from '@store/user';
 import { theme } from '@styles/theme';
-import User from '@utils/api/User';
-import { getCookies } from '@utils/cookie';
 
+const queryClient = new QueryClient();
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider theme={theme}>
-      <RecoilRoot>
-        <Layout>
-          <Component {...pageProps}></Component>
-        </Layout>
-      </RecoilRoot>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <RecoilRoot>
+          <Layout>
+            <Component {...pageProps}></Component>
+          </Layout>
+        </RecoilRoot>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
 
