@@ -81,7 +81,7 @@ const HashtagWrapper = styled.div`
 `;
 
 const HistoryWrapper = styled.div`
-  max-height: 20rem;
+  max-height: 19rem;
   overflow-y: scroll;
   padding: 0.5rem 0;
   &::-webkit-scrollbar {
