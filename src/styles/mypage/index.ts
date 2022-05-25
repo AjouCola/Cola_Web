@@ -4,7 +4,6 @@ import { theme } from '@styles/theme';
 
 const Container = styled.div`
   display: grid;
-  padding: 1rem;
 
   box-sizing: border-box;
   grid-template:
