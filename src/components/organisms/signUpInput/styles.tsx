@@ -38,10 +38,10 @@ const rotate = keyframes`
   } 
   
 `;
-const Spinner = styled.span`
-  height: 1.6rem;
-  width: 1.6rem;
-  color: #b2c9ff80;
+const Spinner = styled.span<{ size?: string; color?: string }>`
+  height: ${({ size }) => (!size ? '1.6rem' : size)};
+  width: ${({ size }) => (!size ? '1.6rem' : size)};
+  color: ${({ color }) => (!color ? '#b2c9ff80' : color)};
   position: relative;
   display: inline-block;
   border: 5px solid;
