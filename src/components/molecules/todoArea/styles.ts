@@ -16,8 +16,8 @@ const Wrapper = styled.div`
   background: none;
   color: white;
   font-size: 1rem;
+  row-gap: 1rem;
   font-weight: 500;
-  gap: 0.2rem;
 `;
 
 const FolderTitleWrapper = styled.div`

@@ -3,6 +3,9 @@ import styled from '@emotion/styled';
 import { theme } from '@styles/theme';
 
 const FolderPropertyContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
   p {
     color: white;
   }

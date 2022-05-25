@@ -37,6 +37,9 @@ const TodoInfoWrapper = styled.div`
   margin-bottom: 1rem;
   padding: 1rem 0;
   border-bottom: 2px solid white;
+  span {
+    font-size: 2.4rem;
+  }
 `;
 
 const Title = styled.span`
@@ -113,7 +116,16 @@ const FolderItemContainer = styled.div`
   flex-direction: column;
   row-gap: 1rem;
   max-height: 20vh;
-  overflow: auto;
+  overflow-y: scroll;
+  padding: 0px 0.4rem;
+  &::-webkit-scrollbar {
+    width: 7px;
+  }
+  &::-webkit-scrollbar-thumb {
+    width: 6px;
+    background: #eee;
+    border-radius: 4px;
+  }
 `;
 
 const Line = styled.div`

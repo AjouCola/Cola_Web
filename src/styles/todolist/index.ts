@@ -5,9 +5,9 @@ const Container = styled.div`
   display: grid;
   grid-template:
     'calender content' 1fr
-    /5fr 4fr;
+    /6fr 5fr;
   align-items: flex-start;
-  width: 80%;
+  width: 90%;
   margin: auto 0;
   box-shadow: 0px 0px 6px ${({ theme: { colors } }) => colors.shadow};
   position: relative;
@@ -48,7 +48,7 @@ const BackgroundSecondView = styled(BackgroundView)`
 const CalendarContainer = styled.div<{ flag: boolean }>`
   grid-area: calender;
   width: 100%;
-  padding: 5rem 1rem;
+  padding: 5rem 2rem;
   z-index: 3;
   background: white;
   border-radius: 5px 0px 0px 5px;
