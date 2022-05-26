@@ -145,7 +145,7 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
                     createdAt={post.createdDate}
                   />
                 )}
-                {boardType === BoardLayout.TILE && (
+                {boardType === BoardLayout.SIMPLE_LIST && (
                   <BoardSimpleItem
                     key={post.postId}
                     id={post.postId}
