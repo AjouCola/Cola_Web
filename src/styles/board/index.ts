@@ -20,7 +20,7 @@ const BoardList = styled.div<BoardListProps>`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: ${({ type }) => (type === BoardLayout.SIMPLE_LIST ? '50px' : '1.2rem')};
+  gap: ${({ type }) => (type === BoardLayout.SIMPLE_LIST ? '1rem' : '1.2rem')};
 `;
 
 const BoardListTitle = styled.h2`
