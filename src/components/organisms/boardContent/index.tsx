@@ -81,12 +81,12 @@ const BoardContent = ({ title, userName, content, createdDate, modifiedDate }: P
         <Logo />
       </Header>
       <Content>
-        <div>
+        <div style={{ paddingTop: '3rem' }}>
           <Title>{title}</Title>
           <ContentDetail>
             <ContentDetailRow>
               <span>
-                {createdDate}
+                {createdDate.slice(0, 10)}
                 {createdDate !== modifiedDate ? '(수정됨)' : ''}
               </span>
               <DetailInfoWrapper>
@@ -106,11 +106,14 @@ const BoardContent = ({ title, userName, content, createdDate, modifiedDate }: P
               <DetailInfoWrapper>
                 <HeartBig />
                 <CommentBig />
+                <span style={{ fontSize: '1.2rem', cursor: 'pointer' }}>...</span>
               </DetailInfoWrapper>
             </ContentDetailRow>
           </ContentDetail>
         </div>
-        <TextArea>{content}</TextArea>
+        <TextArea>
+          <pre>{content}</pre>
+        </TextArea>
         <HashTagBar
           data={[
             'java',

@@ -108,7 +108,7 @@ const BoardDetail = () => {
 
   if (isLoading) return <div>Loading...</div>;
   return (
-    <div style={{ maxWidth: '1200px' }}>
+    <div style={{ maxWidth: '1200px', width: '100%', padding: '4rem 2rem' }}>
       <BoardContent
         title={postData.title}
         content={postData.content}

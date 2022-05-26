@@ -5,13 +5,16 @@ import { theme } from '@styles/theme';
 const Container = styled.div`
   border-radius: 24px;
   box-shadow: 0px 0px 6px ${theme.colors.shadow};
+  padding: 4rem 2rem;
 `;
 
 const Header = styled.h2`
-  width: 1200px;
-  height: 151px;
-  padding: calc((151px - 3rem) / 2 - 0.5rem);
-  padding-bottom: 0;
+  width:100%;
+  height: 8rem;
+  padding: height: 8rem;
+  padding: 2.2rem;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
   outline: none;
   align-items: center;
   font-size: 3rem;
@@ -37,8 +40,9 @@ const ContentDetail = styled.div`
 const ContentDetailRow = styled.div`
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   padding: 0.5rem 0;
   border-bottom: 2px solid ${({ theme }) => theme.colors.blue[400]};
   &:nth-last-of-type(1) {
@@ -49,21 +53,28 @@ const DetailInfoWrapper = styled.div`
   display: flex;
   align-items: center;
   column-gap: 1rem;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: medium;
+  padding-top: 1rem;
 `;
 const Title = styled.h3`
   color: ${({ theme }) => theme.colors.blue[500]};
-  font-size: 43px;
+  font-size: 2rem;
   letter-spacing: 0;
   margin: 0;
   font-weight: 500;
 `;
 
 const TextArea = styled.div`
+  overflow: hidden;
   border: 10px;
-  min-height: 80vh;
+  padding: 2rem;
+  min-height: 30vh;
   box-shadow: inset 0px 0px 6px ${theme.colors.shadow};
+
+  pre {
+    white-space: pre-wrap;
+  }
 `;
 
 const HashTagBarStyle = styled.div`
