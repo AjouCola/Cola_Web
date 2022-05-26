@@ -71,9 +71,7 @@ const TextArea = styled.div`
   min-height: 30vh;
   box-shadow: inset 0px 0px 6px ${theme.colors.shadow};
 
-  pre {
-    white-space: pre-wrap;
-  }
+  white-space: pre-wrap;
 `;
 
 const HashTagBarStyle = styled.div`

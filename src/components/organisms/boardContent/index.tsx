@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import { useRouter } from 'next/router';
+
 import {
   Container,
   Header,
@@ -18,6 +20,7 @@ import HashtagChip from '@atoms/hashtagChip';
 import UserDefault from '@components/atoms/icon/userDefault';
 import Comment from 'public/comment.svg';
 import CommentBig from 'public/comment_Big.svg';
+import Edit from 'public/edit.svg';
 import Heart from 'public/heart.svg';
 import HeartBig from 'public/heart_Big.svg';
 import LeftArrow from 'public/left_arrow.svg';
@@ -75,6 +78,14 @@ const HashTagBar = ({ data }: { data: string[] }) => {
 };
 
 const BoardContent = ({ title, userName, content, createdDate, modifiedDate }: Props) => {
+  const router = useRouter();
+
+  const onClickEdit = () => {
+    console.log('click');
+
+    router.push('/board/edit/' + router.query.id);
+  };
+
   return (
     <Container>
       <Header>
@@ -106,14 +117,12 @@ const BoardContent = ({ title, userName, content, createdDate, modifiedDate }: P
               <DetailInfoWrapper>
                 <HeartBig />
                 <CommentBig />
-                <span style={{ fontSize: '1.2rem', cursor: 'pointer' }}>...</span>
+                <Edit onClick={onClickEdit} />
               </DetailInfoWrapper>
             </ContentDetailRow>
           </ContentDetail>
         </div>
-        <TextArea>
-          <pre>{content}</pre>
-        </TextArea>
+        <TextArea>{content}</TextArea>
         <HashTagBar
           data={[
             'java',
