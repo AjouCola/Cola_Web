@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import { marked } from 'marked';
 import { useRouter } from 'next/router';
 
 import {
@@ -122,7 +123,7 @@ const BoardContent = ({ title, userName, content, createdDate, modifiedDate }: P
             </ContentDetailRow>
           </ContentDetail>
         </div>
-        <TextArea>{content}</TextArea>
+        <TextArea dangerouslySetInnerHTML={{ __html: marked(content) }}></TextArea>
         <HashTagBar
           data={[
             'java',
