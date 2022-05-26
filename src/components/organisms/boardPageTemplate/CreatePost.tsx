@@ -37,9 +37,7 @@ const WritePost = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna'
 
   const deleteChip = (index: number) => setChipList(chipList.filter((v, i) => i !== index));
 
-  // const
   const onSubmit = async () => {
-    // console.log(inputRef.current[WRITE_REF.title]?.value, editorContent);
     const res = await Board.create({
       content: editorContent,
       title: inputRef.current[WRITE_REF.title]?.value,
@@ -47,7 +45,7 @@ const WritePost = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna'
     }).catch((err) => {
       console.log(err);
     });
-    if (!res) router.push('/board/' + boardCategory);
+    if (res) router.push('/board/' + boardCategory + '/' + res);
   };
   return (
     <Container>
