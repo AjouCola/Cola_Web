@@ -18,6 +18,7 @@ import BoardSimpleItem from '@molecules/boardType/boardSimpleItem';
 import {
   Container,
   BoardList,
+  TitleWrapper,
   BoardListTitle,
   BoardListUtilWrapper,
   WritePost,
@@ -78,7 +79,7 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
 
   return (
     <Container>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <TitleWrapper>
         <BoardListTitle>
           {boardCategory === 'common' ? '자유' : boardCategory === 'info' ? '정보' : '질문'}게시판
         </BoardListTitle>
@@ -89,30 +90,32 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
             </Link>
           </FlexEnd>
           <FlexEnd>
-            <select name="" id="">
-              <option value="recent">최신순</option>
-              <option value="popular">인기순</option>
-            </select>
-          </FlexEnd>
-          <FlexEnd>
-            <TypeIcon clicked={boardType === BoardLayout.TILE} onClick={() => setBoardType(BoardLayout.TILE)}>
-              <GridType />
-            </TypeIcon>
-            <TypeIcon
-              clicked={boardType === BoardLayout.PREVIEW_LIST}
-              onClick={() => setBoardType(BoardLayout.PREVIEW_LIST)}
-            >
-              <ListType />
-            </TypeIcon>
-            <TypeIcon
-              clicked={boardType === BoardLayout.SIMPLE_LIST}
-              onClick={() => setBoardType(BoardLayout.SIMPLE_LIST)}
-            >
-              <SimpleType />
-            </TypeIcon>
+            <FlexEnd>
+              <select name="" id="">
+                <option value="recent">최신순</option>
+                <option value="popular">인기순</option>
+              </select>
+            </FlexEnd>
+            <FlexEnd>
+              <TypeIcon clicked={boardType === BoardLayout.TILE} onClick={() => setBoardType(BoardLayout.TILE)}>
+                <GridType />
+              </TypeIcon>
+              <TypeIcon
+                clicked={boardType === BoardLayout.PREVIEW_LIST}
+                onClick={() => setBoardType(BoardLayout.PREVIEW_LIST)}
+              >
+                <ListType />
+              </TypeIcon>
+              <TypeIcon
+                clicked={boardType === BoardLayout.SIMPLE_LIST}
+                onClick={() => setBoardType(BoardLayout.SIMPLE_LIST)}
+              >
+                <SimpleType />
+              </TypeIcon>
+            </FlexEnd>
           </FlexEnd>
         </BoardListUtilWrapper>
-      </div>
+      </TitleWrapper>
       <section>
         {isLoading && (
           <BoardList type={boardType}>

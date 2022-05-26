@@ -23,16 +23,30 @@ const BoardList = styled.div<BoardListProps>`
   gap: ${({ type }) => (type === BoardLayout.SIMPLE_LIST ? '1rem' : '1.2rem')};
 `;
 
+const TitleWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    flex-direction: column;
+    gap: 1rem;
+  }
+`;
 const BoardListTitle = styled.h2`
   font-size: 2.4rem;
   color: ${({ theme: { colors } }) => colors.blue[500]};
   padding: 0;
   margin: 0;
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    font-size: 1.8rem;
+  }
 `;
 const FlexEnd = styled.div`
   display: flex;
   align-items: flex-end;
   gap: 1rem;
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    flex-wrap: wrap;
+  }
 `;
 const BoardListUtilWrapper = styled(FlexEnd)`
   padding-bottom: 0.2rem;
@@ -45,6 +59,10 @@ const BoardListUtilWrapper = styled(FlexEnd)`
     font-weight: 500;
     font-size: 0.9rem;
     margin-bottom: 0.2rem;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    justify-content: space-between;
   }
 `;
 
@@ -69,5 +87,9 @@ const WritePost = styled.div`
     background: ${({ theme: { colors } }) => colors.blue[400]};
     color: white;
   }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    font-size: 1.1rem;
+  }
 `;
-export { Container, BoardList, BoardListTitle, WritePost, FlexEnd, BoardListUtilWrapper, TypeIcon };
+export { Container, BoardList, TitleWrapper, BoardListTitle, WritePost, FlexEnd, BoardListUtilWrapper, TypeIcon };
