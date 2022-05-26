@@ -2,14 +2,19 @@ import { useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
 import { NextPageContext } from 'next';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import { useRecoilValue } from 'recoil';
 
 import UserDefault from '@atoms/icon/userDefault';
 import BoardContent from '@organisms/boardContent';
 import Comment from '@organisms/comment';
+import { userState } from '@store/user';
 import { theme } from '@styles/theme';
 import { Board as BoardApi } from '@utils/api/Board';
 import { CommentApi } from '@utils/api/Comment';
+
+const CommentEditor = dynamic(() => import('../../components/molecules/editor/commentEditor'), { ssr: false });
 
 const Container = styled.div`
   margin: 2rem 1rem;
@@ -22,7 +27,26 @@ const CommentInput = styled.input`
   border: none;
   border-bottom: 2px solid ${theme.colors.blue[500]};
 `;
-
+const BtnWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem 0;
+`;
+const CommentSubmitBtn = styled.button`
+  padding: 0.5rem 1rem;
+  justify-self: flex-end;
+  border-radius: 14px;
+  border: none;
+  background: ${({ theme: { colors } }) => colors.blue[500]};
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 150ms linear;
+  &:hover {
+    background: ${({ theme: { colors } }) => colors.blue[400]};
+  }
+`;
 const CommentWrapper = styled.div``;
 
 interface IUserInfo {
@@ -52,11 +76,12 @@ interface ICommentFormProps {
 const CommentForm = ({ onAddComment, getPostData }: ICommentFormProps) => {
   const router = useRouter();
   const { id } = router.query;
+  const userInfo = useRecoilValue(userState);
   const [comment, setComment] = useState('');
 
   const onSubmit = async () => {
     console.log(comment);
-    if (id) {
+    if (id && comment.trim().length > 0) {
       const {
         commentId,
         content,
@@ -66,13 +91,14 @@ const CommentForm = ({ onAddComment, getPostData }: ICommentFormProps) => {
       getPostData();
     }
   };
+
   return (
     <Container>
-      <div style={{ display: 'flex', columnGap: '1rem' }}>
+      <div style={{ display: 'flex', columnGap: '1rem', paddingBottom: '1rem' }}>
         <UserDefault />
-        <p>작성자 이름</p>
+        <p style={{ fontSize: '1.2rem' }}>{userInfo?.name ?? '유저'}</p>
       </div>
-      <CommentInput
+      {/* <CommentInput
         placeholder="댓글 추가 .."
         value={comment}
         onChange={(e) => setComment(e.currentTarget.value)}
@@ -81,7 +107,11 @@ const CommentForm = ({ onAddComment, getPostData }: ICommentFormProps) => {
             onSubmit();
           }
         }}
-      />
+      /> */}
+      <CommentEditor setComment={setComment} />
+      <BtnWrapper>
+        <CommentSubmitBtn onClick={onSubmit}>작성</CommentSubmitBtn>
+      </BtnWrapper>
     </Container>
   );
 };

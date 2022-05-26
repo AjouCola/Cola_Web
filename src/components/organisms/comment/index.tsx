@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { marked } from 'marked';
 
 import UserDefault from '@components/atoms/icon/userDefault';
 import { FlexDiv } from '@styles/index';
@@ -16,7 +17,7 @@ const Container = styled.div`
   margin-bottom: 2rem;
 `;
 
-const ContentArea = styled.p`
+const ContentArea = styled.div`
   min-height: 8vh;
   background: ${theme.colors.white};
   border-radius: 10px;
@@ -36,7 +37,7 @@ const Comment = ({ name, contents }: Props) => {
         <UserDefault />
         <p>{name || '댓글 작성자 이름'}</p>
       </FlexDiv>
-      <ContentArea>{contents}</ContentArea>
+      <ContentArea dangerouslySetInnerHTML={{ __html: marked(contents) }}></ContentArea>
     </Container>
   );
 };
