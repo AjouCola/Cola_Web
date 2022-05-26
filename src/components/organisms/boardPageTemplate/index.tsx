@@ -125,37 +125,36 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
                 <p>게시글이 없습니다.</p>
               </div>
             ) : null}
-            {posts.map((post, i) => (
-              <>
-                {boardType === BoardLayout.TILE && (
-                  <BoardCard
-                    key={post.postId}
-                    id={post.postId}
-                    title={post.title}
-                    username={post.userInfo.userName}
-                    createdAt={post.createdDate}
-                  />
-                )}
-                {boardType === BoardLayout.PREVIEW_LIST && (
-                  <BoardPreviewItem
-                    key={post.postId}
-                    title={post.title}
-                    id={post.postId}
-                    username={post.userInfo.userName}
-                    createdAt={post.createdDate}
-                  />
-                )}
-                {boardType === BoardLayout.SIMPLE_LIST && (
-                  <BoardSimpleItem
-                    key={post.postId}
-                    id={post.postId}
-                    title={post.title}
-                    username={post.userInfo.userName}
-                    createdAt={post.createdDate}
-                  />
-                )}
-              </>
-            ))}
+            {boardType === BoardLayout.TILE &&
+              posts.map((post, i) => (
+                <BoardCard
+                  key={post.postId}
+                  id={post.postId}
+                  title={post.title}
+                  username={post.userInfo.userName}
+                  createdAt={post.createdDate}
+                />
+              ))}
+            {boardType === BoardLayout.PREVIEW_LIST &&
+              posts.map((post, i) => (
+                <BoardPreviewItem
+                  key={post.postId}
+                  title={post.title}
+                  id={post.postId}
+                  username={post.userInfo.userName}
+                  createdAt={post.createdDate}
+                />
+              ))}
+            {boardType === BoardLayout.SIMPLE_LIST &&
+              posts.map((post, i) => (
+                <BoardSimpleItem
+                  key={post.postId}
+                  id={post.postId}
+                  title={post.title}
+                  username={post.userInfo.userName}
+                  createdAt={post.createdDate}
+                />
+              ))}
           </BoardList>
         )}
       </section>
