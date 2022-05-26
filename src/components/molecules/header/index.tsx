@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
 
-import { route } from 'next/dist/server/router';
 import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
 
