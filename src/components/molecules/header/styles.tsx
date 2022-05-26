@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 import { theme } from '@styles/theme';
 
-const Container = styled.div`
+const Container = styled.div<{ isTransparent: boolean }>`
   width: 100vw;
   height: 5rem;
   padding: 50px 20px 50px 53px;
@@ -11,6 +11,8 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   transition: all 200ms linear;
+  background: ${({ isTransparent }) => (isTransparent ? '' : 'white')};
+  box-shadow: ${({ isTransparent }) => (isTransparent ? 'none' : 'rgb(0 0 0 / 8%) 0px 0px 8px')};
   @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.md}) {
     padding-top: 2.6rem;
   }

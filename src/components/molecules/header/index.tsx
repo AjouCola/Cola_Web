@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 
+import { route } from 'next/dist/server/router';
 import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
 
@@ -34,6 +35,12 @@ const Header = () => {
   const notifyRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   const [profileMenu, setProfileMenu] = useState(false);
   const [notifyMenu, setNotifyMenu] = useState(false);
+
+  const [isTransparent, setIsTransparent] = useState(false);
+  useEffect(() => {
+    if (router.route === '/') setIsTransparent(true);
+    else setIsTransparent(false);
+  }, [router]);
 
   useEffect(() => {
     const handleRouteChange = () => {
@@ -107,7 +114,7 @@ const Header = () => {
     ));
 
   return (
-    <Container>
+    <Container isTransparent={isTransparent}>
       <SideBar />
       <TitleWrapper>
         <Title onClick={() => router.push('/')}>
