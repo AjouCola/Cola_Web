@@ -56,7 +56,7 @@ const Mypage: NextPage = () => {
             ]}
           />
           <PostContent
-            title="내가 쓴 좋아요한 게시글"
+            title="좋아요한 게시글"
             postData={[
               { title: '제목', kind: '00게시판', date: new Date() },
               { title: '제목', kind: '00게시판', date: new Date() },
