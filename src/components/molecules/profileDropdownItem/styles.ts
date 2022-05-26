@@ -37,6 +37,7 @@ export const DateText = styled.span`
 `;
 export const TitleWrapper = styled.div`
   flex: 1;
+  width: fit-content;
   padding: 0.2rem 0.6rem;
   background: ${({ theme: { colors } }) => colors.blue[10]};
   border-radius: 14px;
