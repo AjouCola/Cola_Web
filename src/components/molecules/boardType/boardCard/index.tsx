@@ -32,9 +32,6 @@ const BoardCard = ({ id, username, createdAt, title }: IBoardItem) => {
         <a href="#" style={{ height: '70%', display: 'block', color: 'inherit', textDecoration: 'none' }}>
           <BoardImage>{/* <img src={} alt="" /> */}</BoardImage>
         </a>
-        <div style={{ padding: '5px 0', display: 'flex', justifyContent: 'center' }}>
-          <Divider />
-        </div>
         <TextWrapper>
           <a href="#">
             <Title>{title}</Title>

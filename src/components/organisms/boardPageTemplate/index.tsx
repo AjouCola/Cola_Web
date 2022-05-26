@@ -41,6 +41,7 @@ interface IQueryPage {
   nextPage: number | null;
   isLast: boolean;
 }
+
 const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) => {
   const { ref, inView, entry } = useInView();
   const router = useRouter();

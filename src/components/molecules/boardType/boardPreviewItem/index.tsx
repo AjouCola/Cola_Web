@@ -1,7 +1,5 @@
 import { useRouter } from 'next/router';
 
-import { Likes, Views, Comments } from '../boardCard/styles';
-
 import {
   Container,
   TextWrapper,
@@ -14,10 +12,12 @@ import {
   Divider,
   ProfileThumb,
   BoardDescription,
+  LikeWrapper,
 } from './styles';
 
 import CommentIcon from '@assets/icon/comment_small.svg';
 import HeartIcon from '@assets/icon/heart_small.svg';
+import UserIcon from '@assets/icon/userDefault.svg';
 import ViewIcon from '@assets/icon/view_small.svg';
 import { IBoardItem } from '~/types/board';
 
@@ -25,7 +25,7 @@ const BoardPreviewItem = ({ id, title, username, createdAt }: IBoardItem) => {
   const router = useRouter();
   return (
     <Container onClick={() => router.push(`/board/${id}`)}>
-      <Thumbnail />
+      <Thumbnail></Thumbnail>
       <TextWrapper>
         <TopContent>
           <Title>{title}</Title>
@@ -36,25 +36,26 @@ const BoardPreviewItem = ({ id, title, username, createdAt }: IBoardItem) => {
           <WriterDescription>
             <a style={{ display: 'inline-block' }}>
               <ProfileThumb>
-                <img src="" alt="" />
+                <UserIcon />
+                {/* <img src="" alt="" /> */}
               </ProfileThumb>
             </a>
-            <span style={{ flexBasis: '100%' }}>{username}</span>
-            <p style={{ width: '200px' }}>{createdAt.slice(0, 10)}</p>
+            <span>{username}</span>
+            <p>{createdAt.slice(0, 10)}</p>
           </WriterDescription>
           <BoardDescription>
-            <Likes style={{ gap: 5, fontSize: 15 }}>
+            <LikeWrapper>
               <HeartIcon />
               <span>13</span>
-            </Likes>
-            <Comments style={{ gap: 5, fontSize: 15 }}>
+            </LikeWrapper>
+            <LikeWrapper>
               <CommentIcon />
               <span>25</span>
-            </Comments>
-            <Views style={{ gap: 5, fontSize: 15 }}>
+            </LikeWrapper>
+            <LikeWrapper>
               <ViewIcon />
               <span>18</span>
-            </Views>
+            </LikeWrapper>
           </BoardDescription>
         </BottomContent>
       </TextWrapper>

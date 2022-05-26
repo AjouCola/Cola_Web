@@ -8,9 +8,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* gap: 10px; */
   border-radius: 22px 22px 0px 0px;
-  margin-bottom: 1.8rem;
+
   @media screen and(max-width:1025px) {
     width: 22rem;
     height: 28rem;
@@ -31,7 +30,6 @@ const BoardContent = styled.div`
   border-radius: 22px;
   box-shadow: 0px 0px 6px ${({ theme }) => theme.colors.shadow};
   transform: translateY(0) translateX(0);
-  /* transition: all 200ms ease-in-out; */
 
   transition: box-shadow 0.2s ease-in 0s, transform 0.2s ease-in 0s;
   display: flex;
@@ -46,7 +44,7 @@ const BoardContent = styled.div`
 
 const BoardImage = styled.div`
   border-radius: 22px;
-  background: ${({ theme: { colors } }) => `linear-gradient(to top,${colors.blue[500]}, 60%, white)`};
+  background: ${({ theme: { colors } }) => `linear-gradient(to top,${colors.blue[500]}, 50%, #c2d2f7)`};
   width: 100%;
   height: 100%;
   position: relative;
@@ -142,6 +140,9 @@ const UserInfo = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  svg {
+    width: 80%;
+  }
   // img {
   //   width: 38px;
   //   height: 38px;
