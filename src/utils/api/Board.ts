@@ -7,9 +7,7 @@ interface ICreatePost {
 }
 export const Board = {
   async create({ content, title, boardCategory }: ICreatePost) {
-    return await Api.post(`/api/v1/posts`, { content, title, category: boardCategory }).catch((err) =>
-      console.error(err),
-    );
+    return await Api.post(`/api/v1/posts/` + boardCategory, { content, title }).catch((err) => console.error(err));
   },
   async get(postId: number) {
     //
