@@ -5,7 +5,6 @@ import { theme } from '@styles/theme';
 const Container = styled.div`
   border-radius: 24px;
   box-shadow: 0px 0px 6px ${theme.colors.shadow};
-  padding: 4rem 2rem;
 `;
 
 const Header = styled.h2`
