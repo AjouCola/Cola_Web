@@ -6,7 +6,7 @@ interface Props {
   name: string;
   department: string;
   ajouEmail: string;
-  githubEmail: string;
+  githubEmail: string | null;
   handleModalOnOff: () => void;
 }
 

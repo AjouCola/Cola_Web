@@ -6,9 +6,9 @@ export interface IUserInfo {
   id: number;
   role: string;
   email: string;
-  name: string | null;
+  name: string;
   ajouEmail: string;
-  gitEmail: string;
+  gitEmail: string | null;
   department: string;
   profilePath: string | null;
   roleKey: string;

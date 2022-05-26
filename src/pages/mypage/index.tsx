@@ -2,10 +2,12 @@ import { useState } from 'react';
 
 import type { NextPage } from 'next';
 import Link from 'next/link';
+import { useRecoilValue } from 'recoil';
 
 import Card from '@components/atoms/card';
 import Modal from '@components/molecules/modal';
 import PostContent from '@components/molecules/postContent';
+import { userState } from '@store/user';
 import { Container, Title, CardContainer, ContentContainer, BackgroundImage, ModalContainer } from '@styles/mypage';
 
 const data = {
@@ -16,6 +18,7 @@ const data = {
 };
 
 const Mypage: NextPage = () => {
+  const userInfo = useRecoilValue(userState);
   const [modalOnOff, setModalOnOff] = useState(false);
 
   const handleModalOnOff = () => setModalOnOff(!modalOnOff);
@@ -27,7 +30,13 @@ const Mypage: NextPage = () => {
           <BackgroundImage>
             <pre>{`캐릭터가\n명함을 쥐고\n매달려 있는 느낌`}</pre>
           </BackgroundImage>
-          <Card {...data} handleModalOnOff={handleModalOnOff} />
+          <Card
+            name={userInfo.name}
+            department={userInfo.department}
+            ajouEmail={userInfo.ajouEmail}
+            githubEmail={userInfo.gitEmail}
+            handleModalOnOff={handleModalOnOff}
+          />
         </CardContainer>
         <ContentContainer>
           <PostContent
