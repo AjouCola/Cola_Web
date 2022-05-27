@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import { Viewer } from '@toast-ui/react-editor';
 
-import CommentIcon from '@assets/icon/comment_small.svg';
-import Heart from '@assets/icon/heart_small.svg';
+import CommentIcon from '@assets/icon/comment_primary.svg';
+import Heart from '@assets/icon/heart_primary.svg';
 import UserDefault from '@components/atoms/icon/userDefault';
 import { FlexDiv } from '@styles/index';
 
@@ -46,14 +46,23 @@ const MenuBtnWrapper = styled.div`
   justify-content: space-evenly;
   align-items: center;
   box-shadow: inset 0 0 6px #00000029;
+  background: white;
   position: absolute;
   right: 1rem;
   top: 1rem;
+  svg:hover {
+    opacity: 0.8;
+  }
 `;
 const MenuBtn = styled.button`
   position: relative;
   color: ${({ theme: { colors } }) => colors.blue[500]};
   font-weight: 600;
+  border: none;
+  background: none;
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 const DropdownItem = styled.li`
   transition: background 150ms ease;
@@ -61,6 +70,14 @@ const DropdownItem = styled.li`
   text-align: center;
   &:hover {
     background: ${({ theme: { colors } }) => colors.blue[100]};
+  }
+  &:nth-of-type(1) {
+    border-top-right-radius: 14px;
+    border-top-left-radius: 14px;
+  }
+  &:nth-last-of-type(1) {
+    border-bottom-right-radius: 14px;
+    border-bottom-left-radius: 14px;
   }
 `;
 const CommentViewer = ({ name, content }: { name: string; content: string }) => {
