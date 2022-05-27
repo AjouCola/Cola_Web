@@ -10,19 +10,22 @@ import {
   ContentDetail,
   ContentDetailRow,
   DetailInfoWrapper,
+  DetailIconWrapper,
+  MenuBtn,
+  MenuDropdown,
   Title,
   TextArea,
   HashTagBarStyle,
   HashTagWrapper,
 } from './styles';
 
+import Heart from '@assets/icon/heart_primary.svg';
 import Logo from '@assets/icon/logo.svg';
 import HashtagChip from '@atoms/hashtagChip';
 import UserDefault from '@components/atoms/icon/userDefault';
 import Comment from 'public/comment.svg';
 import CommentBig from 'public/comment_Big.svg';
-import Edit from 'public/edit.svg';
-import Heart from 'public/heart.svg';
+// import Edit from 'public/edit.svg';
 import HeartBig from 'public/heart_Big.svg';
 import LeftArrow from 'public/left_arrow.svg';
 import RightArrow from 'public/right_arrow.svg';
@@ -81,10 +84,9 @@ const HashTagBar = ({ data }: { data: string[] }) => {
 const BoardContent = ({ title, userName, content, createdDate, modifiedDate }: Props) => {
   const router = useRouter();
 
-  const onClickEdit = () => {
-    console.log('click');
-
-    router.push('/board/edit/' + router.query.id);
+  const [menu, setMenu] = useState(false);
+  const onClickMenu = () => {
+    setMenu((prev) => !prev);
   };
 
   return (
@@ -115,11 +117,17 @@ const BoardContent = ({ title, userName, content, createdDate, modifiedDate }: P
                 <UserDefault />
                 <span>{userName}</span>
               </DetailInfoWrapper>
-              <DetailInfoWrapper>
+              <DetailIconWrapper>
                 <HeartBig />
                 <CommentBig />
-                <Edit onClick={onClickEdit} />
-              </DetailInfoWrapper>
+                <MenuBtn onClick={onClickMenu}>
+                  <span>•••</span>
+                  <MenuDropdown>
+                    <li>삭제</li>
+                    <li>수정</li>
+                  </MenuDropdown>
+                </MenuBtn>
+              </DetailIconWrapper>
             </ContentDetailRow>
           </ContentDetail>
         </div>

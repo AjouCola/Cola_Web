@@ -44,6 +44,9 @@ const ContentDetailRow = styled.div`
   align-items: flex-end;
   padding: 0.5rem 0;
   border-bottom: 2px solid ${({ theme }) => theme.colors.blue[400]};
+  span {
+    font-size: 1rem;
+  }
   &:nth-last-of-type(1) {
     border: none;
   }
@@ -54,7 +57,16 @@ const DetailInfoWrapper = styled.div`
   column-gap: 1rem;
   font-size: 1rem;
   font-weight: medium;
-  padding-top: 1rem;
+  padding: 0.5rem;
+  border-radius: 12px;
+
+  svg:hover {
+    opacity: 0.8;
+  }
+`;
+const DetailIconWrapper = styled(DetailInfoWrapper)`
+  background: white;
+  box-shadow: inset 0px 0px 6px #00000029;
 `;
 const Title = styled.h3`
   color: ${({ theme }) => theme.colors.blue[500]};
@@ -109,6 +121,40 @@ const HashTagWrapper = styled.div`
     padding: 1px 0;
   } */
 `;
+
+const MenuBtn = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: ${({ theme: { colors } }) => colors.blue[500]};
+  cursor: pointer;
+  font-size: 1.2rem;
+  position: relative;
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+const MenuDropdown = styled.ul`
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  border-radius: 14px;
+  box-shadow: 0 0 6px #00000029;
+  width: 7rem;
+
+  li {
+    width: 100%;
+    &:nth-of-type(1) {
+      border-top-right-radius: 14px;
+      border-top-left-radius: 14px;
+    }
+    &:nth-last-of-type(1) {
+      border-bottom-right-radius: 14px;
+      border-bottom-left-radius: 14px;
+    }
+  }
+`;
+
 export {
   Container,
   Header,
@@ -116,6 +162,9 @@ export {
   ContentDetail,
   ContentDetailRow,
   DetailInfoWrapper,
+  MenuBtn,
+  MenuDropdown,
+  DetailIconWrapper,
   Title,
   TextArea,
   HashTagBarStyle,
