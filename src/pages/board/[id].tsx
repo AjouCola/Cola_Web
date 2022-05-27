@@ -15,6 +15,7 @@ import { Board as BoardApi } from '@utils/api/Board';
 import { CommentApi } from '@utils/api/Comment';
 
 const CommentEditor = dynamic(() => import('../../components/molecules/editor/commentEditor'), { ssr: false });
+const CommentViewer = dynamic(() => import('../../components/molecules/editor/CommentViewer'), { ssr: false });
 
 const Container = styled.div`
   margin: 2rem 1rem;
@@ -152,8 +153,9 @@ const BoardDetail = () => {
       />
       {/* 추후 lazy loading 지원 예정  */}
       <CommentWrapper>
-        {comments.map(({ userInfo: { userName }, content }, idx) => (
-          <Comment key={idx} name={userName} contents={content} />
+        {comments.map(({ userInfo: { userName }, content, commentId }, idx) => (
+          // <Comment key={idx} name={userName} contents={content} />
+          <CommentViewer key={commentId} name={userName} content={content}></CommentViewer>
         ))}
         {comments.length === 0 && <p>댓글이 없습니다.</p>}
       </CommentWrapper>
