@@ -14,17 +14,18 @@ const Comment = styled.div`
   border-radius: 10px;
   background: ${({ theme: { colors } }) => colors.blue[10]};
   box-shadow: 0px 0px 6px ${({ theme: { colors } }) => colors.shadow};
+  margin-bottom: 1rem;
+  padding: 1rem 2rem;
 `;
 const CustomViewer = styled(Viewer)`
   min-height: 200px;
-  padding: 1rem 2rem;
-  margin-bottom: 1rem;
+  background: white;
+  border-radius: 14px;
 `;
 
 const UserWrapper = styled(FlexDiv)`
   align-items: center;
   gap: 1rem;
-  padding: 1rem;
   font-size: 1.2rem;
   position: relative;
 `;
@@ -48,10 +49,12 @@ const MenuBtnWrapper = styled.div`
   box-shadow: inset 0 0 6px #00000029;
   background: white;
   position: absolute;
-  right: 1rem;
-  top: 1rem;
+  top: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 14px;
   svg:hover {
     opacity: 0.8;
+    cursor: pointer;
   }
 `;
 const MenuBtn = styled.button`
@@ -61,6 +64,7 @@ const MenuBtn = styled.button`
   border: none;
   background: none;
   &:hover {
+    cursor: pointer;
     opacity: 0.8;
   }
 `;
@@ -107,6 +111,7 @@ const CommentViewer = ({ name, content }: { name: string; content: string }) => 
           </MenuBtn>
         </MenuBtnWrapper>
       </UserWrapper>
+
       <CustomViewer ref={viewerRef} initialValue={content} />
     </Comment>
   );
