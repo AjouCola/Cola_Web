@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 import { theme } from '@styles/theme';
 
 const Container = styled.div`
@@ -31,6 +32,18 @@ const Container = styled.div`
   }
 `;
 
+const EditorWrapper = styled.div`
+  box-shadow: inset 0px 0px 6px ${({ theme }) => theme.colors.shadow};
+  grid-area: contents;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding: 2vw;
+  & > div {
+    height: 100%;
+    width: 100%;
+  }
+`;
 const HashtagBar = styled.div`
   grid-area: hashtagBar;
   border-radius: 30px;
@@ -75,10 +88,11 @@ const TitleInput = styled.input`
   display: flex;
   justify-content: flex-start;
   border: none;
+
   background: none;
   ::placeholder {
     color: ${theme.colors.blue[500]};
   }
 `;
 
-export { Container, HashtagBar, Wrapper, TitleInput };
+export { Container, HashtagBar, Wrapper, EditorWrapper, TitleInput };

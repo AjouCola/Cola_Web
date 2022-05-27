@@ -25,6 +25,7 @@ import Logo from '@assets/icon/logo.svg';
 import HashtagChip from '@atoms/hashtagChip';
 import UserDefault from '@components/atoms/icon/userDefault';
 import { userState } from '@store/user';
+import { Board } from '@utils/api/Board';
 import Comment from 'public/comment.svg';
 import CommentBig from 'public/comment_Big.svg';
 // import Edit from 'public/edit.svg';
@@ -92,11 +93,14 @@ const BoardContent = ({ title, userId, userName, content, createdDate, modifiedD
     setMenu((prev) => !prev);
   };
   const onClickEdit = () => {
-    alert('준비중입니다');
+    // alert('준비중입니다');
+    if (confirm('게시글을 수정하시겠습니까?')) {
+      router.push(`/board/edit/${router.query?.id}`);
+    }
   };
-  const onClickDelete = () => {
+  const onClickDelete = async () => {
     if (confirm('게시글을 삭제하시겠습니까?')) {
-      alert('준비중입니다.');
+      await Board.delete(Number(router.query.id)).finally(() => router.push('/'));
     }
   };
 

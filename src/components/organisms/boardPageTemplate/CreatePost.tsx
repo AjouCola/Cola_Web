@@ -1,5 +1,6 @@
 import { DetailedHTMLProps, InputHTMLAttributes, useRef, useState } from 'react';
 
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
 import Button from '@components/atoms/button';
@@ -8,7 +9,7 @@ import HashtagChip from '@components/atoms/hashtagChip';
 import MarkdownEditor from '@components/organisms/markdownEditor';
 import { MODE, WRITE_REF } from '@constants/index';
 import { FlexWrapper } from '@styles/global';
-import { Container, HashtagBar, Wrapper, TitleInput } from '@styles/write';
+import { Container, HashtagBar, Wrapper, TitleInput, EditorWrapper } from '@styles/write';
 import { Board } from '@utils/api/Board';
 import All from 'public/all.svg';
 import AllCheck from 'public/all_check.svg';
@@ -18,7 +19,15 @@ import Preview from 'public/preview.svg';
 import PreviewCheck from 'public/preview_check.svg';
 import { InputProps } from '~/types/write';
 
-const WritePost = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) => {
+const PostEditor = dynamic(import('@components/molecules/editor/PostEditor'), { ssr: false });
+
+const WritePost = ({
+  boardCategory,
+  postEditMode = false,
+}: {
+  boardCategory: 'common' | 'info' | 'qna';
+  postEditMode?: boolean;
+}) => {
   const router = useRouter();
   const [editMode, setEditMode] = useState<typeof MODE[number]>('all');
   const [chipList, setChipList] = useState<string[]>([]);
@@ -38,32 +47,47 @@ const WritePost = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna'
   const deleteChip = (index: number) => setChipList(chipList.filter((v, i) => i !== index));
 
   const onSubmit = async () => {
-    const res = await Board.create({
+    if (editorContent.trim().length > 0) {
+      console.log(inputRef.current[WRITE_REF.title]?.value, editorContent);
+      const res = await Board.create({
+        content: editorContent,
+        title: inputRef.current[WRITE_REF.title]?.value,
+        boardCategory,
+      }).catch((err) => {
+        console.log(err);
+      });
+      if (res) router.push('/board/' + res);
+    } else {
+      alert('게시글 내용을 입력해주세요');
+    }
+  };
+
+  const onEditSubmit = async () => {
+    await Board.edit({
       content: editorContent,
-      title: inputRef.current[WRITE_REF.title]?.value,
-      boardCategory,
-    }).catch((err) => {
-      console.log(err);
+      title: inputRef.current[WRITE_REF.hashtag].value,
+      postId: Number(router.query?.id),
     });
-    if (res) router.push('/board/' + res);
+
+    router.push('/board/' + router.query?.id);
+  };
+
+  const handleSubmit = () => {
+    postEditMode ? onEditSubmit() : onSubmit();
   };
   return (
     <Container>
       <TitleInput {...InputProps.title} ref={(el) => selectRef(el)(WRITE_REF.title)} autoFocus />
       <Wrapper style={{ gridArea: 'mode' }}>
-        <div onClick={() => handleChangeMode('edit')}>{editMode === 'edit' ? <EditCheck /> : <Edit />}</div>
         <div onClick={() => handleChangeMode('all')}>{editMode === 'all' ? <AllCheck /> : <All />}</div>
-        <div onClick={() => handleChangeMode('view')}>{editMode === 'view' ? <PreviewCheck /> : <Preview />}</div>
+        <div onClick={() => handleChangeMode('edit')}>{editMode === 'edit' ? <EditCheck /> : <Edit />}</div>
       </Wrapper>
-      <MarkdownEditor
-        {...{
-          editMode,
-          title: inputRef.current[WRITE_REF.title]?.value,
-          chipList,
-          content: editorContent,
-          setContent: setEditorContent,
-        }}
-      />
+      <EditorWrapper>
+        <PostEditor
+          previewStyle={editMode === 'all' ? 'vertical' : 'tab'}
+          {...{ content: editorContent, setContent: setEditorContent }}
+        />
+      </EditorWrapper>
       <HashtagBar>
         {chipList.map((chip, i) => (
           <HashtagChip key={chip} title={chip} onRemoveChip={() => deleteChip(i)} size="small" />
@@ -71,7 +95,7 @@ const WritePost = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna'
         <input {...InputProps.hashtag} ref={(el) => selectRef(el)(WRITE_REF.hashtag)} onKeyPress={addChipList} />
       </HashtagBar>
       <FlexWrapper style={{ gridArea: 'btn', justifyContent: 'flex-end' }}>
-        <SubmitBtn size="small" onClick={onSubmit}>
+        <SubmitBtn size="small" onClick={handleSubmit}>
           완료
         </SubmitBtn>
       </FlexWrapper>

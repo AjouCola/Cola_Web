@@ -1,17 +1,30 @@
 import Api from './core';
 
-interface ICreatePost {
+interface IPost {
   content: string;
   title: string;
+}
+interface ICreatePost extends IPost {
   boardCategory: 'info' | 'common' | 'qna';
+}
+interface IUpdatePost extends IPost {
+  postId: number;
 }
 export const Board = {
   async create({ content, title, boardCategory }: ICreatePost) {
     return await Api.post(`/api/v1/posts/` + boardCategory, { content, title }).catch((err) => console.error(err));
   },
   async get(postId: number) {
-    //
     return await Api.get('/api/v1/posts/' + (postId + '')).catch((err) => console.log(err));
+  },
+  async edit({ content, title, postId }: IUpdatePost) {
+    await Api.patch('/api/v1/posts/' + postId, {
+      content,
+      title,
+    }).catch(() => alert('게시글을 수정하는 중에 문제가 발생하였습니다. 잠시 후 다시 시도해주세요.'));
+  },
+  async delete(postId: number) {
+    return await Api.delete('/api/v1/posts/' + postId).catch(() => alert('게시글 삭제 중 문제가 발생하였습니다.'));
   },
   async getList({
     pageParam = 0,
@@ -38,67 +51,3 @@ export const Board = {
     };
   },
 };
-
-// const data = {
-//   content: [
-//     {
-//       postId: 360,
-//       title: 'title19',
-//       userInfo: { userId: 23, userName: null },
-//       createdDate: '2022-05-24T05:46:24.349521',
-//       modifiedDate: '2022-05-24T05:46:24.349521',
-//     },
-//     {
-//       postId: 359,
-//       title: 'title18',
-//       userInfo: { userId: 23, userName: null },
-//       createdDate: '2022-05-24T05:46:24.336049',
-//       modifiedDate: '2022-05-24T05:46:24.336049',
-//     },
-//     {
-//       postId: 358,
-//       title: 'title17',
-//       userInfo: { userId: 23, userName: null },
-//       createdDate: '2022-05-24T05:46:24.322585',
-//       modifiedDate: '2022-05-24T05:46:24.322585',
-//     },
-//     {
-//       postId: 357,
-//       title: 'title16',
-//       userInfo: { userId: 23, userName: null },
-//       createdDate: '2022-05-24T05:46:24.309016',
-//       modifiedDate: '2022-05-24T05:46:24.309016',
-//     },
-//     {
-//       postId: 356,
-//       title: 'title15',
-//       userInfo: { userId: 23, userName: null },
-//       createdDate: '2022-05-24T05:46:24.29385',
-//       modifiedDate: '2022-05-24T05:46:24.29385',
-//     },
-//     {
-//       postId: 355,
-//       title: 'title14',
-//       userInfo: { userId: 23, userName: null },
-//       createdDate: '2022-05-24T05:46:24.280339',
-//       modifiedDate: '2022-05-24T05:46:24.280339',
-//     },
-//   ],
-//   pageable: {
-//     sort: { empty: false, sorted: true, unsorted: false },
-//     offset: 0,
-//     pageNumber: 0,
-//     pageSize: 6,
-//     paged: true,
-//     unpaged: false,
-//   },
-//   totalPages: 4,
-//   totalElements: 20,
-//   last: false,
-//   size: 6,
-//   number: 0,
-//   sort: { empty: false, sorted: true, unsorted: false },
-//   numberOfElements: 6,
-//   first: true,
-//   empty: false,
-// };
