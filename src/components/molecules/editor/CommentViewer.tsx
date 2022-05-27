@@ -5,6 +5,8 @@ import { Viewer } from '@toast-ui/react-editor';
 import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
 
+import CommentEditor from './commentEditor';
+
 import CommentIcon from '@assets/icon/comment_primary.svg';
 import Heart from '@assets/icon/heart_primary.svg';
 import UserDefault from '@components/atoms/icon/userDefault';
@@ -92,11 +94,15 @@ const DropdownItem = styled.li`
 `;
 
 const EditorWrapper = styled.div`
-
-background: white;
-padding: 0.5rem;
-border-radius: 1rem;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:1rem;
+  background: white;
+  padding: 0.5rem;
+  border-radius: 1rem;
 }`;
+
 const CommentViewer = ({
   commentId,
   userId,
@@ -119,6 +125,7 @@ const CommentViewer = ({
 
   const userInfo = useRecoilValue(userState);
   const [isMine, setIsMine] = useState(false);
+
   const [dropdown, setDropdown] = useState(false);
 
   useEffect(() => {
@@ -135,6 +142,23 @@ const CommentViewer = ({
       router.reload();
     }
   };
+
+  const [editMode, setEditMode] = useState(false);
+  const [editComment, setEditComment] = useState('');
+
+  useEffect(() => {
+    if (editMode) {
+      setEditComment(content);
+    }
+  }, [editMode]);
+
+  const onClickEdit = () => setEditMode(true);
+  const onClickCancelEdit = () => setEditMode(false);
+  const onSubmitEdit = async () => {
+    await CommentApi.edit(commentId, editComment);
+    setEditMode(false);
+    router.reload();
+  };
   return (
     <Comment>
       <UserWrapper direction="row">
@@ -148,14 +172,23 @@ const CommentViewer = ({
               <span>•••</span>
               <Dropdown isShown={dropdown}>
                 <DropdownItem onClick={onClickDelete}>삭제</DropdownItem>
-                <DropdownItem>수정</DropdownItem>
+                <DropdownItem onClick={onClickEdit}>수정</DropdownItem>
               </Dropdown>
             </MenuBtn>
           )}
         </MenuBtnWrapper>
       </UserWrapper>
       <EditorWrapper>
-        <CustomViewer ref={viewerRef} initialValue={content} />
+        {!editMode && <CustomViewer ref={viewerRef} initialValue={content} />}
+        {editMode && (
+          <>
+            <CommentEditor comment={editComment} setComment={setEditComment} />
+            <FlexDiv direction="row">
+              <button onClick={onClickCancelEdit}>취소</button>
+              <button onClick={onSubmitEdit}>수정</button>
+            </FlexDiv>
+          </>
+        )}
       </EditorWrapper>
     </Comment>
   );

@@ -12,4 +12,9 @@ export const CommentApi = {
       alert('댓글 삭제 중 문제가 발생하였습니다. 잠시 후 다시 시도해주세요.'),
     );
   },
+  async edit(commentId: number, content: string) {
+    return await Api.patch(`/api/v1/comments/${commentId}`, {
+      content,
+    }).catch(() => alert('댓글 수정 중 문제가 발생하였습니다. 잠시 후 다시 시도해주세요.'));
+  },
 };
