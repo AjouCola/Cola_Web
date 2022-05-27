@@ -109,7 +109,7 @@ const CommentForm = ({ onAddComment, getPostData }: ICommentFormProps) => {
           }
         }}
       /> */}
-      <CommentEditor setComment={setComment} />
+      <CommentEditor setComment={setComment} comment={comment} />
       <BtnWrapper>
         <CommentSubmitBtn onClick={onSubmit}>작성</CommentSubmitBtn>
       </BtnWrapper>

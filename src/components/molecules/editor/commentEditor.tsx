@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import styled from '@emotion/styled';
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
@@ -11,15 +11,20 @@ import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin
 
 interface IEditor {
   htmlStr?: string;
+  comment?: string;
   setComment: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const CustomEditor = styled(Editor)`
   height: 200px;
 `;
-function CommentEditor({ setComment, ...options }: IEditor) {
+function CommentEditor({ comment, setComment, ...options }: IEditor) {
   const editorRef = useRef<Editor>(null);
-
+  useEffect(() => {
+    if (comment !== undefined && comment === '') {
+      editorRef.current?.getInstance().setMarkdown('');
+    }
+  }, [comment]);
   const onChangeEditor = () => {
     if (editorRef.current) {
       const isMarkdownMode = editorRef.current.getInstance().isMarkdownMode();
