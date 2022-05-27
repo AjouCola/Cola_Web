@@ -11,6 +11,7 @@ import { FlexDiv } from '@styles/index';
 const Comment = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 1rem;
   border-radius: 10px;
   background: ${({ theme: { colors } }) => colors.blue[10]};
   box-shadow: 0px 0px 6px ${({ theme: { colors } }) => colors.shadow};
@@ -49,7 +50,8 @@ const MenuBtnWrapper = styled.div`
   box-shadow: inset 0 0 6px #00000029;
   background: white;
   position: absolute;
-  top: 0.5rem;
+  top: 0;
+  right: 0;
   padding: 0.5rem;
   border-radius: 14px;
   svg:hover {
@@ -84,6 +86,13 @@ const DropdownItem = styled.li`
     border-bottom-left-radius: 14px;
   }
 `;
+
+const EditorWrapper = styled.div`
+
+background: white;
+padding: 0.5rem;
+border-radius: 1rem;
+}`;
 const CommentViewer = ({ name, content }: { name: string; content: string }) => {
   const viewerRef = useRef<Viewer>(null);
 
@@ -111,8 +120,9 @@ const CommentViewer = ({ name, content }: { name: string; content: string }) => 
           </MenuBtn>
         </MenuBtnWrapper>
       </UserWrapper>
-
-      <CustomViewer ref={viewerRef} initialValue={content} />
+      <EditorWrapper>
+        <CustomViewer ref={viewerRef} initialValue={content} />
+      </EditorWrapper>
     </Comment>
   );
 };
