@@ -101,12 +101,12 @@ const EditorWrapper = styled.div`
   padding: 0.5rem;
   border-radius: 1rem;
 }`;
-const EditModeBtn = styled.button`
+const EditModeBtn = styled.button<{ bgColor?: string; textColor?: string }>`
   border: none;
-  background: ${({ theme: { colors } }) => colors.blue[500]};
+  background: ${({ theme: { colors }, bgColor }) => (!bgColor ? bgColor : colors.blue[500])};
   border-radius: 8px;
   padding: 0.5rem 1rem;
-  color: white;
+  color: ${({ textColor }) => (!textColor ? textColor : 'white')};
   font-weight: 600;
   font-size: 0.9rem;
   cursor: pointer;
@@ -196,7 +196,9 @@ const CommentViewer = ({
           <>
             <CommentEditor comment={editComment} setComment={setEditComment} initialValue={editComment} />
             <FlexDiv direction="row" style={{ gap: '1rem' }}>
-              <EditModeBtn onClick={onClickCancelEdit}>취소</EditModeBtn>
+              <EditModeBtn bgColor="rgb(123,123,123)" onClick={onClickCancelEdit}>
+                취소
+              </EditModeBtn>
               <EditModeBtn onClick={onSubmitEdit}>수정</EditModeBtn>
             </FlexDiv>
           </>

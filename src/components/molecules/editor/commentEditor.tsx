@@ -19,7 +19,7 @@ interface IEditor {
 const CustomEditor = styled(Editor)`
   height: 200px;
 `;
-function CommentEditor({ comment, setComment, ...options }: IEditor) {
+function CommentEditor({ comment, setComment, initialValue }: IEditor) {
   const editorRef = useRef<Editor>(null);
   useEffect(() => {
     if (comment !== undefined && comment === '') {
@@ -40,14 +40,13 @@ function CommentEditor({ comment, setComment, ...options }: IEditor) {
     <>
       <CustomEditor
         ref={editorRef}
-        initialValue=""
+        initialValue={initialValue ?? ''}
         previewStyle="tab"
         initialEditType="markdown"
         useCommandShortcut={true}
         placeholder="질문에 답변을 달아주세요!"
         plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
         onChange={onChangeEditor}
-        {...options}
       />
     </>
   );
