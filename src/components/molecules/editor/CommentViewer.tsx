@@ -46,6 +46,7 @@ const Dropdown = styled.ul<{ isShown: boolean }>`
   position: absolute;
   top: 2rem;
   right: 0;
+  z-index: 100;
 `;
 
 const MenuBtnWrapper = styled.div`
@@ -80,6 +81,8 @@ const DropdownItem = styled.li`
   transition: background 150ms ease;
   padding: 0.4rem;
   text-align: center;
+  background: white;
+
   &:hover {
     background: ${({ theme: { colors } }) => colors.blue[100]};
   }
@@ -164,8 +167,14 @@ const CommentViewer = ({
     }
   }, [editMode]);
 
-  const onClickEdit = () => setEditMode(true);
-  const onClickCancelEdit = () => setEditMode(false);
+  const onClickEdit = () => {
+    setEditMode(true);
+    setDropdown(false);
+  };
+  const onClickCancelEdit = () => {
+    setEditMode(false);
+    setDropdown(false);
+  };
   const onSubmitEdit = async () => {
     await CommentApi.edit(commentId, editComment);
     setEditMode(false);
@@ -180,11 +189,29 @@ const CommentViewer = ({
           <Heart />
           <CommentIcon />
           {isMine && (
-            <MenuBtn onClick={() => setDropdown((prev) => !prev)}>
+            <MenuBtn
+              onClick={() => {
+                if (!editMode) setDropdown((prev) => !prev);
+              }}
+            >
               <span>•••</span>
               <Dropdown isShown={dropdown}>
-                <DropdownItem onClick={onClickDelete}>삭제</DropdownItem>
-                <DropdownItem onClick={onClickEdit}>수정</DropdownItem>
+                <DropdownItem
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onClickDelete();
+                  }}
+                >
+                  삭제
+                </DropdownItem>
+                <DropdownItem
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onClickEdit();
+                  }}
+                >
+                  수정
+                </DropdownItem>
               </Dropdown>
             </MenuBtn>
           )}
