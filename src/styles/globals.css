@@ -26,6 +26,11 @@ p {
   padding: 0;
   margin: 0;
 }
+ul,
+ol,
+li {
+  list-style: none;
+}
 
 select:focus {
   outline: 1.6px solid #6c7bfa60;

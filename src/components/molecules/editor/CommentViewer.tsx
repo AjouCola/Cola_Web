@@ -1,8 +1,10 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import styled from '@emotion/styled';
 import { Viewer } from '@toast-ui/react-editor';
 
+import CommentIcon from '@assets/icon/comment_small.svg';
+import Heart from '@assets/icon/heart_small.svg';
 import UserDefault from '@components/atoms/icon/userDefault';
 import { FlexDiv } from '@styles/index';
 
@@ -15,6 +17,51 @@ const Comment = styled.div`
 `;
 const CustomViewer = styled(Viewer)`
   min-height: 200px;
+  padding: 1rem 2rem;
+  margin-bottom: 1rem;
+`;
+
+const UserWrapper = styled(FlexDiv)`
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  font-size: 1.2rem;
+  position: relative;
+`;
+
+const Dropdown = styled.ul<{ isShown: boolean }>`
+  display: ${({ isShown }) => (isShown ? 'block' : 'none')};
+  width: 7rem;
+  background: white;
+  box-shadow: 0 0 6px #00000029;
+  border-radius: 14px;
+  position: absolute;
+  top: 2rem;
+  right: 0;
+`;
+
+const MenuBtnWrapper = styled.div`
+  width: 10rem;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  box-shadow: inset 0 0 6px #00000029;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+`;
+const MenuBtn = styled.button`
+  position: relative;
+  color: ${({ theme: { colors } }) => colors.blue[500]};
+  font-weight: 600;
+`;
+const DropdownItem = styled.li`
+  transition: background 150ms ease;
+  padding: 0.4rem;
+  text-align: center;
+  &:hover {
+    background: ${({ theme: { colors } }) => colors.blue[100]};
+  }
 `;
 const CommentViewer = ({ name, content }: { name: string; content: string }) => {
   const viewerRef = useRef<Viewer>(null);
@@ -24,12 +71,25 @@ const CommentViewer = ({ name, content }: { name: string; content: string }) => 
       viewerRef.current.getInstance().setMarkdown(content);
     }
   }, [content, name]);
+
+  const [dropdown, setDropdown] = useState(false);
   return (
     <Comment>
-      <FlexDiv direction="row">
+      <UserWrapper direction="row">
         <UserDefault></UserDefault>
         <p>{name || '유저'}</p>
-      </FlexDiv>
+        <MenuBtnWrapper>
+          <Heart />
+          <CommentIcon />
+          <MenuBtn onClick={() => setDropdown((prev) => !prev)}>
+            <span>•••</span>
+            <Dropdown isShown={dropdown}>
+              <DropdownItem>삭제</DropdownItem>
+              <DropdownItem>수정</DropdownItem>
+            </Dropdown>
+          </MenuBtn>
+        </MenuBtnWrapper>
+      </UserWrapper>
       <CustomViewer ref={viewerRef} initialValue={content} />
     </Comment>
   );
