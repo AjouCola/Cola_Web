@@ -21,7 +21,13 @@ import { InputProps } from '~/types/write';
 
 const PostEditor = dynamic(import('@components/molecules/editor/PostEditor'), { ssr: false });
 
-const WritePost = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) => {
+const WritePost = ({
+  boardCategory,
+  postEditMode = false,
+}: {
+  boardCategory: 'common' | 'info' | 'qna';
+  postEditMode?: boolean;
+}) => {
   const router = useRouter();
   const [editMode, setEditMode] = useState<typeof MODE[number]>('all');
   const [chipList, setChipList] = useState<string[]>([]);
@@ -55,6 +61,20 @@ const WritePost = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna'
       alert('게시글 내용을 입력해주세요');
     }
   };
+
+  const onEditSubmit = async () => {
+    await Board.edit({
+      content: editorContent,
+      title: inputRef.current[WRITE_REF.hashtag].value,
+      postId: Number(router.query?.id),
+    });
+
+    router.push('/board/' + router.query?.id);
+  };
+
+  const handleSubmit = () => {
+    postEditMode ? onEditSubmit() : onSubmit();
+  };
   return (
     <Container>
       <TitleInput {...InputProps.title} ref={(el) => selectRef(el)(WRITE_REF.title)} autoFocus />
@@ -75,7 +95,7 @@ const WritePost = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna'
         <input {...InputProps.hashtag} ref={(el) => selectRef(el)(WRITE_REF.hashtag)} onKeyPress={addChipList} />
       </HashtagBar>
       <FlexWrapper style={{ gridArea: 'btn', justifyContent: 'flex-end' }}>
-        <SubmitBtn size="small" onClick={onSubmit}>
+        <SubmitBtn size="small" onClick={handleSubmit}>
           완료
         </SubmitBtn>
       </FlexWrapper>
