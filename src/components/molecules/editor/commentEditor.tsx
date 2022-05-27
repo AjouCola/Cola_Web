@@ -13,6 +13,7 @@ interface IEditor {
   htmlStr?: string;
   comment?: string;
   setComment: React.Dispatch<React.SetStateAction<string>>;
+  initialValue?: string;
 }
 
 const CustomEditor = styled(Editor)`

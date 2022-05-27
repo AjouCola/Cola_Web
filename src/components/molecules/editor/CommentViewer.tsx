@@ -96,13 +96,25 @@ const DropdownItem = styled.li`
 const EditorWrapper = styled.div`
   display:flex;
   flex-direction:column;
-  align-items:flex-end;
   gap:1rem;
   background: white;
   padding: 0.5rem;
   border-radius: 1rem;
 }`;
-
+const EditModeBtn = styled.button`
+  border: none;
+  background: ${({ theme: { colors } }) => colors.blue[500]};
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 200ms ease;
+  &:hover {
+    opacity: 0.8;
+  }
+`;
 const CommentViewer = ({
   commentId,
   userId,
@@ -182,10 +194,10 @@ const CommentViewer = ({
         {!editMode && <CustomViewer ref={viewerRef} initialValue={content} />}
         {editMode && (
           <>
-            <CommentEditor comment={editComment} setComment={setEditComment} />
-            <FlexDiv direction="row">
-              <button onClick={onClickCancelEdit}>취소</button>
-              <button onClick={onSubmitEdit}>수정</button>
+            <CommentEditor comment={editComment} setComment={setEditComment} initialValue={editComment} />
+            <FlexDiv direction="row" style={{ gap: '1rem' }}>
+              <EditModeBtn onClick={onClickCancelEdit}>취소</EditModeBtn>
+              <EditModeBtn onClick={onSubmitEdit}>수정</EditModeBtn>
             </FlexDiv>
           </>
         )}
