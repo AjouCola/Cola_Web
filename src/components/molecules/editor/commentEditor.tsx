@@ -4,7 +4,6 @@ import styled from '@emotion/styled';
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
 import { Editor } from '@toast-ui/react-editor';
 import Prism from 'prismjs';
-
 import '@toast-ui/editor/dist/toastui-editor.css';
 import 'prismjs/themes/prism.css';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
@@ -14,18 +13,27 @@ interface IEditor {
   comment?: string;
   setComment: React.Dispatch<React.SetStateAction<string>>;
   initialValue?: string;
+  placeholder?: string;
 }
 
 const CustomEditor = styled(Editor)`
   height: 200px;
 `;
-function CommentEditor({ comment, setComment, initialValue }: IEditor) {
+function CommentEditor({ comment, setComment, initialValue, placeholder }: IEditor) {
   const editorRef = useRef<Editor>(null);
+
   useEffect(() => {
     if (comment !== undefined && comment === '') {
       editorRef.current?.getInstance().setMarkdown('');
     }
   }, [comment]);
+
+  useEffect(() => {
+    if (initialValue) {
+      editorRef.current?.getInstance().setMarkdown(initialValue);
+    }
+  }, [initialValue]);
+
   const onChangeEditor = () => {
     if (editorRef.current) {
       const isMarkdownMode = editorRef.current.getInstance().isMarkdownMode();
@@ -44,7 +52,7 @@ function CommentEditor({ comment, setComment, initialValue }: IEditor) {
         previewStyle="tab"
         initialEditType="markdown"
         useCommandShortcut={true}
-        placeholder="질문에 답변을 달아주세요!"
+        placeholder={placeholder ?? '마크다운으로 댓글을 달아보세요!'}
         plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
         onChange={onChangeEditor}
       />

@@ -103,10 +103,10 @@ const EditorWrapper = styled.div`
 }`;
 const EditModeBtn = styled.button<{ bgColor?: string; textColor?: string }>`
   border: none;
-  background: ${({ theme: { colors }, bgColor }) => (!bgColor ? bgColor : colors.blue[500])};
+  background: ${({ theme: { colors }, bgColor }) => bgColor ?? colors.blue[500]};
   border-radius: 8px;
   padding: 0.5rem 1rem;
-  color: ${({ textColor }) => (!textColor ? textColor : 'white')};
+  color: ${({ textColor }) => textColor ?? 'white'};
   font-weight: 600;
   font-size: 0.9rem;
   cursor: pointer;
