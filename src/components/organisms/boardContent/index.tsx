@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { marked } from 'marked';
 import { useRouter } from 'next/router';
+import { useRecoilValue } from 'recoil';
 
 import {
   Container,
@@ -23,6 +24,7 @@ import Heart from '@assets/icon/heart_primary.svg';
 import Logo from '@assets/icon/logo.svg';
 import HashtagChip from '@atoms/hashtagChip';
 import UserDefault from '@components/atoms/icon/userDefault';
+import { userState } from '@store/user';
 import Comment from 'public/comment.svg';
 import CommentBig from 'public/comment_Big.svg';
 // import Edit from 'public/edit.svg';
@@ -33,6 +35,7 @@ import Visit from 'public/visit.svg';
 
 interface Props {
   title: string;
+  userId: number;
   userName: string;
   content: string;
   createdDate: string;
@@ -81,9 +84,9 @@ const HashTagBar = ({ data }: { data: string[] }) => {
   );
 };
 
-const BoardContent = ({ title, userName, content, createdDate, modifiedDate }: Props) => {
+const BoardContent = ({ title, userId, userName, content, createdDate, modifiedDate }: Props) => {
   const router = useRouter();
-
+  const userInfo = useRecoilValue(userState);
   const [menu, setMenu] = useState(false);
   const onClickMenu = () => {
     setMenu((prev) => !prev);
@@ -128,15 +131,17 @@ const BoardContent = ({ title, userName, content, createdDate, modifiedDate }: P
               <DetailIconWrapper>
                 <HeartBig />
                 <CommentBig />
-                <MenuBtn onClick={onClickMenu}>
-                  <span>•••</span>
-                  {menu && (
-                    <MenuDropdown>
-                      <li onClick={onClickDelete}>삭제</li>
-                      <li onClick={onClickEdit}>수정</li>
-                    </MenuDropdown>
-                  )}
-                </MenuBtn>
+                {userInfo.id === userId && (
+                  <MenuBtn onClick={onClickMenu}>
+                    <span>•••</span>
+                    {menu && (
+                      <MenuDropdown>
+                        <li onClick={onClickDelete}>삭제</li>
+                        <li onClick={onClickEdit}>수정</li>
+                      </MenuDropdown>
+                    )}
+                  </MenuBtn>
+                )}
               </DetailIconWrapper>
             </ContentDetailRow>
           </ContentDetail>

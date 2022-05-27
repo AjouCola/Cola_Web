@@ -143,6 +143,7 @@ const BoardDetail = () => {
       <BoardContent
         title={postData.title}
         content={postData.content}
+        userId={postData.userInfo.userId!}
         userName={postData.userInfo.userName || '유저이름'}
         createdDate={postData.createdDate}
         modifiedDate={postData.modifiedDate}
