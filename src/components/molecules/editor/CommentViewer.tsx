@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import styled from '@emotion/styled';
 import { Viewer } from '@toast-ui/react-editor';
+import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
 
 import CommentIcon from '@assets/icon/comment_primary.svg';
@@ -107,6 +108,7 @@ const CommentViewer = ({
   name: string;
   content: string;
 }) => {
+  const router = useRouter();
   const viewerRef = useRef<Viewer>(null);
 
   useEffect(() => {
@@ -130,6 +132,7 @@ const CommentViewer = ({
   const onClickDelete = async () => {
     if (window.confirm('댓글을 삭제하시겠습니까?')) {
       await CommentApi.delete(commentId);
+      router.reload();
     }
   };
   return (
