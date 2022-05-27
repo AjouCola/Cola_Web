@@ -153,9 +153,15 @@ const BoardDetail = () => {
       />
       {/* 추후 lazy loading 지원 예정  */}
       <CommentWrapper>
-        {comments.map(({ userInfo: { userName }, content, commentId }, idx) => (
+        {comments.map(({ userInfo: { userName, userId }, content, commentId }, idx) => (
           // <Comment key={idx} name={userName} contents={content} />
-          <CommentViewer key={commentId} name={userName} content={content}></CommentViewer>
+          <CommentViewer
+            key={commentId}
+            commentId={commentId}
+            userId={userId!}
+            name={userName}
+            content={content}
+          ></CommentViewer>
         ))}
         {comments.length === 0 && <p>댓글이 없습니다.</p>}
       </CommentWrapper>

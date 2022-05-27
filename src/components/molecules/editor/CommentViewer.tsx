@@ -2,11 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 
 import styled from '@emotion/styled';
 import { Viewer } from '@toast-ui/react-editor';
+import { useRecoilValue } from 'recoil';
 
 import CommentIcon from '@assets/icon/comment_primary.svg';
 import Heart from '@assets/icon/heart_primary.svg';
 import UserDefault from '@components/atoms/icon/userDefault';
+import { IUserInfo, userState } from '@store/user';
 import { FlexDiv } from '@styles/index';
+import { CommentApi } from '@utils/api/Comment';
 
 const Comment = styled.div`
   display: flex;
@@ -93,7 +96,17 @@ background: white;
 padding: 0.5rem;
 border-radius: 1rem;
 }`;
-const CommentViewer = ({ name, content }: { name: string; content: string }) => {
+const CommentViewer = ({
+  commentId,
+  userId,
+  name,
+  content,
+}: {
+  commentId: number;
+  userId: number;
+  name: string;
+  content: string;
+}) => {
   const viewerRef = useRef<Viewer>(null);
 
   useEffect(() => {
@@ -102,7 +115,23 @@ const CommentViewer = ({ name, content }: { name: string; content: string }) => 
     }
   }, [content, name]);
 
+  const userInfo = useRecoilValue(userState);
+  const [isMine, setIsMine] = useState(false);
   const [dropdown, setDropdown] = useState(false);
+
+  useEffect(() => {
+    if (userId === userInfo.id) {
+      setIsMine(true);
+    } else {
+      setIsMine(false);
+    }
+  }, [userId]);
+
+  const onClickDelete = async () => {
+    if (window.confirm('댓글을 삭제하시겠습니까?')) {
+      await CommentApi.delete(commentId);
+    }
+  };
   return (
     <Comment>
       <UserWrapper direction="row">
@@ -111,13 +140,15 @@ const CommentViewer = ({ name, content }: { name: string; content: string }) => 
         <MenuBtnWrapper>
           <Heart />
           <CommentIcon />
-          <MenuBtn onClick={() => setDropdown((prev) => !prev)}>
-            <span>•••</span>
-            <Dropdown isShown={dropdown}>
-              <DropdownItem>삭제</DropdownItem>
-              <DropdownItem>수정</DropdownItem>
-            </Dropdown>
-          </MenuBtn>
+          {isMine && (
+            <MenuBtn onClick={() => setDropdown((prev) => !prev)}>
+              <span>•••</span>
+              <Dropdown isShown={dropdown}>
+                <DropdownItem onClick={onClickDelete}>삭제</DropdownItem>
+                <DropdownItem>수정</DropdownItem>
+              </Dropdown>
+            </MenuBtn>
+          )}
         </MenuBtnWrapper>
       </UserWrapper>
       <EditorWrapper>
