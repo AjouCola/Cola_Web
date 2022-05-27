@@ -100,10 +100,7 @@ const BoardContent = ({ title, userId, userName, content, createdDate, modifiedD
   };
   const onClickDelete = async () => {
     if (confirm('게시글을 삭제하시겠습니까?')) {
-      const res = await Board.delete(Number(router.query.id));
-      if (res) {
-        router.push(`/mypage`);
-      }
+      await Board.delete(Number(router.query.id)).finally(() => router.push('/'));
     }
   };
 
