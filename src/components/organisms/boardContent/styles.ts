@@ -136,17 +136,26 @@ const MenuBtn = styled.div`
 `;
 const MenuDropdown = styled.ul`
   position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
+  top: 2.5rem;
+  right: -0.3rem;
   border-radius: 14px;
-  box-shadow: 0 0 6px #00000029;
-  width: 7rem;
+  box-shadow: rgb(0 0 0 / 16%) 0px 0px 6px;
+  width: 8rem;
+  background: white;
 
+  padding: 0rem 1rem;
   li {
+    text-align: center;
     width: 100%;
+    font-size: 1rem;
+    padding: 0.5rem 0;
+    &:hover {
+      opacity: 0.8;
+    }
     &:nth-of-type(1) {
       border-top-right-radius: 14px;
       border-top-left-radius: 14px;
+      border-bottom: 1px solid;
     }
     &:nth-last-of-type(1) {
       border-bottom-right-radius: 14px;

@@ -88,6 +88,14 @@ const BoardContent = ({ title, userName, content, createdDate, modifiedDate }: P
   const onClickMenu = () => {
     setMenu((prev) => !prev);
   };
+  const onClickEdit = () => {
+    alert('준비중입니다');
+  };
+  const onClickDelete = () => {
+    if (confirm('게시글을 삭제하시겠습니까?')) {
+      alert('준비중입니다.');
+    }
+  };
 
   return (
     <Container>
@@ -122,10 +130,12 @@ const BoardContent = ({ title, userName, content, createdDate, modifiedDate }: P
                 <CommentBig />
                 <MenuBtn onClick={onClickMenu}>
                   <span>•••</span>
-                  <MenuDropdown>
-                    <li>삭제</li>
-                    <li>수정</li>
-                  </MenuDropdown>
+                  {menu && (
+                    <MenuDropdown>
+                      <li onClick={onClickDelete}>삭제</li>
+                      <li onClick={onClickEdit}>수정</li>
+                    </MenuDropdown>
+                  )}
                 </MenuBtn>
               </DetailIconWrapper>
             </ContentDetailRow>
