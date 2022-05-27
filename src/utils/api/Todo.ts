@@ -5,31 +5,31 @@ import Api from './core';
 // import { doings, toDos, dones } from '@constants/todoDummy';
 import { IToDo, ITodoState, todoState } from '@store/index';
 
-export interface IItemDto {
+export interface ITodo {
+  id: number;
+  content: string;
+  status: 'todo' | 'doing' | 'done';
+}
+export interface IItem {
+  item_id: number;
+  todos: IToDo[] | string;
+}
+export interface IFolder {
+  name: string;
+  color: string;
+  item: IItem[];
+}
+export interface IFolders {
   date: string;
-  folderId: number;
-  progress: number;
-  todos: string;
+  folder_orders: number[];
+  folders: IFolder[];
 }
 
-export interface IFolderDto {
-  color: string;
-  folderId: number;
-  name: string;
-}
-
-export interface ITodoFolder {
-  todos: any[];
-  color: string;
-  folderId: number;
-  name: string;
-  progress: number;
-}
 const TodoApi = {
   getTodoList: async (date: Date): Promise<ITodoFolder[]> => {
     const results: [IItemDto[], IFolderDto[]] = await Promise.all([
       Api.get(`/api/v1/item/` + date.toISOString().slice(0, 10)) as unknown as IItemDto[],
-      Api.get('/api/v1/folder') as unknown as IFolderDto[],
+      Api.get('/api/v1/folder') as unknown as IFolders,
     ]);
 
     const [ItemDtos, FolderDtos] = results;
