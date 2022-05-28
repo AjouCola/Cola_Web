@@ -49,7 +49,7 @@ const WritePost = ({
     if (event.key !== 'Enter') return;
     if (inputRef.current[WRITE_REF.hashtag].value.trim() === '') return;
 
-    setChipList([...chipList, inputRef.current[WRITE_REF.hashtag].value]);
+    setChipList([...chipList, inputRef.current[WRITE_REF.hashtag].value.trim()]);
     inputRef.current[WRITE_REF.hashtag].value = '';
   };
 
