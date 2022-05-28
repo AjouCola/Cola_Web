@@ -28,18 +28,24 @@ const MajorContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   background: white;
-  min-width: 22vw;
+  width: 25rem;
   min-height: 50vh;
   opacity: 1;
   border-radius: 10px;
+  padding: 1rem;
   box-shadow: 0px 0px 10px ${({ theme }) => theme.colors.shadow};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    width: 100vw;
+    height: 100vh;
+  }
 `;
 
 const Title = styled.h2`
   font-size: 3rem;
   font-weight: 500;
-  max-width: 5vw;
   color: ${theme.colors.blue[500]};
   border-bottom: 0.3rem solid ${theme.colors.blue[500]};
   margin: 20px 0px 30px 0px;
@@ -49,8 +55,11 @@ const MajorWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  max-width: 20vw;
-  max-height: 32vh;
+  width: 100%;
+  max-height: 30rem;
+  min-height: 15rem;
+  padding: 1rem 2rem;
+  flex: 1;
   overflow: auto;
   row-gap: 1vmin;
   margin: 0 0 35px 0;
