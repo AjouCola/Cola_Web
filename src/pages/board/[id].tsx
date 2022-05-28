@@ -67,6 +67,7 @@ interface IPost {
   content: string;
   userInfo: IUserInfo;
   comments: IComment[];
+  tags: string[];
   createdDate: string;
   modifiedDate: string;
 }
@@ -145,6 +146,7 @@ const BoardDetail = () => {
         content={postData.content}
         userId={postData.userInfo.userId!}
         userName={postData.userInfo.userName || '유저이름'}
+        tags={postData.tags}
         createdDate={postData.createdDate}
         modifiedDate={postData.modifiedDate}
       />
