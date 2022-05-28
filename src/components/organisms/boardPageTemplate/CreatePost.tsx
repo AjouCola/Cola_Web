@@ -1,12 +1,10 @@
-import { DetailedHTMLProps, InputHTMLAttributes, useRef, useState } from 'react';
+import { DetailedHTMLProps, InputHTMLAttributes, useRef, useState, useEffect } from 'react';
 
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
-import Button from '@components/atoms/button';
 import SubmitBtn from '@components/atoms/button/submit';
 import HashtagChip from '@components/atoms/hashtagChip';
-import MarkdownEditor from '@components/organisms/markdownEditor';
 import { MODE, WRITE_REF } from '@constants/index';
 import { FlexWrapper } from '@styles/global';
 import { Container, HashtagBar, Wrapper, TitleInput, EditorWrapper } from '@styles/write';
@@ -15,8 +13,6 @@ import All from 'public/all.svg';
 import AllCheck from 'public/all_check.svg';
 import Edit from 'public/edit.svg';
 import EditCheck from 'public/edit_check.svg';
-import Preview from 'public/preview.svg';
-import PreviewCheck from 'public/preview_check.svg';
 import { InputProps } from '~/types/write';
 
 const PostEditor = dynamic(import('@components/molecules/editor/PostEditor'), { ssr: false });
@@ -36,6 +32,17 @@ const WritePost = ({
   const selectRef = (el: HTMLInputElement | null) => (value: WRITE_REF) =>
     (inputRef.current[value] = el as HTMLInputElement);
 
+  useEffect(() => {
+    if (postEditMode) {
+      const { title, content, hashtags } = router.query;
+      setChipList(hashtags as string[]);
+      if (inputRef.current[WRITE_REF.title]) {
+        inputRef.current[WRITE_REF.title].value = title as string;
+      }
+      setEditorContent(content as string);
+    }
+  }, [postEditMode]);
+
   const handleChangeMode = (v: typeof MODE[number]) => setEditMode(v);
 
   const addChipList = (event: DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>) => {
@@ -48,10 +55,10 @@ const WritePost = ({
 
   const onSubmit = async () => {
     if (editorContent.trim().length > 0) {
-      console.log(inputRef.current[WRITE_REF.title]?.value, editorContent);
       const res = await Board.create({
         content: editorContent,
         title: inputRef.current[WRITE_REF.title]?.value,
+        hashtags: JSON.stringify(chipList),
         boardCategory,
       }).catch((err) => {
         console.log(err);
@@ -67,6 +74,7 @@ const WritePost = ({
       content: editorContent,
       title: inputRef.current[WRITE_REF.hashtag].value,
       postId: Number(router.query?.id),
+      hashtags: JSON.stringify(chipList),
     });
 
     router.push('/board/' + router.query?.id);

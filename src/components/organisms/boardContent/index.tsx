@@ -39,6 +39,7 @@ interface Props {
   userId: number;
   userName: string;
   content: string;
+  hashtags?: string[];
   createdDate: string;
   modifiedDate: string;
 }
@@ -85,7 +86,7 @@ const HashTagBar = ({ data }: { data: string[] }) => {
   );
 };
 
-const BoardContent = ({ title, userId, userName, content, createdDate, modifiedDate }: Props) => {
+const BoardContent = ({ title, userId, hashtags, userName, content, createdDate, modifiedDate }: Props) => {
   const router = useRouter();
   const userInfo = useRecoilValue(userState);
   const [menu, setMenu] = useState(false);
@@ -95,7 +96,13 @@ const BoardContent = ({ title, userId, userName, content, createdDate, modifiedD
   const onClickEdit = () => {
     // alert('준비중입니다');
     if (confirm('게시글을 수정하시겠습니까?')) {
-      router.push(`/board/edit/${router.query?.id}`);
+      router.push(`/board/edit/${router.query?.id}`, {
+        query: {
+          title,
+          content,
+          hashtags,
+        },
+      });
     }
   };
   const onClickDelete = async () => {
