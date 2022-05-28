@@ -34,8 +34,13 @@ const WritePost = ({
 
   useEffect(() => {
     if (postEditMode) {
-      const { title, content, hashtags } = router.query;
-      setChipList(hashtags as string[]);
+      const { title, content, tags } = router.query;
+      if (tags) {
+        const parsed = JSON.parse(tags as string);
+        if (Array.isArray(parsed)) {
+          setChipList(parsed);
+        }
+      }
       if (inputRef.current[WRITE_REF.title]) {
         inputRef.current[WRITE_REF.title].value = title as string;
       }

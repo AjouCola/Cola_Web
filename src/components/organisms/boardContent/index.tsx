@@ -39,7 +39,7 @@ interface Props {
   userId: number;
   userName: string;
   content: string;
-  hashtags?: string[];
+  tags?: string[];
   createdDate: string;
   modifiedDate: string;
 }
@@ -86,7 +86,7 @@ const HashTagBar = ({ data }: { data: string[] }) => {
   );
 };
 
-const BoardContent = ({ title, userId, hashtags, userName, content, createdDate, modifiedDate }: Props) => {
+const BoardContent = ({ title, userId, tags, userName, content, createdDate, modifiedDate }: Props) => {
   const router = useRouter();
   const userInfo = useRecoilValue(userState);
   const [menu, setMenu] = useState(false);
@@ -100,7 +100,7 @@ const BoardContent = ({ title, userId, hashtags, userName, content, createdDate,
         query: {
           title,
           content,
-          hashtags,
+          tags: JSON.stringify(tags),
         },
       });
     }
@@ -158,25 +158,7 @@ const BoardContent = ({ title, userId, hashtags, userName, content, createdDate,
           </ContentDetail>
         </div>
         <TextArea dangerouslySetInnerHTML={{ __html: marked(content) }}></TextArea>
-        <HashTagBar
-          data={[
-            'java',
-            'javascript',
-            'python',
-            'C',
-            'C#',
-            'C++',
-            'Go',
-            'ruby',
-            'javascript',
-            'python',
-            'C',
-            'C#',
-            'C++',
-            'Go',
-            'ruby',
-          ]}
-        />
+        <HashTagBar data={tags ?? []} />
       </Content>
     </Container>
   );
