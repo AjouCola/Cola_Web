@@ -1,5 +1,6 @@
 import { MouseEvent, useEffect, useState } from 'react';
 
+import { useRouter } from 'next/router';
 import { useForm, UseFormRegister } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
 
@@ -17,7 +18,7 @@ import Auth from '@utils/api/Auth';
 interface Props {
   handleModalOnOff: () => void;
   major: keyof typeof MAJOR_TYPE;
-  onSubmitForm: (name: string, department: string, gitEmail: string, ajouEmail: string) => void;
+  onSubmitForm: (name: string, department: string, ajouEmail: string, gitEmail: string) => void;
 }
 
 interface SelectBoxProps extends Props {
@@ -38,9 +39,9 @@ const MajorSelectBox = ({ major, handleModalOnOff, register }: SelectBoxProps) =
 };
 
 const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
+  const router = useRouter();
+  const isEditMode = router.pathname === '/mypage/edit';
   const userInfo = useRecoilValue(userState);
-  const userInfoJson = JSON.stringify(userInfo);
-  const [editMode, setEditMode] = useState(false);
 
   const [checkEmail, setCheckEmail] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(false);
@@ -61,18 +62,14 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
   });
 
   useEffect(() => {
-    if (userInfoJson) {
-      setEditMode(true);
-      setValue('email', userInfo.ajouEmail);
+    if (isEditMode) {
+      setValue('email', userInfo.email);
       setValue('name', userInfo.name);
-      setValue('department', userInfo.department);
+      setValue('department', MAJOR_TYPE[major]);
       setValue('gitEmailId', userInfo.gitEmail ?? '');
     }
-  }, [userInfoJson]);
+  }, []);
 
-  useEffect(() => {
-    setValue('department', major);
-  }, [major]);
   const onClickEmailAuth = async (e: MouseEvent<HTMLButtonElement>) => {
     if (emailCheckLoading) return; // 로딩중에는 동작 막아도 된다.
     e.preventDefault();
@@ -108,9 +105,9 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
   };
 
   const onSubmit = (data: SignUpFormInterface) => {
+    if (!isEmailValid && !isEditMode) return;
     console.log(data);
-    if (!isEmailValid && !editMode) return;
-    onSubmitForm(data.name, major, data.gitEmailId, data.email);
+    onSubmitForm(data.name, major, data.email, data.gitEmailId);
   };
 
   const handleChange = () => {
@@ -119,7 +116,7 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
   };
 
   return (
-    <SignUpFormStyle onSubmit={handleSubmit(onSubmit, (value) => console.log('invalid', value))}>
+    <SignUpFormStyle onSubmit={handleSubmit(onSubmit)}>
       <SignUpInput
         placeholder="이름"
         content="이름"
@@ -131,14 +128,12 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
           placeholder="아주대 메일"
           content="이메일 인증"
           buttonContent={!isEmailValid ? '인증' : undefined}
-          onClick={(e) => {
-            if (!editMode) onClickEmailAuth(e);
-          }}
+          onClick={onClickEmailAuth}
           {...register('email', SignUpData.email)}
           error={errors.email?.message}
           onChange={handleChange}
           authBtnSuspense={emailCheckLoading}
-          disabled={editMode}
+          disabled={isEditMode}
         />
         {isEmailValid && <CheckIcon />}
       </FlexDiv>
@@ -167,13 +162,12 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
         {...register('gitEmailId', SignUpData.gitEmailId)}
         error={errors.gitEmailId?.message}
       />
-      {!editMode && (
+      {!isEditMode && (
         <FlexDiv direction="column" style={{ gap: '0.5rem' }}>
           <FlexDiv direction="row" style={{ alignItems: 'center', gap: '0.5rem' }}>
             <input type="checkbox" name="" id="policy" />
             <label htmlFor="policy">이용약관 동의</label>
           </FlexDiv>
-
           <FlexDiv direction="row" style={{ alignItems: 'center', gap: '0.5rem' }}>
             <input type="checkbox" name="" id="privacy" />
             <label htmlFor="privacy">개인정보 이용 동의</label>
