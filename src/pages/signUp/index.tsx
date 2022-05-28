@@ -16,7 +16,7 @@ const SignUp = () => {
 
   const router = useRouter();
   const handleModalOnOff = () => setModalOnOff(!modalOnOff);
-  const onSubmitForm = async (name: string, department: string, ajouEmail: string, gitEmail: string) => {
+  const onSubmitForm = async (name: string, department: string, gitEmail: string, ajouEmail: string) => {
     await Auth.signUp({ name, department: department.toUpperCase(), ajouEmail, gitEmail });
 
     removeCookies('SESSION');
