@@ -29,7 +29,7 @@ const AuthContainer = styled.div`
 `;
 
 export default function Layout({ children }: { children: ReactChild | ReactChildren }) {
-  const NOT_NAVIGATION_LIST = ['SignUp', 'SignIn', 'SignUpPolicy'];
+  const NOT_NAVIGATION_LIST = ['signUp', 'signIn', 'signUpPolicy'];
 
   const compare = (url: string) => NOT_NAVIGATION_LIST.filter((path) => url.includes(path)).length > 0;
 
