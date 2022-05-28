@@ -14,9 +14,11 @@ import Auth from '@utils/api/Auth';
 const Modify = () => {
   const userInfo = useRecoilValue(userState);
   const router = useRouter();
-  const [major, setMajor] = useState<keyof typeof MAJOR_TYPE>(
-    userInfo?.department.toLowerCase() as keyof typeof MAJOR_TYPE,
-  );
+  const [major, setMajor] = useState<keyof typeof MAJOR_TYPE>('' as keyof typeof MAJOR_TYPE);
+
+  useEffect(() => {
+    setMajor(userInfo?.department?.toLowerCase() as keyof typeof MAJOR_TYPE);
+  }, []);
   const [modalOnOff, setModalOnOff] = useState(false);
 
   const handleModalOnOff = () => setModalOnOff(!modalOnOff);
