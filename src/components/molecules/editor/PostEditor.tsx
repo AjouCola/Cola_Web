@@ -39,7 +39,7 @@ const ToastEditor = ({ initialValue, placeholder, setContent, previewStyle }: IP
         const formData = new FormData();
         formData.append('imageFile', blob);
         async function getImageUrl() {
-          const [image] = (await Api.post('/api/v1/s3/file', formData, {
+          const image = (await Api.post('/api/v1/s3/file', formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
           })) as any;
           callback(image, 'imageURL');
