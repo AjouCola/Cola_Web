@@ -105,7 +105,7 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
   };
 
   const onSubmit = (data: SignUpFormInterface) => {
-    if (!isEmailValid) return;
+    if (!isEmailValid && !editMode) return;
     console.log(data);
     onSubmitForm(data.name, major, data.gitEmailId, data.email);
   };
@@ -135,6 +135,7 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
           error={errors.email?.message}
           onChange={handleChange}
           authBtnSuspense={emailCheckLoading}
+          disabled={editMode}
         />
         {isEmailValid && <CheckIcon />}
       </FlexDiv>

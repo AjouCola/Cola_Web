@@ -14,20 +14,42 @@ interface InputProps {
   onChange?: any;
   onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
   authBtnSuspense?: boolean;
+  disabled?: boolean;
 }
 
 const SignUpInput = forwardRef<HTMLInputElement, InputProps>(
-  ({ content, error, type = 'text', placeholder, buttonContent, onClick, onChange, authBtnSuspense, ...rest }, ref) => {
+  (
+    {
+      content,
+      error,
+      type = 'text',
+      placeholder,
+      buttonContent,
+      onClick,
+      onChange,
+      authBtnSuspense,
+      disabled,
+      ...rest
+    },
+    ref,
+  ) => {
     return (
       <FlexDiv direction="column">
         <Wrapper direction="row">
           <Title>{content}</Title>
-          <InputStyle ref={ref} {...rest} type={type} placeholder={placeholder} onChange={onChange} />
-          {buttonContent !== undefined && (
+          <InputStyle
+            ref={ref}
+            {...rest}
+            type={type}
+            placeholder={placeholder}
+            onChange={onChange}
+            disabled={disabled}
+          />
+          {buttonContent !== undefined && !disabled && (
             <AuthBtn onClick={onClick}>{authBtnSuspense ? <Spinner></Spinner> : buttonContent}</AuthBtn>
           )}
         </Wrapper>
-        {error !== undefined && <ErrorMessage>{error}</ErrorMessage>}
+        {error !== undefined && !disabled && <ErrorMessage>{error}</ErrorMessage>}
       </FlexDiv>
     );
   },

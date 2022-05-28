@@ -1,17 +1,20 @@
 import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
+import { useRecoilValue } from 'recoil';
 
 import Modal from '@components/molecules/modal';
 import MajorModal from '@components/molecules/modal/majorModal';
 import SignUpForm from '@components/organisms/signUpForm';
 import { MAJOR_TYPE } from '@constants/index';
+import { userState } from '@store/user';
 import { ContentContainer, Title, EditProfileContainer } from '@styles/mypage';
 import Auth from '@utils/api/Auth';
 
 const Modify = () => {
+  const userInfo = useRecoilValue(userState);
   const router = useRouter();
-  const [major, setMajor] = useState<keyof typeof MAJOR_TYPE>('sw');
+  const [major, setMajor] = useState<keyof typeof MAJOR_TYPE>(userInfo?.department as keyof typeof MAJOR_TYPE);
   const [modalOnOff, setModalOnOff] = useState(false);
 
   const handleModalOnOff = () => setModalOnOff(!modalOnOff);
