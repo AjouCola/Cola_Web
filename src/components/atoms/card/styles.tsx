@@ -18,6 +18,12 @@ const Container = styled.div`
 const UserProfileWarpper = styled.div`
   width: 8rem;
   height: 8rem;
+  border-radius: 50%;
+  img {
+    width: 8rem;
+    height: 8rem;
+    border-radius: 50%;
+  }
 `;
 
 const UserProfile = styled.p`
