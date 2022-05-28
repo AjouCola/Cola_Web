@@ -102,20 +102,20 @@ const CommentForm = ({ postType, onAddComment, getPostData }: ICommentFormProps)
         <UserDefault />
         <p style={{ fontSize: '1.2rem' }}>{userInfo?.name ?? '유저'}</p>
       </div>
-      {postType === 'common' ||
-        (postType === 'info' && (
-          <CommentInput
-            placeholder="댓글 추가 .."
-            value={comment}
-            onChange={(e) => setComment(e.currentTarget.value)}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                onSubmit();
-              }
-            }}
-          />
-        ))}
-      {postType === 'qna' && <CommentEditor setComment={setComment} comment={comment} />}
+      {postType === 'qna' ? (
+        <CommentEditor setComment={setComment} comment={comment} />
+      ) : (
+        <CommentInput
+          placeholder="댓글 추가 .."
+          value={comment}
+          onChange={(e) => setComment(e.currentTarget.value)}
+          onKeyPress={(e) => {
+            if (e.key === 'Enter') {
+              onSubmit();
+            }
+          }}
+        />
+      )}
       <BtnWrapper>
         <CommentSubmitBtn onClick={onSubmit}>작성</CommentSubmitBtn>
       </BtnWrapper>
