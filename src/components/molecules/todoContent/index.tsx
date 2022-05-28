@@ -1,6 +1,7 @@
+/* eslint-disable eqeqeq */
 import { useEffect, useState } from 'react';
 
-import { useRecoilValue, useRecoilState } from 'recoil';
+import { useRecoilValue, useRecoilState, useRecoilValueLoadable, useRecoilStateLoadable } from 'recoil';
 
 import {
   TodoContainer,
@@ -17,40 +18,43 @@ import { DragDropContext, DropResult, Droppable, resetServerContext } from 'reac
 import TodoMenuModal from '@components/molecules/todoMenuModal';
 import TodoArea from '@molecules/todoArea';
 import { todoModal } from '@store/todo';
-// import { any } from '@utils/api/Todo';
-import { todoState, IToDo, ITodoState } from 'src/store';
+import TodoApi, { IFolder, IFolders } from '@utils/api/Todo';
+import { ITodoFolder, todoListState } from 'src/store';
 
-const useDragableTodo = () => {
-  const [toDos, setToDos] = useRecoilState<any[]>(todoState);
+const useDragableTodo = (date: Date) => {
+  const [todoList, setTodoList] = useRecoilState(todoListState);
 
   const onDragEnd = (info: DropResult) => {
-    console.log(info);
     const { destination, draggableId, source } = info;
-    // if (!destination) return;
-    // if (destination?.droppableId === source.droppableId) {
-    //   // same board movement.
-    //   console.log()
-    // }
-    // if (destination.droppableId !== source.droppableId) {
-    //   // cross board movement
-    //   setToDos((folder) => {
-    //     const sourceBoard = [...folder[source.droppableId]];
-    //     const destinationBoard = [...folder[destination.droppableId]];
-    //     const toMoveTodo = sourceBoard.splice(source.index, 1)[0];
-    //     destinationBoard.splice(destination?.index, 0, toMoveTodo);
-    //     return {
-    //       ...folder,
-    //       [source.droppableId]: sourceBoard,
-    //       [destination.droppableId]: destinationBoard,
-    //     };
-    //   });
-    // }
+    if (!destination) return;
+    if (destination?.droppableId === source.droppableId) return;
+    // console.log(destFolder, srcFolder);
+
+    if (destination.droppableId !== source.droppableId) {
+      // cross board movement
+      setTodoList((prev: any) => {
+        const newTodoList = JSON.parse(JSON.stringify(prev));
+        // droppableId === folderId
+        const srcFolderIndex = prev.findIndex((f: any) => f.items_id == source.droppableId);
+        const destFolderIndex = prev.findIndex((f: any) => f.items_id == destination.droppableId);
+
+        // source.index에서 1개 잘라서 destination.index에 1개 넣기
+        const newSrcTodos = Array.from(newTodoList[srcFolderIndex].todos);
+        const newDestTodos = Array.from(newTodoList[destFolderIndex].todos);
+        const item = newSrcTodos.splice(source.index, 1)[0];
+        newDestTodos.splice(destination.index, 0, item);
+        newTodoList[srcFolderIndex].todos = newSrcTodos;
+        newTodoList[destFolderIndex].todos = newDestTodos;
+
+        return newTodoList;
+      });
+    }
   };
 
   return onDragEnd;
 };
-const useDeleteTodo = (): [boolean, () => void, (todoArea: string, todoId: number) => void] => {
-  const [toDos, setToDos] = useRecoilState(todoState);
+const useDeleteTodo = (date: Date): [boolean, () => void, (todoArea: string, todoId: number) => void] => {
+  const [todoList, setTodoList] = useRecoilState(todoListState);
 
   const [deleteMode, setDeleteMode] = useState(false);
   const [toDeleteItems, setToDeleteItems] = useState<{
@@ -80,28 +84,50 @@ const useDeleteTodo = (): [boolean, () => void, (todoArea: string, todoId: numbe
   };
 
   const deleteTodo = () => {
-    // for (const folder in toDeleteItems) {
-    //   setToDos((allFolder) => {
-    //     const items = [...allFolder[folder]];
-    //     for (const item of toDeleteItems[folder]) {
-    //       const itemIdx = items.findIndex((v) => v.id === item);
-    //       items.splice(itemIdx, 1);
-    //     }
-    //     return { ...allFolder, [folder]: items };
-    //   });
-    // }
+    for (const folder in toDeleteItems) {
+      setTodoList((allFolder: any) => {
+        const items = [...allFolder[folder]];
+        for (const item of toDeleteItems[folder]) {
+          const itemIdx = items.findIndex((v) => v.id === item);
+          items.splice(itemIdx, 1);
+        }
+        return { ...allFolder, [folder]: items };
+      });
+    }
   };
 
   return [deleteMode, onClickDelete, onCheckDeleteItem];
 };
 
 const TodoContent = ({ today }: { today: Date }) => {
-  const toDos = useRecoilValue(todoState);
-  const onDragEnd = useDragableTodo();
-  const [deleteMode, onClickDelete, onCheckDeleteItem] = useDeleteTodo();
+  const onDragEnd = useDragableTodo(today);
+  const [deleteMode, onClickDelete, onCheckDeleteItem] = useDeleteTodo(today);
 
   const todoMenuModal = useRecoilValue(todoModal);
 
+  const [isLoading, setIsLoading] = useState(true);
+  const [todoList, setTodoList] = useRecoilState(todoListState);
+
+  useEffect(() => {
+    (async function () {
+      const contents = await TodoApi.getTodoList(today.toISOString().slice(0, 10));
+      const { folders } = contents;
+
+      const todoList: ITodoFolder[] = folders.map(
+        (folder: IFolder) =>
+          ({
+            name: folder.name,
+            color: folder.color,
+            items_id: folder.items.items_id,
+            todos: folder.items.todos,
+          } as ITodoFolder),
+      );
+      setTodoList(todoList);
+      setIsLoading(false);
+    })();
+  }, [today]);
+
+  // useEffect(() => {}, [todoList]);
   return (
     <TodoContainer>
       <TodoInfoWrapper>
@@ -116,16 +142,17 @@ const TodoContent = ({ today }: { today: Date }) => {
           </DeleteBtn>
         </TodoUtils>
       </TodoInfoWrapper>
-      {Object.keys(toDos).length === 0 && 'Loading...'}
-      {Object.keys(toDos).length !== 0 && (
+      {isLoading && 'Loading...'}
+      {!isLoading && (
         <TodoWrapper>
           <DragDropContext onDragEnd={onDragEnd}>
-            {Object.keys(toDos).map((board: string, idx) => (
-              <Droppable key={board + (idx + '')} droppableId={board}>
+            {todoList.map((folder: ITodoFolder, idx: number) => (
+              <Droppable key={folder.items_id + (idx + '')} droppableId={folder.items_id + ''}>
                 {(provided, snapshot) => (
                   <div ref={provided.innerRef} {...provided.droppableProps}>
                     <TodoArea
-                      area={board}
+                      todoItems={folder.todos}
+                      area={folder.name}
                       idx={idx}
                       dragMode={true}
                       deleteMode={deleteMode}

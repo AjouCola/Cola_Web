@@ -10,12 +10,14 @@ import FolderIcon from '@assets/icon/folder_primary.svg';
 import DraggableTodo from '@components/atoms/todoCheckBox/draggable';
 import TodoCheckBox from '@components/atoms/todoCheckBox/index';
 import { todoEditMode, todoModalContent } from '@store/todo';
-import { todoState, IToDo } from 'src/store';
+import { ITodo } from '@utils/api/Todo';
+import { todoState } from 'src/store';
 
 export interface ITodoAreaProps {
   area: string;
   idx: number;
   // toDos: string[];
+  todoItems: ITodo[];
   dragMode?: boolean;
   deleteMode: boolean;
   checkDelete: (todoAre: string, todoId: number) => void;
@@ -25,7 +27,7 @@ interface Props {
   [key: string]: string[];
 }
 
-const TodoArea = ({ area, idx, dragMode = false, deleteMode, checkDelete, children }: ITodoAreaProps) => {
+const TodoArea = ({ todoItems, area, idx, dragMode = false, deleteMode, checkDelete, children }: ITodoAreaProps) => {
   const [todo, setTodoList] = useRecoilState(todoState);
 
   const [focus, setFocus] = useState(false);
@@ -102,33 +104,34 @@ const TodoArea = ({ area, idx, dragMode = false, deleteMode, checkDelete, childr
       <Wrapper>
         {
           // dragMode에 따라 드래그 가능한 컴포넌트 or 일반 컴포넌트 렌더링
-          // todo[area]?.map(({ id, content }, index) =>
-          //   dragMode ? (
-          //     <DraggableTodo
-          //       key={id}
-          //       toDoId={id}
-          //       toDoContent={content}
-          //       target={area}
-          //       handleFocus={handleFocus}
-          //       inputRef={inputRef}
-          //       index={index}
-          //       deleteMode={deleteMode}
-          //       checkDelete={checkDelete}
-          //     />
-          //   ) : (
-          //     <TodoCheckBox
-          //       key={id}
-          //       toDoId={id}
-          //       toDoContent={content}
-          //       target={area}
-          //       handleFocus={handleFocus}
-          //       inputRef={inputRef}
-          //       index={index}
-          //       deleteMode={deleteMode}
-          //       checkDelete={checkDelete}
-          //     />
-          //   ),
-          // )
+
+          todoItems?.map(({ id, content }, index) =>
+            dragMode ? (
+              <DraggableTodo
+                key={id}
+                toDoId={id}
+                toDoContent={content}
+                target={area}
+                handleFocus={handleFocus}
+                inputRef={inputRef}
+                index={index}
+                deleteMode={deleteMode}
+                checkDelete={checkDelete}
+              />
+            ) : (
+              <TodoCheckBox
+                key={id}
+                toDoId={id}
+                toDoContent={content}
+                target={area}
+                handleFocus={handleFocus}
+                inputRef={inputRef}
+                index={index}
+                deleteMode={deleteMode}
+                checkDelete={checkDelete}
+              />
+            ),
+          )
         }
         {dragMode && children}
       </Wrapper>

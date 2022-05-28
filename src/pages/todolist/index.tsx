@@ -4,7 +4,7 @@ import { GetServerSideProps } from 'next';
 import type { NextPage } from 'next';
 import { DragDropContext, Droppable, resetServerContext } from 'react-beautiful-dnd'; // eslint-disable-line
 
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from 'recoil';
 
 import TodoArea from '@components/molecules/todoArea';
 import { DeleteBlock, TodoInfoWrapper, TodoWrapper } from '@components/molecules/todoContent/styles';
@@ -26,7 +26,7 @@ import {
   SheetButton,
 } from '@styles/todolist';
 import TodoApi from '@utils/api/Todo';
-import { ITodoState, todoState } from 'src/store';
+import { ITodoState, todoListSelector, todoState } from 'src/store';
 
 export const useCalendar = (): [Date, Date, (condition: number) => void] => {
   const [date, setDate] = useState(new Date());
@@ -37,31 +37,11 @@ export const useCalendar = (): [Date, Date, (condition: number) => void] => {
   return [today, date, handleChangeMonth];
 };
 
-const useTodoList = (date: string | Date): [any[], Dispatch<SetStateAction<any[]>>] => {
-  const [toDos, setTodos] = useRecoilState<any[]>(todoState);
-
-  useEffect(() => {
-    async function fetchTodo(date: Date) {
-      const folders = (await TodoApi.getTodoList(date)) as unknown as any[];
-      setTodos(folders);
-    }
-    if (date) {
-      fetchTodo(new Date(date));
-    }
-  }, [date]);
-
-  return [toDos, setTodos];
-};
-
 const Todolist: NextPage = () => {
   const [today, date, handleChangeMonth] = useCalendar();
   const [mode, setMode] = useState('default');
-  const [toDos, setToDos] = useTodoList(date);
-  const [bottomSheetOnOff, setBottomSheetOnOff] = useState(false);
 
-  useEffect(() => {
-    TodoApi.saveTodoList(date, toDos);
-  }, [toDos]);
+  const [bottomSheetOnOff, setBottomSheetOnOff] = useState(false);
 
   return (
     <Container>
@@ -70,6 +50,7 @@ const Todolist: NextPage = () => {
         {mode === 'edit' && <EditTodoContent />}
         <MenuBtn onClick={() => setMode((v) => (v === 'default' ? 'edit' : 'default'))}>메뉴</MenuBtn>
       </TodoContainer>
+
       <SheetButton onClick={() => setBottomSheetOnOff((v) => !v)}>ㅡ</SheetButton>
       <CalendarContainer flag={bottomSheetOnOff}>
         <Calender {...{ date, handleChangeMonth }} />
@@ -82,6 +63,6 @@ export default Todolist;
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   resetServerContext();
-
+  // return null;
   return { props: { data: [] } };
 };

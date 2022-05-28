@@ -6,7 +6,6 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { FlexRow, CheckBoxWrapper, CheckBox, MenuWrapper, DeleteCheckBox } from './styles';
 
-import { IToDo } from '@store/index';
 import { todoEditMode, todoModal, todoModalContent } from '@store/todo';
 import { theme } from '@styles/theme';
 
