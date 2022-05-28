@@ -25,7 +25,7 @@ import {
   DeleteBtn,
   SheetButton,
 } from '@styles/todolist';
-import TodoApi, { ITodoFolder } from '@utils/api/Todo';
+import TodoApi from '@utils/api/Todo';
 import { ITodoState, todoState } from 'src/store';
 
 export const useCalendar = (): [Date, Date, (condition: number) => void] => {
@@ -37,12 +37,12 @@ export const useCalendar = (): [Date, Date, (condition: number) => void] => {
   return [today, date, handleChangeMonth];
 };
 
-const useTodoList = (date: string | Date): [ITodoFolder[], Dispatch<SetStateAction<ITodoFolder[]>>] => {
-  const [toDos, setTodos] = useRecoilState<ITodoFolder[]>(todoState);
+const useTodoList = (date: string | Date): [any[], Dispatch<SetStateAction<any[]>>] => {
+  const [toDos, setTodos] = useRecoilState<any[]>(todoState);
 
   useEffect(() => {
     async function fetchTodo(date: Date) {
-      const folders = (await TodoApi.getTodoList(date)) as unknown as ITodoFolder[];
+      const folders = (await TodoApi.getTodoList(date)) as unknown as any[];
       setTodos(folders);
     }
     if (date) {

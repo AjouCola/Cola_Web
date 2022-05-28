@@ -17,11 +17,11 @@ import { DragDropContext, DropResult, Droppable, resetServerContext } from 'reac
 import TodoMenuModal from '@components/molecules/todoMenuModal';
 import TodoArea from '@molecules/todoArea';
 import { todoModal } from '@store/todo';
-import { ITodoFolder } from '@utils/api/Todo';
+// import { any } from '@utils/api/Todo';
 import { todoState, IToDo, ITodoState } from 'src/store';
 
 const useDragableTodo = () => {
-  const [toDos, setToDos] = useRecoilState<ITodoFolder[]>(todoState);
+  const [toDos, setToDos] = useRecoilState<any[]>(todoState);
 
   const onDragEnd = (info: DropResult) => {
     console.log(info);
