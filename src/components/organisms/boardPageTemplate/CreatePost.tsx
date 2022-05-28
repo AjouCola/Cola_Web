@@ -47,6 +47,8 @@ const WritePost = ({
 
   const addChipList = (event: DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>) => {
     if (event.key !== 'Enter') return;
+    if (inputRef.current[WRITE_REF.hashtag].value.trim() === '') return;
+
     setChipList([...chipList, inputRef.current[WRITE_REF.hashtag].value]);
     inputRef.current[WRITE_REF.hashtag].value = '';
   };
