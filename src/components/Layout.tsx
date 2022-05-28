@@ -31,12 +31,13 @@ const AuthContainer = styled.div`
 export default function Layout({ children }: { children: ReactChild | ReactChildren }) {
   const NOT_NAVIGATION_LIST = ['SignUp', 'SignIn', 'SignUpPolicy'];
 
-  const router = useRouter();
+  const compare = (url: string) => NOT_NAVIGATION_LIST.filter((path) => url.includes(path)).length > 0;
 
+  const router = useRouter();
   return (
     <>
       {isValidElement(children) && typeof children.type !== 'string' && children.type.name !== 'GatherMap' ? (
-        !NOT_NAVIGATION_LIST.includes(children.type.name) ? (
+        !compare(router.pathname) ? (
           <>
             <Navigation />
             <NormalContainer flag={router.pathname === '/'}>{children}</NormalContainer>
