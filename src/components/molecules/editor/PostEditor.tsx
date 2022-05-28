@@ -36,9 +36,15 @@ const ToastEditor = ({ initialValue, placeholder, setContent, previewStyle }: IP
     if (editorRef.current) {
       editorRef.current.getInstance().removeHook('addImageBlobHook');
       editorRef.current.getInstance().addHook('addImageBlobHook', (blob, callback) => {
+        console.log(blob);
+        const formData = new FormData();
+        formData.append('multipartFile', [blob] as any);
+        for (const a of formData) {
+          console.log(a);
+        }
         async function getImageUrl() {
-          const [image] = (await Api.post('/api/v1/s3/file', {
-            multipartFile: [blob],
+          const [image] = (await Api.post('/api/v1/s3/file', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
           })) as any;
           callback(image, 'imageURL');
         }
