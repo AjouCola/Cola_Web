@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { useSetRecoilState } from 'recoil';
 
 import Api from './core';
@@ -25,30 +26,44 @@ export interface IFolders {
   folders: IFolder[];
 }
 
+const contents = {
+  date: '2022-05-27',
+  folder_orders: [1, 2],
+  folders: [
+    {
+      name: 'asdf',
+      color: '#ffffff',
+      items: {
+        items_id: 1,
+        todos: `[
+					{id: 1, content: "asdf", status: "todo"}, 
+					{id: 3, content: "asdf2", status: "doing"}, 
+					{id: 7, content: "asdf3", status: "done"}, 
+				]`,
+      },
+    },
+    {
+      name: 'asdf2',
+      color: '#ffffff',
+      items: {
+        items_list: 2,
+        todos: `[
+					{id: 2, content: "asdf2", status: "todo"}, 
+					{id: 5, content: "asdf5", status: "done"}, 
+					{id: 6, content: "asdf6", status: "done"}, 
+				]`,
+      },
+    },
+  ],
+};
 const TodoApi = {
-  getTodoList: async (date: Date): Promise<ITodoFolder[]> => {
-    const results: [IItemDto[], IFolderDto[]] = await Promise.all([
-      Api.get(`/api/v1/item/` + date.toISOString().slice(0, 10)) as unknown as IItemDto[],
-      Api.get('/api/v1/folder') as unknown as IFolders,
-    ]);
+  getTodoList: async (date: Date): Promise<any> => {
+    // const { contents } = await Api.get('/api/v1/todos/' + date);
+    console.log(contents);
 
-    const [ItemDtos, FolderDtos] = results;
-
-    const folderList = ItemDtos.map((itemDto, idx) => {
-      const parsedTodos = JSON.parse(itemDto.todos);
-
-      const folder = FolderDtos.find((folder) => folder.folderId === itemDto.folderId);
-
-      return {
-        todos: parsedTodos,
-        ...folder,
-        progress: itemDto.progress,
-      } as ITodoFolder;
-    });
-
-    return folderList;
+    // return data;
   },
-  saveTodoList: async (date: Date, todoList: ITodoFolder[]): Promise<boolean> => {
+  saveTodoList: async (date: Date, todoList: any): Promise<boolean> => {
     // const res = await Api.post('/todo', {
     //   date,
     //   todoList: JSON.stringify(todoList),
