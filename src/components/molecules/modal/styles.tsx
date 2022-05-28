@@ -51,7 +51,7 @@ const Title = styled.h2`
   margin: 20px 0px 30px 0px;
 `;
 
-const MajorWrapper = styled.div`
+const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -63,6 +63,7 @@ const MajorWrapper = styled.div`
   overflow: auto;
   row-gap: 1vmin;
   margin: 0 0 35px 0;
+  background: white;
   label {
     display: flex;
     align-items: center;
@@ -77,6 +78,7 @@ const MajorWrapper = styled.div`
     background: ${theme.colors.blue[500]};
   }
 `;
+const MajorWrapper = styled(ContentWrapper)``;
 
 const FooterWrapper = styled.div`
   display: flex;
@@ -101,4 +103,4 @@ const Span = styled.span<{ selected: boolean }>`
   color: ${({ selected, theme }) => (selected ? theme.colors.blue[500] : theme.colors.gray[100])};
 `;
 
-export { Background, MajorContainer, Content, Title, MajorWrapper, FooterWrapper, CheckBox, Span };
+export { Background, MajorContainer, Content, Title, ContentWrapper, MajorWrapper, FooterWrapper, CheckBox, Span };
