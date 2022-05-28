@@ -29,7 +29,7 @@ const Modify = () => {
   const handleModalOnOff = () => setModalOnOff(!modalOnOff);
 
   const onSubmitForm = async (name: string, department: string, gitEmail: string, ajouEmail: string) => {
-    await UserApi.edit({ name, department: department.toUpperCase(), gitEmail });
+    await UserApi.edit({ name, department, gitEmail });
 
     router.push('/mypage');
   };

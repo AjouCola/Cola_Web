@@ -26,7 +26,11 @@ const SignUp = () => {
     <>
       <Container>
         <Title>SIGN UP</Title>
-        <SignUpForm handleModalOnOff={handleModalOnOff} major={major} onSubmitForm={onSubmitForm} />
+        <SignUpForm
+          handleModalOnOff={handleModalOnOff}
+          major={major.toLowerCase() as keyof typeof MAJOR_TYPE}
+          onSubmitForm={onSubmitForm}
+        />
       </Container>
       {modalOnOff && (
         <Modal onClick={handleModalOnOff}>
