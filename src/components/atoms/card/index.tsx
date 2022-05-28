@@ -46,6 +46,7 @@ const Card = ({ name, profilePath, department, ajouEmail, githubEmail, handleMod
       },
     });
     setModalOnOff(false);
+    window?.location.reload();
   };
 
   return (
