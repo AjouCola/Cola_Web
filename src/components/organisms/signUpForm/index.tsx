@@ -107,7 +107,7 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
   const onSubmit = (data: SignUpFormInterface) => {
     if (!isEmailValid && !editMode) return;
     console.log(data);
-    onSubmitForm(data.name, major, data.gitEmailId, data.email);
+    onSubmitForm(data.name, data.department, data.gitEmailId, data.email);
   };
 
   const handleChange = () => {

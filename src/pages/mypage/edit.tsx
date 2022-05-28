@@ -36,11 +36,11 @@ const Modify = () => {
         </ContentContainer>
       </EditProfileContainer>
 
-      {modalOnOff && (
+      {/* {modalOnOff && (
         <Modal onClick={handleModalOnOff}>
           <MajorModal major={major} setMajor={setMajor} setModalOnOff={setModalOnOff} />
         </Modal>
-      )}
+      )} */}
     </>
   );
 };
