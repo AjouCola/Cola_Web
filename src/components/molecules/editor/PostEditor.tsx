@@ -38,7 +38,9 @@ const ToastEditor = ({ initialValue, placeholder, setContent, previewStyle }: IP
       editorRef.current.getInstance().addHook('addImageBlobHook', (blob, callback) => {
         console.log(blob);
         const formData = new FormData();
-        formData.append('multipartFile', [blob] as any);
+        const array = [];
+        array.push(blob);
+        array.map((file) => formData.append('multipartFile[]', file));
         for (const a of formData) {
           console.log(a);
         }
