@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 
 import { useRouter } from 'next/router';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilStateLoadable, useRecoilValue } from 'recoil';
 
 import SearchBar from '../searchBar';
 
@@ -23,13 +23,13 @@ import UserDefault from '@components/atoms/icon/userDefault';
 import NotifyDropdown from '@components/organisms/notifyDropdown';
 import { NAV_MENU } from '@constants/index';
 import SideBar from '@molecules/sidebar';
-import { IUserInfo, userState } from '@store/user';
 import Auth from '@utils/api/Auth';
 import { setCookies, getCookies } from '@utils/cookie';
+import { IUserInfo, useUserSelector } from '@store/selector/user';
 
 const Header = () => {
   const router = useRouter();
-  const [user, setUser] = useRecoilState(userState);
+  const [user, setUser] = useRecoilStateLoadable(useUserSelector({}));
   const dropdownRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   const notifyRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   const [profileMenu, setProfileMenu] = useState(false);
@@ -63,22 +63,8 @@ const Header = () => {
     };
   }, []);
 
-  useEffect(() => {
-    console.log('user changed', user);
-  }, [user]);
-  useEffect(() => {
-    (async function () {
-      const userData = (await Auth.getUser()) as unknown as IUserInfo;
-      setUser(userData);
-      console.log('check redirect, get user data', userData);
-    })();
-  }, []);
-
   const openMenu = () => {
-    // setProfileMenu((prev) => !prev)
-    const session = getCookies('SESSION');
-    console.log(session, user, 'open Menu');
-    if (user?.id) {
+    if ((user as unknown as IUserInfo)?.id) {
       setProfileMenu(true);
     } else {
       router.push('/signIn');
@@ -93,7 +79,6 @@ const Header = () => {
         key={menu.id}
         onClick={() => {
           if (menu.link === 'logout') {
-            setCookies('SESSION', '');
             setUser({} as IUserInfo);
             router.push('/');
           } else {

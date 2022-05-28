@@ -4,15 +4,15 @@ import styled from '@emotion/styled';
 import { NextPageContext } from 'next';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
 
 import UserDefault from '@atoms/icon/userDefault';
 import BoardContent from '@organisms/boardContent';
 import Comment from '@organisms/comment';
-import { userState } from '@store/user';
 import { theme } from '@styles/theme';
 import { Board as BoardApi } from '@utils/api/Board';
 import { CommentApi } from '@utils/api/Comment';
+import { useUserSelector } from '@store/selector/user';
 
 const CommentEditor = dynamic(() => import('../../components/molecules/editor/commentEditor'), { ssr: false });
 const CommentViewer = dynamic(() => import('../../components/molecules/editor/CommentViewer'), { ssr: false });
@@ -51,6 +51,7 @@ const CommentSubmitBtn = styled.button`
 const CommentWrapper = styled.div``;
 
 interface IUserInfo {
+  name: string;
   userId?: number;
   userName: string;
 }
@@ -80,7 +81,7 @@ interface ICommentFormProps {
 const CommentForm = ({ postType, onAddComment, getPostData }: ICommentFormProps) => {
   const router = useRouter();
   const { id } = router.query;
-  const userInfo = useRecoilValue(userState);
+  const userInfo = useRecoilValueLoadable(useUserSelector({})) as unknown as IUserInfo;
   const [comment, setComment] = useState('');
 
   const onSubmit = async () => {

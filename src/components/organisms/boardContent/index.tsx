@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { marked } from 'marked';
 import { useRouter } from 'next/router';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
 
 import {
   Container,
@@ -24,7 +24,6 @@ import Heart from '@assets/icon/heart_primary.svg';
 import Logo from '@assets/icon/logo.svg';
 import HashtagChip from '@atoms/hashtagChip';
 import UserDefault from '@components/atoms/icon/userDefault';
-import { userState } from '@store/user';
 import { Board } from '@utils/api/Board';
 import Comment from 'public/comment.svg';
 import CommentBig from 'public/comment_Big.svg';
@@ -33,6 +32,7 @@ import HeartBig from 'public/heart_Big.svg';
 import LeftArrow from 'public/left_arrow.svg';
 import RightArrow from 'public/right_arrow.svg';
 import Visit from 'public/visit.svg';
+import { IUserInfo, useUserSelector } from '@store/selector/user';
 
 interface Props {
   postType: string;
@@ -89,7 +89,7 @@ const HashTagBar = ({ data }: { data: string[] }) => {
 
 const BoardContent = ({ postType, title, userId, tags, userName, content, createdDate, modifiedDate }: Props) => {
   const router = useRouter();
-  const userInfo = useRecoilValue(userState);
+  const userInfo = useRecoilValueLoadable(useUserSelector({}));
   const [menu, setMenu] = useState(false);
   const onClickMenu = () => {
     setMenu((prev) => !prev);
@@ -144,7 +144,7 @@ const BoardContent = ({ postType, title, userId, tags, userName, content, create
               <DetailIconWrapper>
                 <HeartBig />
                 <CommentBig />
-                {userInfo.id === userId && (
+                {(userInfo as unknown as IUserInfo).id === userId && (
                   <MenuBtn onClick={onClickMenu}>
                     <span>•••</span>
                     {menu && (

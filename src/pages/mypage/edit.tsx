@@ -7,7 +7,6 @@ import Modal from '@components/molecules/modal';
 import MajorModal from '@components/molecules/modal/majorModal';
 import SignUpForm from '@components/organisms/signUpForm';
 import { MAJOR_TYPE } from '@constants/index';
-import { userState } from '@store/user';
 import { ContentContainer, Title, EditProfileContainer } from '@styles/mypage';
 import UserApi from '@utils/api/User';
 

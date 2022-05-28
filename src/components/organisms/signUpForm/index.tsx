@@ -2,7 +2,7 @@ import { MouseEvent, useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 import { useForm, UseFormRegister } from 'react-hook-form';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
 
 import { SignUpFormInterface, SignUpData } from './index.type';
 import { SignUpFormStyle, CheckIcon } from './styles';
@@ -10,10 +10,10 @@ import { SignUpFormStyle, CheckIcon } from './styles';
 import SubmitBtn from '@components/atoms/button/submit';
 import SignUpInput from '@components/organisms/signUpInput';
 import { MAJOR_TYPE } from '@constants/index';
-import { userState } from '@store/user';
 import { FlexDiv } from '@styles/index';
 import { Select, Triangle, SubTitle } from '@styles/signUp';
 import Auth from '@utils/api/Auth';
+import { IUserInfo, useUserSelector } from '@store/selector/user';
 
 interface Props {
   handleModalOnOff: () => void;
@@ -41,7 +41,7 @@ const MajorSelectBox = ({ major, handleModalOnOff, register }: SelectBoxProps) =
 const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
   const router = useRouter();
   const isEditMode = router.pathname === '/mypage/edit';
-  const userInfo = useRecoilValue(userState);
+  const userInfo = useRecoilValueLoadable(useUserSelector({})) as unknown as IUserInfo;
 
   const [checkEmail, setCheckEmail] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(false);

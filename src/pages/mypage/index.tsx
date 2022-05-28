@@ -2,13 +2,13 @@ import { useState } from 'react';
 
 import type { NextPage } from 'next';
 import Link from 'next/link';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
 
 import Card from '@components/atoms/card';
 import Modal from '@components/molecules/modal';
 import PostContent from '@components/molecules/postContent';
-import { userState } from '@store/user';
 import { Container, Title, CardContainer, ContentContainer, BackgroundImage, ModalContainer } from '@styles/mypage';
+import { IUserInfo, useUserSelector } from '@store/selector/user';
 
 const data = {
   name: '김이름',
@@ -18,7 +18,7 @@ const data = {
 };
 
 const Mypage: NextPage = () => {
-  const userInfo = useRecoilValue(userState);
+  const userInfo = useRecoilValueLoadable(useUserSelector({})) as unknown as IUserInfo;
   const [modalOnOff, setModalOnOff] = useState(false);
 
   const handleModalOnOff = () => setModalOnOff(!modalOnOff);
@@ -30,13 +30,15 @@ const Mypage: NextPage = () => {
           <BackgroundImage>
             <pre>{`캐릭터가\n명함을 쥐고\n매달려 있는 느낌`}</pre>
           </BackgroundImage>
-          <Card
-            name={userInfo?.name ?? '이름'}
-            department={userInfo?.department ?? '학과'}
-            ajouEmail={userInfo?.ajouEmail ?? '아주이메일'}
-            githubEmail={userInfo?.gitEmail ?? '깃메일'}
-            handleModalOnOff={handleModalOnOff}
-          />
+          {userInfo.state === 'hasValue' && (
+            <Card
+              name={userInfo?.name ?? '이름'}
+              department={userInfo?.department ?? '학과'}
+              ajouEmail={userInfo?.ajouEmail ?? '아주이메일'}
+              githubEmail={userInfo?.gitEmail ?? '깃메일'}
+              handleModalOnOff={handleModalOnOff}
+            />
+          )}
         </CardContainer>
         <ContentContainer>
           <PostContent

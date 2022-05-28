@@ -3,16 +3,16 @@ import { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import { Viewer } from '@toast-ui/react-editor';
 import { useRouter } from 'next/router';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
 
 import CommentEditor from './commentEditor';
 
 import CommentIcon from '@assets/icon/comment_primary.svg';
 import Heart from '@assets/icon/heart_primary.svg';
 import UserDefault from '@components/atoms/icon/userDefault';
-import { IUserInfo, userState } from '@store/user';
 import { FlexDiv } from '@styles/index';
 import { CommentApi } from '@utils/api/Comment';
+import { IUserInfo, useUserSelector } from '@store/selector/user';
 
 const Comment = styled.div`
   display: flex;
@@ -97,13 +97,14 @@ const DropdownItem = styled.li`
 `;
 
 const EditorWrapper = styled.div`
-  display:flex;
-  flex-direction:column;
-  gap:1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   background: white;
   padding: 0.5rem;
   border-radius: 1rem;
-}`;
+`;
+
 const EditModeBtn = styled.button<{ bgColor?: string; textColor?: string }>`
   border: none;
   background: ${({ theme: { colors }, bgColor }) => bgColor ?? colors.blue[500]};
@@ -138,7 +139,7 @@ const CommentViewer = ({
     }
   }, [content, name]);
 
-  const userInfo = useRecoilValue(userState);
+  const userInfo = useRecoilValueLoadable(useUserSelector({})) as unknown as IUserInfo;
   const [isMine, setIsMine] = useState(false);
 
   const [dropdown, setDropdown] = useState(false);
