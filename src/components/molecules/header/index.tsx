@@ -29,7 +29,7 @@ import { setCookies, getCookies } from '@utils/cookie';
 
 const Header = () => {
   const router = useRouter();
-  const [user, setUser] = useRecoilStateLoadable(useUserSelector({}));
+  const [{ contents: user }, setUser] = useRecoilStateLoadable(useUserSelector({}));
   const dropdownRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   const notifyRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   const [profileMenu, setProfileMenu] = useState(false);
@@ -63,8 +63,12 @@ const Header = () => {
     };
   }, []);
 
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+
   const openMenu = () => {
-    if ((user as unknown as IUserInfo)?.id) {
+    if (user?.id) {
       setProfileMenu(true);
     } else {
       router.push('/signIn');

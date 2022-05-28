@@ -139,7 +139,7 @@ const CommentViewer = ({
     }
   }, [content, name]);
 
-  const userInfo = useRecoilValueLoadable(useUserSelector({})) as unknown as IUserInfo;
+  const { contents: userInfo } = useRecoilValueLoadable(useUserSelector({}));
   const [isMine, setIsMine] = useState(false);
 
   const [dropdown, setDropdown] = useState(false);

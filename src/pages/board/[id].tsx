@@ -81,7 +81,7 @@ interface ICommentFormProps {
 const CommentForm = ({ postType, onAddComment, getPostData }: ICommentFormProps) => {
   const router = useRouter();
   const { id } = router.query;
-  const userInfo = useRecoilValueLoadable(useUserSelector({})) as unknown as IUserInfo;
+  const { contents: userInfo } = useRecoilValueLoadable(useUserSelector({}));
   const [comment, setComment] = useState('');
 
   const onSubmit = async () => {

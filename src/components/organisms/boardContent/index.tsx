@@ -89,7 +89,7 @@ const HashTagBar = ({ data }: { data: string[] }) => {
 
 const BoardContent = ({ postType, title, userId, tags, userName, content, createdDate, modifiedDate }: Props) => {
   const router = useRouter();
-  const userInfo = useRecoilValueLoadable(useUserSelector({}));
+  const { contents: userInfo } = useRecoilValueLoadable(useUserSelector({}));
   const [menu, setMenu] = useState(false);
   const onClickMenu = () => {
     setMenu((prev) => !prev);
@@ -144,7 +144,7 @@ const BoardContent = ({ postType, title, userId, tags, userName, content, create
               <DetailIconWrapper>
                 <HeartBig />
                 <CommentBig />
-                {(userInfo as unknown as IUserInfo).id === userId && (
+                {userInfo.id === userId && (
                   <MenuBtn onClick={onClickMenu}>
                     <span>•••</span>
                     {menu && (

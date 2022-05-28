@@ -41,7 +41,7 @@ const MajorSelectBox = ({ major, handleModalOnOff, register }: SelectBoxProps) =
 const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
   const router = useRouter();
   const isEditMode = router.pathname === '/mypage/edit';
-  const userInfo = useRecoilValueLoadable(useUserSelector({})) as unknown as IUserInfo;
+  const { contents: userInfo } = useRecoilValueLoadable(useUserSelector({}));
 
   const [checkEmail, setCheckEmail] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(false);

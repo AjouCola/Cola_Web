@@ -18,7 +18,7 @@ const data = {
 };
 
 const Mypage: NextPage = () => {
-  const userInfo = useRecoilValueLoadable(useUserSelector({})) as unknown as IUserInfo;
+  const { contents: userInfo } = useRecoilValueLoadable(useUserSelector({}));
   const [modalOnOff, setModalOnOff] = useState(false);
 
   const handleModalOnOff = () => setModalOnOff(!modalOnOff);
@@ -30,15 +30,13 @@ const Mypage: NextPage = () => {
           <BackgroundImage>
             <pre>{`캐릭터가\n명함을 쥐고\n매달려 있는 느낌`}</pre>
           </BackgroundImage>
-          {userInfo.state === 'hasValue' && (
-            <Card
-              name={userInfo?.name ?? '이름'}
-              department={userInfo?.department ?? '학과'}
-              ajouEmail={userInfo?.ajouEmail ?? '아주이메일'}
-              githubEmail={userInfo?.gitEmail ?? '깃메일'}
-              handleModalOnOff={handleModalOnOff}
-            />
-          )}
+          <Card
+            name={userInfo?.name ?? '이름'}
+            department={userInfo?.department ?? '학과'}
+            ajouEmail={userInfo?.ajouEmail ?? '아주이메일'}
+            githubEmail={userInfo?.gitEmail ?? '깃메일'}
+            handleModalOnOff={handleModalOnOff}
+          />
         </CardContainer>
         <ContentContainer>
           <PostContent
