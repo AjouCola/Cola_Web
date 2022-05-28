@@ -4,15 +4,16 @@ import { theme } from '@styles/theme';
 
 const Container = styled.div`
   display: grid;
-
+  width: 100%;
+  max-width: 1200px;
   box-sizing: border-box;
   grid-template:
     'title .' 1fr
     'info content' 10fr
-    / 7fr 4fr;
+    / 5fr 5fr;
   column-gap: 4rem;
+  padding: 4rem;
   @media (max-width: ${theme.breakpoints.md}) {
-    width: 60%;
     grid-template:
       'title' 2rem
       'info ' 2fr
@@ -21,6 +22,7 @@ const Container = styled.div`
   }
   @media (max-width: ${theme.breakpoints.sm}) {
     width: 100%;
+    padding: 4rem 1rem;
     grid-template:
       'title' 2rem
       'info ' 2fr
@@ -43,6 +45,7 @@ const CardContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   position: relative;
+  width: 100%;
 `;
 
 const ContentContainer = styled.div`
@@ -50,6 +53,8 @@ const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
+  width: 100%;
+  align-items: center;
 `;
 
 const BackgroundImage = styled.div`

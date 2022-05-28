@@ -12,7 +12,13 @@ import { ContentContainer, Title, EditProfileContainer } from '@styles/mypage';
 import UserApi from '@utils/api/User';
 
 const Modify = () => {
-  const userInfo = useRecoilValue(userState);
+  // const userInfo = useRecoilValue(userState);
+  const userInfo = {
+    name: '김이름',
+    department: '소프트웨어학과',
+    ajouEmail: 'maxcha98@ajou.ac.kr',
+    githubEmail: 'maxcha98@naver.com',
+  };
   const router = useRouter();
   const [major, setMajor] = useState<keyof typeof MAJOR_TYPE>('' as keyof typeof MAJOR_TYPE);
 

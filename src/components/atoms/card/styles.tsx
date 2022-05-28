@@ -3,11 +3,12 @@ import styled from '@emotion/styled';
 import { theme } from '@styles/theme';
 
 const Container = styled.div`
-  position: absolute;
+  position: relative;
   display: flex;
   border-radius: 10px;
-  padding: 4rem;
+  // padding: 4rem;
   width: 100%;
+  height: 20rem;
   box-sizing: border-box;
   border: 1px solid ${theme.colors.blue[500]};
   box-shadow: 10px 10px 6px ${theme.colors.blue[300]};
@@ -15,7 +16,7 @@ const Container = styled.div`
 `;
 
 const UserProfile = styled.p`
-  border-radius: 100vw;
+  border-radius: 50%;
   background: green;
   width: 8rem;
   height: 8rem;

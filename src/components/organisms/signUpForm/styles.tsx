@@ -7,6 +7,7 @@ const SignUpFormStyle = styled.form`
   flex-direction: column;
   row-gap: 2vh;
   align-items: flex-start;
+  max-width: 30rem;
 `;
 
 const CheckIcon = styled(Check)`

@@ -31,10 +31,10 @@ const Mypage: NextPage = () => {
             <pre>{`캐릭터가\n명함을 쥐고\n매달려 있는 느낌`}</pre>
           </BackgroundImage>
           <Card
-            name={userInfo.name}
-            department={userInfo.department}
-            ajouEmail={userInfo.ajouEmail}
-            githubEmail={userInfo.gitEmail}
+            name={userInfo?.name ?? '이름'}
+            department={userInfo?.department ?? '학과'}
+            ajouEmail={userInfo?.ajouEmail ?? '아주이메일'}
+            githubEmail={userInfo?.gitEmail ?? '깃메일'}
             handleModalOnOff={handleModalOnOff}
           />
         </CardContainer>

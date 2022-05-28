@@ -8,6 +8,7 @@ const Container = styled.div`
   border-radius: 10px;
   width: 100%;
   height: 100%;
+  min-width: 20rem;
   padding: 1rem;
   background: ${theme.colors.blue[500]};
   h2,
