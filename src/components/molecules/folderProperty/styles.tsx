@@ -39,7 +39,22 @@ const Line = styled.div`
   width: 100%;
   border: 0.1px solid white;
 `;
-
+const ButtonWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  left: 0px;
+  bottom: 2rem;
+  padding: 0px 2rem;
+  button {
+    border: none;
+    border-radius: 15px;
+    padding: 0.4rem 1rem;
+    background: white;
+    color: ${theme.colors.blue[500]};
+  }
+`;
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
@@ -50,4 +65,4 @@ const Wrapper = styled.div`
   }
 `;
 
-export { FolderPropertyContainer, ColorContainer, ColorBtn, Line, Wrapper };
+export { FolderPropertyContainer, ButtonWrapper, ColorContainer, ColorBtn, Line, Wrapper };

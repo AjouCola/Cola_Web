@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useRef, useState } from 'react';
 
-import { FolderPropertyContainer, ColorContainer, ColorBtn, Line, Wrapper } from './styles';
+import { FolderPropertyContainer, ButtonWrapper, ColorContainer, ColorBtn, Line, Wrapper } from './styles';
 
 import FolderItem from '@atoms/folderItem';
+import Api from '@utils/api/core';
 
 const ColorList = [
   '#EF7373',
@@ -34,23 +35,48 @@ const ColorList = [
   '#AAAAAA',
 ];
 
-const FolderProperty = ({ data: { id, color } }: { data: any }) => {
+const FolderProperty = ({
+  data: { id, name, color },
+  setIsEdit,
+}: {
+  data: any;
+  setIsEdit: Dispatch<SetStateAction<any>>;
+}) => {
   const [defaultColor, setDefaultColor] = useState(color);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleUpdate = async () => {
+    await Api.patch(`/api/v1/folder/${id}`, {
+      color: defaultColor,
+      name: inputRef.current?.value,
+    });
+    setIsEdit({ id: -1 });
+  };
+
+  const handleDelete = async () => {
+    await Api.delete(`/api/v1/folder/${id}`);
+    setIsEdit({ id: -1 });
+  };
   return (
-    <FolderPropertyContainer>
-      <FolderItem id={id} color={defaultColor} />
-      <p>폴더 색상</p>
-      <ColorContainer>
-        {ColorList.map((c) => (
-          <ColorBtn key={c} color={c} status={defaultColor === c} onClick={() => setDefaultColor(c)} />
-        ))}
-      </ColorContainer>
-      <Line />
-      <Wrapper>
-        <button>폴더 재개하기</button>
-        <button>폴더 삭제하기</button>
-      </Wrapper>
-    </FolderPropertyContainer>
+    <>
+      <FolderPropertyContainer>
+        <FolderItem id={id} name={name} color={defaultColor} inputRef={inputRef} edit={true} />
+        <p>폴더 색상</p>
+        <ColorContainer>
+          {ColorList.map((c) => (
+            <ColorBtn key={c} color={c} status={defaultColor === c} onClick={() => setDefaultColor(c)} />
+          ))}
+        </ColorContainer>
+        <Line />
+        <Wrapper>
+          <button onClick={handleDelete}>폴더 삭제하기</button>
+        </Wrapper>
+      </FolderPropertyContainer>
+      <ButtonWrapper>
+        <button onClick={() => setIsEdit({ id: -1 })}>취소</button>
+        <button onClick={handleUpdate}>확인</button>
+      </ButtonWrapper>
+    </>
   );
 };
 export default FolderProperty;
