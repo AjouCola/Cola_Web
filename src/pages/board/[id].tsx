@@ -14,7 +14,7 @@ import { theme } from '@styles/theme';
 import { Board as BoardApi } from '@utils/api/Board';
 import { CommentApi } from '@utils/api/Comment';
 
-const CommentEditor = dynamic(() => import('../../components/molecules/editor/commentEditor'), { ssr: false });
+const CommentEditor = dynamic(() => import('../../components/molecules/editor/qnaEditor'), { ssr: false });
 const CommentViewer = dynamic(() => import('../../components/molecules/editor/CommentViewer'), { ssr: false });
 
 const Container = styled.div`
@@ -63,7 +63,7 @@ export interface IComment {
 }
 
 interface IPost {
-  postType: string;
+  postType: 'qna' | 'info' | 'common';
   postId: number;
   title: string;
   content: string;
@@ -74,7 +74,7 @@ interface IPost {
   modifiedDate: string;
 }
 interface ICommentFormProps {
-  postType: string;
+  postType: 'qna' | 'info' | 'common';
   onAddComment: (newComment: IComment) => void;
   getPostData: () => void;
 }
@@ -165,14 +165,14 @@ const BoardDetail = () => {
       {/* 추후 lazy loading 지원 예정  */}
       <CommentWrapper>
         {comments.map(({ userInfo: { userName, userId }, content, commentId }, idx) => (
-          // <Comment key={idx} name={userName} contents={content} />
           <CommentViewer
             key={commentId}
+            postType={postData.postType}
             commentId={commentId}
             userId={userId!}
             name={userName}
             content={content}
-          ></CommentViewer>
+          />
         ))}
         {comments.length === 0 && <p>댓글이 없습니다.</p>}
       </CommentWrapper>

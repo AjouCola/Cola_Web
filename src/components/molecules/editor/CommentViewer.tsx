@@ -5,14 +5,14 @@ import { Viewer } from '@toast-ui/react-editor';
 import { useRouter } from 'next/router';
 import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
 
-import CommentEditor from './commentEditor';
-
 import CommentIcon from '@assets/icon/comment_primary.svg';
 import Heart from '@assets/icon/heart_primary.svg';
 import UserDefault from '@components/atoms/icon/userDefault';
 import { IUserInfo, useUserSelector } from '@store/selector/user';
 import { FlexDiv } from '@styles/index';
 import { CommentApi } from '@utils/api/Comment';
+import QnaEditor from './qnaEditor';
+import CommonEditor from './commonEditor';
 
 const Comment = styled.div`
   display: flex;
@@ -121,10 +121,12 @@ const EditModeBtn = styled.button<{ bgColor?: string; textColor?: string }>`
 `;
 const CommentViewer = ({
   commentId,
+  postType,
   userId,
   name,
   content,
 }: {
+  postType: 'qna' | 'info' | 'common';
   commentId: number;
   userId: number;
   name: string;
@@ -222,7 +224,12 @@ const CommentViewer = ({
         {!editMode && <CustomViewer ref={viewerRef} initialValue={content} />}
         {editMode && (
           <>
-            <CommentEditor comment={editComment} setComment={setEditComment} initialValue={editComment} />
+            {postType === 'qna' && (
+              <QnaEditor comment={editComment} setComment={setEditComment} initialValue={editComment} />
+            )}
+            {postType !== 'qna' && (
+              <CommonEditor comment={editComment} setComment={setEditComment} initialValue={editComment} />
+            )}
             <FlexDiv direction="row" style={{ gap: '1rem' }}>
               <EditModeBtn bgColor="rgb(123,123,123)" onClick={onClickCancelEdit}>
                 취소
