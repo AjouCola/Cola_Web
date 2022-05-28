@@ -17,7 +17,7 @@ import Auth from '@utils/api/Auth';
 interface Props {
   handleModalOnOff: () => void;
   major: keyof typeof MAJOR_TYPE;
-  onSubmitForm: (name: string, department: string, gitEmail: string, ajouEmail?: string) => void;
+  onSubmitForm: (name: string, department: string, gitEmail: string, ajouEmail: string) => void;
 }
 
 interface SelectBoxProps extends Props {

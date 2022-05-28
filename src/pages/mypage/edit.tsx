@@ -16,7 +16,7 @@ const Modify = () => {
 
   const handleModalOnOff = () => setModalOnOff(!modalOnOff);
 
-  const onSubmitForm = async (name: string, department: string, gitEmail: string) => {
+  const onSubmitForm = async (name: string, department: string, gitEmail: string, ajouEmail: string) => {
     const result = await Auth.edit({ name, department, gitEmail });
     if (result) {
       router.push('/mypage');
