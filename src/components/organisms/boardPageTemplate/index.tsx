@@ -30,6 +30,7 @@ import { Board as BoardApi } from '@utils/api/Board';
 interface IPost {
   postId: number;
   title: string;
+  content: string;
   userInfo: {
     userId: number;
     userName: string;
@@ -135,6 +136,7 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
                   key={post.postId}
                   id={post.postId}
                   title={post.title}
+                  content={post.content}
                   username={post.userInfo.userName}
                   createdAt={post.createdDate}
                 />
@@ -145,6 +147,7 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
                   key={post.postId}
                   title={post.title}
                   id={post.postId}
+                  content={post.content}
                   username={post.userInfo.userName}
                   createdAt={post.createdDate}
                 />
@@ -155,6 +158,7 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
                   key={post.postId}
                   id={post.postId}
                   title={post.title}
+                  content={post.content}
                   username={post.userInfo.userName}
                   createdAt={post.createdDate}
                 />

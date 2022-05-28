@@ -4,5 +4,6 @@ export interface IBoardItem {
   username: string;
   createdAt: string;
   title: string;
+  content: string;
 }
 /* eslint-disable */
