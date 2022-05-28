@@ -18,8 +18,5 @@ const Auth = {
   async getUser() {
     return await Api.get('/api/v1/users').catch((err) => console.log(err));
   },
-  async edit(params: { name: string; department: string; gitEmail: string }) {
-    return await Api.put(`/api/v1/users`, params);
-  },
 };
 export default Auth;

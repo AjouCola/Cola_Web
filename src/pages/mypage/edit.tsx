@@ -9,7 +9,7 @@ import SignUpForm from '@components/organisms/signUpForm';
 import { MAJOR_TYPE } from '@constants/index';
 import { userState } from '@store/user';
 import { ContentContainer, Title, EditProfileContainer } from '@styles/mypage';
-import Auth from '@utils/api/Auth';
+import UserApi from '@utils/api/User';
 
 const Modify = () => {
   const userInfo = useRecoilValue(userState);
@@ -24,7 +24,7 @@ const Modify = () => {
   const handleModalOnOff = () => setModalOnOff(!modalOnOff);
 
   const onSubmitForm = async (name: string, department: string, gitEmail: string, ajouEmail: string) => {
-    const result = await Auth.edit({ name, department: department.toUpperCase(), gitEmail });
+    const result = await UserApi.edit({ name, department: department.toUpperCase(), gitEmail });
     if (result) {
       router.push('/mypage');
     } else {
