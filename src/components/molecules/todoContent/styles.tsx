@@ -107,7 +107,13 @@ const FolderWrapper = styled.div`
   justify-content: space-between;
   margin-bottom: 1rem;
   p {
+    cursor: pointer;
+    :hover {
+      opacity: 50%;
+    }
     margin: 0px;
+    right: 0px;
+    font-size: 2rem;
   }
 `;
 
@@ -134,22 +140,6 @@ const Line = styled.div`
   border: 0.1px solid white;
 `;
 
-const ButtonWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  position: absolute;
-  left: 0px;
-  bottom: 2rem;
-  padding: 0px 2rem;
-  button {
-    border: none;
-    border-radius: 15px;
-    padding: 0.4rem 1rem;
-    background: white;
-    color: ${theme.colors.blue[500]};
-  }
-`;
 const TodoInfo = styled.div`
   display: flex;
   flex-direction: column;
@@ -166,6 +156,30 @@ const TodoDate = styled(TodoInfo)`
   }
 `;
 
+const Warpper = styled.div`
+  display: flex;
+  align-items: center;
+  height: 2rem;
+  width: 100%;
+  padding: 0px 0.4rem;
+  button {
+    background: none;
+    color: white;
+    border: none;
+    height: 100%;
+    white-space: nowrap;
+    cursor: pointer;
+    :hover {
+      opacity: 50%;
+    }
+  }
+`;
+const Input = styled.input`
+  border: none;
+  height: 100%;
+  width: 100%;
+`;
+
 export {
   TodoContainer,
   TodoInfoWrapper,
@@ -176,8 +190,9 @@ export {
   TodoWrapper,
   FolderWrapper,
   FolderItemContainer,
-  ButtonWrapper,
   FolderConrtainer,
   TodoDate,
+  Warpper,
   Line,
+  Input,
 };
