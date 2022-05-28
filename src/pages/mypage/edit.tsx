@@ -7,22 +7,22 @@ import MajorModal from '@components/molecules/modal/majorModal';
 import SignUpForm from '@components/organisms/signUpForm';
 import { MAJOR_TYPE } from '@constants/index';
 import { ContentContainer, Title, EditProfileContainer } from '@styles/mypage';
-// import { Container } from '@styles/signUp';
-import Api from '@utils/api/core';
+import Auth from '@utils/api/Auth';
 
 const Modify = () => {
-  const { id } = useRouter().query;
-  const [userData, setUserData] = useState<any>();
+  const router = useRouter();
   const [major, setMajor] = useState<keyof typeof MAJOR_TYPE>('sw');
   const [modalOnOff, setModalOnOff] = useState(false);
 
   const handleModalOnOff = () => setModalOnOff(!modalOnOff);
 
-  // useEffect(() => {
-  //   setUserData(Api.get('/user/?' + id));
-  // }, []);
-  const onSubmitForm = () => {
-    console.log('submit');
+  const onSubmitForm = async (name: string, department: string, gitEmail: string) => {
+    const result = await Auth.edit({ name, department, gitEmail });
+    if (result) {
+      router.push('/mypage');
+    } else {
+      alert('유저 정보 수정 중 문제가 발생하였습니다. 잠시 후 다시 시도해주세요');
+    }
   };
   return (
     <>
