@@ -25,18 +25,18 @@ interface SelectBoxProps extends Props {
   register: UseFormRegister<SignUpFormInterface>;
 }
 
-const MajorSelectBox = ({ major, handleModalOnOff, register }: SelectBoxProps) => {
-  return (
-    <div style={{ position: 'relative' }}>
-      <Select onClick={handleModalOnOff} {...register('department', SignUpData.department)}>
-        <option value={MAJOR_TYPE[major]} hidden>
-          {MAJOR_TYPE[major]}
-        </option>
-      </Select>
-      <Triangle />
-    </div>
-  );
-};
+// const MajorSelectBox = ({ major, handleModalOnOff, register }: SelectBoxProps) => {
+//   return (
+//     <div style={{ position: 'relative' }}>
+//       <Select onClick={handleModalOnOff} {...register('department', SignUpData.department)}>
+//         <option value={MAJOR_TYPE[major]} hidden>
+//           {MAJOR_TYPE[major]}
+//         </option>
+//       </Select>
+//       <Triangle />
+//     </div>
+//   );
+// };
 
 const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
   const router = useRouter();
@@ -149,12 +149,20 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
       )}
       <FlexDiv direction="row">
         <SubTitle>학과</SubTitle>
-        <MajorSelectBox
+        {/* <MajorSelectBox
           major={major}
           register={register}
           handleModalOnOff={handleModalOnOff}
           onSubmitForm={onSubmitForm}
-        />
+        /> */}
+        <div style={{ position: 'relative' }}>
+          <Select onClick={handleModalOnOff} {...register('department', SignUpData.department)}>
+            <option value={MAJOR_TYPE[major]} hidden>
+              {MAJOR_TYPE[major]}
+            </option>
+          </Select>
+          <Triangle />
+        </div>
       </FlexDiv>
       <SignUpInput
         placeholder="GIT 이메일"
