@@ -116,7 +116,7 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
   };
 
   return (
-    <SignUpFormStyle onSubmit={handleSubmit(onSubmit)}>
+    <SignUpFormStyle onSubmit={handleSubmit(onSubmit, (value) => console.log('invalid', value))}>
       <SignUpInput
         placeholder="이름"
         content="이름"

@@ -15,14 +15,13 @@ const Modify = () => {
   const userInfo = useRecoilValue(userState);
   const router = useRouter();
   const [major, setMajor] = useState<keyof typeof MAJOR_TYPE>(
-    (userInfo?.department as keyof typeof MAJOR_TYPE) ?? 'sw',
+    userInfo?.department.toLowerCase() as keyof typeof MAJOR_TYPE,
   );
   const [modalOnOff, setModalOnOff] = useState(false);
 
   const handleModalOnOff = () => setModalOnOff(!modalOnOff);
 
   const onSubmitForm = async (name: string, department: string, gitEmail: string, ajouEmail: string) => {
-    console.log(name, department.toUpperCase(), gitEmail, ajouEmail, major);
     const result = await Auth.edit({ name, department: department.toUpperCase(), gitEmail });
     if (result) {
       router.push('/mypage');
