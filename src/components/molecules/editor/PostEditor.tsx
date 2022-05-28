@@ -4,6 +4,7 @@ import { Editor } from '@toast-ui/react-editor';
 
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { WRITE_EXAMPLE, MODE } from '@constants/index';
+import Api from '@utils/api/core';
 
 interface IPostEditor {
   initialValue?: string;
@@ -30,6 +31,22 @@ const ToastEditor = ({ initialValue, placeholder, setContent, previewStyle }: IP
       }
     }
   };
+
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.getInstance().removeHook('addImageBlobHook');
+      editorRef.current.getInstance().addHook('addImageBlobHook', (blob, callback) => {
+        async function getImageUrl() {
+          const [image] = (await Api.post('/api/v1/s3/file', {
+            multipartFile: [blob],
+          })) as any;
+          callback(image, 'imageURL');
+        }
+        getImageUrl();
+      });
+    }
+  }, []);
+
   return (
     <Editor
       ref={editorRef}
