@@ -20,6 +20,7 @@ const Modify = () => {
   const handleModalOnOff = () => setModalOnOff(!modalOnOff);
 
   const onSubmitForm = async (name: string, department: string, gitEmail: string, ajouEmail: string) => {
+    console.log(major, department);
     const result = await Auth.edit({ name, department, gitEmail });
     if (result) {
       router.push('/mypage');
@@ -36,11 +37,11 @@ const Modify = () => {
         </ContentContainer>
       </EditProfileContainer>
 
-      {/* {modalOnOff && (
+      {modalOnOff && (
         <Modal onClick={handleModalOnOff}>
           <MajorModal major={major} setMajor={setMajor} setModalOnOff={setModalOnOff} />
         </Modal>
-      )} */}
+      )}
     </>
   );
 };
