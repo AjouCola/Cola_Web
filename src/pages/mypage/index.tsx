@@ -2,12 +2,12 @@ import { useState } from 'react';
 
 import type { NextPage } from 'next';
 import Link from 'next/link';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
 
 import Card from '@components/atoms/card';
 import Modal from '@components/molecules/modal';
 import PostContent from '@components/molecules/postContent';
-import { userState } from '@store/user';
+import { IUserInfo, useUserSelector } from '@store/selector/user';
 import { Container, Title, CardContainer, ContentContainer, BackgroundImage, ModalContainer } from '@styles/mypage';
 
 const data = {
@@ -18,7 +18,7 @@ const data = {
 };
 
 const Mypage: NextPage = () => {
-  const userInfo = useRecoilValue(userState);
+  const { contents: userInfo } = useRecoilValueLoadable(useUserSelector({}));
   const [modalOnOff, setModalOnOff] = useState(false);
 
   const handleModalOnOff = () => setModalOnOff(!modalOnOff);

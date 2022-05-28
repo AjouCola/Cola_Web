@@ -52,9 +52,10 @@ const WritePost = ({
 
   const addChipList = (event: DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>) => {
     if (event.key !== 'Enter') return;
-    if (inputRef.current[WRITE_REF.hashtag].value.trim() === '') return;
-
-    setChipList([...chipList, inputRef.current[WRITE_REF.hashtag].value.trim()]);
+    const inputValue = inputRef.current[WRITE_REF.hashtag].value.trim().toLowerCase();
+    if (inputValue === '') return;
+    if (!chipList.includes(inputValue)) setChipList([...chipList, inputValue]);
+    else alert('중복된 태그입니다.');
     inputRef.current[WRITE_REF.hashtag].value = '';
   };
 

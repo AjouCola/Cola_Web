@@ -3,14 +3,15 @@ import { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import { Viewer } from '@toast-ui/react-editor';
 import { useRouter } from 'next/router';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
 
-import CommentEditor from './commentEditor';
+import CommonEditor from './commonEditor';
+import QnaEditor from './qnaEditor';
 
 import CommentIcon from '@assets/icon/comment_primary.svg';
 import Heart from '@assets/icon/heart_primary.svg';
 import UserDefault from '@components/atoms/icon/userDefault';
-import { IUserInfo, userState } from '@store/user';
+import { IUserInfo, useUserSelector } from '@store/selector/user';
 import { FlexDiv } from '@styles/index';
 import { CommentApi } from '@utils/api/Comment';
 
@@ -97,13 +98,14 @@ const DropdownItem = styled.li`
 `;
 
 const EditorWrapper = styled.div`
-  display:flex;
-  flex-direction:column;
-  gap:1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   background: white;
   padding: 0.5rem;
   border-radius: 1rem;
-}`;
+`;
+
 const EditModeBtn = styled.button<{ bgColor?: string; textColor?: string }>`
   border: none;
   background: ${({ theme: { colors }, bgColor }) => bgColor ?? colors.blue[500]};
@@ -120,10 +122,12 @@ const EditModeBtn = styled.button<{ bgColor?: string; textColor?: string }>`
 `;
 const CommentViewer = ({
   commentId,
+  postType,
   userId,
   name,
   content,
 }: {
+  postType: 'qna' | 'info' | 'common';
   commentId: number;
   userId: number;
   name: string;
@@ -138,7 +142,7 @@ const CommentViewer = ({
     }
   }, [content, name]);
 
-  const userInfo = useRecoilValue(userState);
+  const { contents: userInfo } = useRecoilValueLoadable(useUserSelector({}));
   const [isMine, setIsMine] = useState(false);
 
   const [dropdown, setDropdown] = useState(false);
@@ -221,7 +225,12 @@ const CommentViewer = ({
         {!editMode && <CustomViewer ref={viewerRef} initialValue={content} />}
         {editMode && (
           <>
-            <CommentEditor comment={editComment} setComment={setEditComment} initialValue={editComment} />
+            {postType === 'qna' && (
+              <QnaEditor comment={editComment} setComment={setEditComment} initialValue={editComment} />
+            )}
+            {postType !== 'qna' && (
+              <CommonEditor comment={editComment} setComment={setEditComment} initialValue={editComment} />
+            )}
             <FlexDiv direction="row" style={{ gap: '1rem' }}>
               <EditModeBtn bgColor="rgb(123,123,123)" onClick={onClickCancelEdit}>
                 취소

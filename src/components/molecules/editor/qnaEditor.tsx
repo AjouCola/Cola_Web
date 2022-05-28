@@ -19,7 +19,7 @@ interface IEditor {
 const CustomEditor = styled(Editor)`
   height: 200px;
 `;
-function CommentEditor({ comment, setComment, initialValue, placeholder }: IEditor) {
+function QnaEditor({ comment, setComment, initialValue, placeholder }: IEditor) {
   const editorRef = useRef<Editor>(null);
 
   useEffect(() => {
@@ -59,4 +59,4 @@ function CommentEditor({ comment, setComment, initialValue, placeholder }: IEdit
     </>
   );
 }
-export default CommentEditor;
+export default QnaEditor;

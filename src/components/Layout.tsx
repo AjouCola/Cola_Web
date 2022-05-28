@@ -8,7 +8,6 @@ import TopButton from './atoms/topbutton';
 import Navigation from './organisms/Navigation';
 import AuthNavigation from './organisms/Navigation/AuthNavigation';
 
-import { userState } from '@store/user';
 import User from '@utils/api/User';
 import { getCookies } from '@utils/cookie';
 

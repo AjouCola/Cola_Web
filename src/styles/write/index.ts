@@ -49,6 +49,7 @@ const HashtagBar = styled.div`
   border-radius: 30px;
   padding: 2rem 1rem;
   width: 100%;
+  max-height: 80vh;
   background: ${theme.colors.blue[300]};
   display: flex;
   overflow: auto;
