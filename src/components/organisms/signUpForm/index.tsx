@@ -63,7 +63,7 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
 
   useEffect(() => {
     if (isEditMode) {
-      setValue('email', userInfo.email);
+      setValue('email', userInfo.ajouEmail);
       setValue('name', userInfo.name);
       setValue('department', MAJOR_TYPE[major]);
       setValue('gitEmailId', userInfo.gitEmail ?? '');
