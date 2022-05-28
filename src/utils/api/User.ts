@@ -5,7 +5,7 @@ const User = {
     return await Api.get('/api/v1/users').catch((err) => console.error(err));
   },
   async edit(params: { name: string; department: string; gitEmail: string }) {
-    return await Api.post(`/api/v1/users`, params).catch((err) => console.error(err));
+    return await Api.put(`/api/v1/users`, params).catch((err) => console.error(err));
   },
 };
 

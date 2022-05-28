@@ -24,12 +24,9 @@ const Modify = () => {
   const handleModalOnOff = () => setModalOnOff(!modalOnOff);
 
   const onSubmitForm = async (name: string, department: string, gitEmail: string, ajouEmail: string) => {
-    const result = await UserApi.edit({ name, department: department.toUpperCase(), gitEmail });
-    if (result) {
-      router.push('/mypage');
-    } else {
-      alert('유저 정보 수정 중 문제가 발생하였습니다. 잠시 후 다시 시도해주세요');
-    }
+    await UserApi.edit({ name, department: department.toUpperCase(), gitEmail });
+
+    router.push('/mypage');
   };
   return (
     <>
