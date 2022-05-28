@@ -13,7 +13,7 @@ interface IUpdatePost extends IPost {
 }
 export const Board = {
   async create({ content, title, hashtags, boardCategory }: ICreatePost) {
-    return await Api.post(`/api/v1/posts/` + boardCategory, { content, title, hashtags }).catch((err) =>
+    return await Api.post(`/api/v1/posts/` + boardCategory, { content, title, tags: hashtags }).catch((err) =>
       console.error(err),
     );
   },
@@ -23,7 +23,7 @@ export const Board = {
   async edit({ content, title, postId, hashtags }: IUpdatePost) {
     await Api.patch('/api/v1/posts/' + postId, {
       content,
-      hashtags,
+      tags: hashtags,
       title,
     }).catch(() => alert('게시글을 수정하는 중에 문제가 발생하였습니다. 잠시 후 다시 시도해주세요.'));
   },
