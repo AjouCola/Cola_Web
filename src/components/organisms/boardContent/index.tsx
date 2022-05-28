@@ -35,6 +35,7 @@ import RightArrow from 'public/right_arrow.svg';
 import Visit from 'public/visit.svg';
 
 interface Props {
+  postType: string;
   title: string;
   userId: number;
   userName: string;
@@ -86,7 +87,7 @@ const HashTagBar = ({ data }: { data: string[] }) => {
   );
 };
 
-const BoardContent = ({ title, userId, tags, userName, content, createdDate, modifiedDate }: Props) => {
+const BoardContent = ({ postType, title, userId, tags, userName, content, createdDate, modifiedDate }: Props) => {
   const router = useRouter();
   const userInfo = useRecoilValue(userState);
   const [menu, setMenu] = useState(false);
@@ -118,6 +119,7 @@ const BoardContent = ({ title, userId, tags, userName, content, createdDate, mod
       </Header>
       <Content>
         <div style={{ paddingTop: '3rem' }}>
+          <p>{postType === 'common' ? '자유게시판' : postType === 'info' ? '정보게시판' : '질문게시판'}</p>
           <Title>{title}</Title>
           <ContentDetail>
             <ContentDetailRow>

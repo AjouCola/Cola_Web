@@ -62,6 +62,7 @@ export interface IComment {
 }
 
 interface IPost {
+  postType: string;
   postId: number;
   title: string;
   content: string;
@@ -72,10 +73,11 @@ interface IPost {
   modifiedDate: string;
 }
 interface ICommentFormProps {
+  postType: string;
   onAddComment: (newComment: IComment) => void;
   getPostData: () => void;
 }
-const CommentForm = ({ onAddComment, getPostData }: ICommentFormProps) => {
+const CommentForm = ({ postType, onAddComment, getPostData }: ICommentFormProps) => {
   const router = useRouter();
   const { id } = router.query;
   const userInfo = useRecoilValue(userState);
@@ -100,8 +102,8 @@ const CommentForm = ({ onAddComment, getPostData }: ICommentFormProps) => {
         <UserDefault />
         <p style={{ fontSize: '1.2rem' }}>{userInfo?.name ?? '유저'}</p>
       </div>
-      {router.pathname.includes('/common') ||
-        (router.pathname.includes('/info') && (
+      {postType === 'common' ||
+        (postType === 'info' && (
           <CommentInput
             placeholder="댓글 추가 .."
             value={comment}
@@ -113,7 +115,7 @@ const CommentForm = ({ onAddComment, getPostData }: ICommentFormProps) => {
             }}
           />
         ))}
-      {router.pathname.includes('/qna') && <CommentEditor setComment={setComment} comment={comment} />}
+      {postType === 'qna' && <CommentEditor setComment={setComment} comment={comment} />}
       <BtnWrapper>
         <CommentSubmitBtn onClick={onSubmit}>작성</CommentSubmitBtn>
       </BtnWrapper>
@@ -145,6 +147,7 @@ const BoardDetail = () => {
   return (
     <div style={{ maxWidth: '1200px', width: '100%', padding: '4rem 2rem' }}>
       <BoardContent
+        postType={postData.postType}
         title={postData.title}
         content={postData.content}
         userId={postData.userInfo.userId!}
@@ -154,6 +157,7 @@ const BoardDetail = () => {
         modifiedDate={postData.modifiedDate}
       />
       <CommentForm
+        postType={postData.postType}
         onAddComment={(newComment) => setComments((prev) => [...prev, newComment])}
         getPostData={getPostData}
       />
