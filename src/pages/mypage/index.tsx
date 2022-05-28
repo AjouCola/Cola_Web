@@ -7,8 +7,8 @@ import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
 import Card from '@components/atoms/card';
 import Modal from '@components/molecules/modal';
 import PostContent from '@components/molecules/postContent';
-import { Container, Title, CardContainer, ContentContainer, BackgroundImage, ModalContainer } from '@styles/mypage';
 import { IUserInfo, useUserSelector } from '@store/selector/user';
+import { Container, Title, CardContainer, ContentContainer, BackgroundImage, ModalContainer } from '@styles/mypage';
 
 const data = {
   name: '김이름',

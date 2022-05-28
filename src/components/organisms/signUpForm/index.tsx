@@ -10,10 +10,10 @@ import { SignUpFormStyle, CheckIcon } from './styles';
 import SubmitBtn from '@components/atoms/button/submit';
 import SignUpInput from '@components/organisms/signUpInput';
 import { MAJOR_TYPE } from '@constants/index';
+import { IUserInfo, useUserSelector } from '@store/selector/user';
 import { FlexDiv } from '@styles/index';
 import { Select, Triangle, SubTitle } from '@styles/signUp';
 import Auth from '@utils/api/Auth';
-import { IUserInfo, useUserSelector } from '@store/selector/user';
 
 interface Props {
   handleModalOnOff: () => void;

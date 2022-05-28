@@ -24,6 +24,7 @@ import Heart from '@assets/icon/heart_primary.svg';
 import Logo from '@assets/icon/logo.svg';
 import HashtagChip from '@atoms/hashtagChip';
 import UserDefault from '@components/atoms/icon/userDefault';
+import { IUserInfo, useUserSelector } from '@store/selector/user';
 import { Board } from '@utils/api/Board';
 import Comment from 'public/comment.svg';
 import CommentBig from 'public/comment_Big.svg';
@@ -32,7 +33,6 @@ import HeartBig from 'public/heart_Big.svg';
 import LeftArrow from 'public/left_arrow.svg';
 import RightArrow from 'public/right_arrow.svg';
 import Visit from 'public/visit.svg';
-import { IUserInfo, useUserSelector } from '@store/selector/user';
 
 interface Props {
   postType: string;

@@ -10,9 +10,9 @@ import CommentEditor from './commentEditor';
 import CommentIcon from '@assets/icon/comment_primary.svg';
 import Heart from '@assets/icon/heart_primary.svg';
 import UserDefault from '@components/atoms/icon/userDefault';
+import { IUserInfo, useUserSelector } from '@store/selector/user';
 import { FlexDiv } from '@styles/index';
 import { CommentApi } from '@utils/api/Comment';
-import { IUserInfo, useUserSelector } from '@store/selector/user';
 
 const Comment = styled.div`
   display: flex;

@@ -23,9 +23,9 @@ import UserDefault from '@components/atoms/icon/userDefault';
 import NotifyDropdown from '@components/organisms/notifyDropdown';
 import { NAV_MENU } from '@constants/index';
 import SideBar from '@molecules/sidebar';
+import { IUserInfo, useUserSelector } from '@store/selector/user';
 import Auth from '@utils/api/Auth';
 import { setCookies, getCookies } from '@utils/cookie';
-import { IUserInfo, useUserSelector } from '@store/selector/user';
 
 const Header = () => {
   const router = useRouter();

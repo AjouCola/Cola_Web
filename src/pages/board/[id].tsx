@@ -9,10 +9,10 @@ import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
 import UserDefault from '@atoms/icon/userDefault';
 import BoardContent from '@organisms/boardContent';
 import Comment from '@organisms/comment';
+import { useUserSelector } from '@store/selector/user';
 import { theme } from '@styles/theme';
 import { Board as BoardApi } from '@utils/api/Board';
 import { CommentApi } from '@utils/api/Comment';
-import { useUserSelector } from '@store/selector/user';
 
 const CommentEditor = dynamic(() => import('../../components/molecules/editor/commentEditor'), { ssr: false });
 const CommentViewer = dynamic(() => import('../../components/molecules/editor/CommentViewer'), { ssr: false });
