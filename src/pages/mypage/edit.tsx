@@ -14,14 +14,16 @@ import Auth from '@utils/api/Auth';
 const Modify = () => {
   const userInfo = useRecoilValue(userState);
   const router = useRouter();
-  const [major, setMajor] = useState<keyof typeof MAJOR_TYPE>(userInfo?.department as keyof typeof MAJOR_TYPE);
+  const [major, setMajor] = useState<keyof typeof MAJOR_TYPE>(
+    (userInfo?.department as keyof typeof MAJOR_TYPE) ?? 'sw',
+  );
   const [modalOnOff, setModalOnOff] = useState(false);
 
   const handleModalOnOff = () => setModalOnOff(!modalOnOff);
 
   const onSubmitForm = async (name: string, department: string, gitEmail: string, ajouEmail: string) => {
-    console.log(major, department);
-    const result = await Auth.edit({ name, department, gitEmail });
+    console.log(name, department.toUpperCase(), gitEmail, ajouEmail, major);
+    const result = await Auth.edit({ name, department: department.toUpperCase(), gitEmail });
     if (result) {
       router.push('/mypage');
     } else {
