@@ -100,17 +100,20 @@ const CommentForm = ({ onAddComment, getPostData }: ICommentFormProps) => {
         <UserDefault />
         <p style={{ fontSize: '1.2rem' }}>{userInfo?.name ?? '유저'}</p>
       </div>
-      {/* <CommentInput
-        placeholder="댓글 추가 .."
-        value={comment}
-        onChange={(e) => setComment(e.currentTarget.value)}
-        onKeyPress={(e) => {
-          if (e.key === 'Enter') {
-            onSubmit();
-          }
-        }}
-      /> */}
-      <CommentEditor setComment={setComment} comment={comment} />
+      {router.pathname.includes('/common') ||
+        (router.pathname.includes('/info') && (
+          <CommentInput
+            placeholder="댓글 추가 .."
+            value={comment}
+            onChange={(e) => setComment(e.currentTarget.value)}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                onSubmit();
+              }
+            }}
+          />
+        ))}
+      {router.pathname.includes('/qna') && <CommentEditor setComment={setComment} comment={comment} />}
       <BtnWrapper>
         <CommentSubmitBtn onClick={onSubmit}>작성</CommentSubmitBtn>
       </BtnWrapper>
