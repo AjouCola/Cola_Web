@@ -53,12 +53,12 @@ const useDragableTodo = (date: Date) => {
 
   return onDragEnd;
 };
-const useDeleteTodo = (date: Date): [boolean, () => void, (todoArea: string, todoId: number) => void] => {
+const useDeleteTodo = (date: Date): [boolean, () => void, (todoArea: number, todoId: number) => void] => {
   const [todoList, setTodoList] = useRecoilState(todoListState);
 
   const [deleteMode, setDeleteMode] = useState(false);
   const [toDeleteItems, setToDeleteItems] = useState<{
-    [key: string]: number[];
+    [key: number]: number[];
   }>({});
 
   useEffect(() => {
@@ -69,9 +69,10 @@ const useDeleteTodo = (date: Date): [boolean, () => void, (todoArea: string, tod
     deleteTodo();
     setDeleteMode((value) => !value);
   };
-  const onCheckDeleteItem = (todoArea: string, todoId: number) => {
+  const onCheckDeleteItem = (todoArea: number, todoId: number) => {
+    console.log('click delete', todoArea, todoId);
     const currentBoard = toDeleteItems[todoArea] ? [...toDeleteItems[todoArea]] : [];
-
+    console.log(currentBoard);
     if (!currentBoard.find((v) => v === todoId)) {
       currentBoard.push(todoId);
     }
@@ -85,13 +86,18 @@ const useDeleteTodo = (date: Date): [boolean, () => void, (todoArea: string, tod
 
   const deleteTodo = () => {
     for (const folder in toDeleteItems) {
-      setTodoList((allFolder: any) => {
-        const items = [...allFolder[folder]];
+      setTodoList((allFolder: ITodoFolder[]) => {
+        const currentFolders = JSON.parse(JSON.stringify(allFolder));
+
+        const currentFolderIndex = currentFolders.findIndex((v: ITodoFolder) => v.items_id === +folder);
+
+        const currentTodos = [...currentFolders[currentFolderIndex].todos];
         for (const item of toDeleteItems[folder]) {
-          const itemIdx = items.findIndex((v) => v.id === item);
-          items.splice(itemIdx, 1);
+          const itemIdx = currentTodos.findIndex((v) => v.id === item);
+          currentTodos.splice(itemIdx, 1);
         }
-        return { ...allFolder, [folder]: items };
+        currentFolders[+currentFolderIndex].todos = currentTodos;
+        return currentFolders;
       });
     }
   };
@@ -153,6 +159,7 @@ const TodoContent = ({ today }: { today: Date }) => {
                     <TodoArea
                       todoItems={folder.todos}
                       area={folder.name}
+                      areaId={folder.items_id}
                       idx={idx}
                       dragMode={true}
                       deleteMode={deleteMode}

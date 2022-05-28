@@ -9,6 +9,7 @@ const DraggableTodoCheckBox = ({
   toDoId,
   toDoContent,
   target,
+  targetId,
   handleFocus,
   inputRef,
   index,
@@ -20,7 +21,7 @@ const DraggableTodoCheckBox = ({
       {(provided, snapshot) => (
         <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
           <TodoCheckBox
-            {...{ toDoId, toDoContent, target, handleFocus, inputRef, index, deleteMode, checkDelete }}
+            {...{ toDoId, toDoContent, target, targetId, handleFocus, inputRef, index, deleteMode, checkDelete }}
           ></TodoCheckBox>
         </div>
       )}

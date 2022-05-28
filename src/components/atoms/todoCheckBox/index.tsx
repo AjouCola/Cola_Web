@@ -13,11 +13,12 @@ export interface Props {
   toDoId: number;
   toDoContent: string;
   target: string;
+  targetId: number;
   inputRef: RefObject<HTMLInputElement>;
   handleFocus: (key: string, value: string, toDoId?: number) => void;
   index: number;
   deleteMode: boolean;
-  checkDelete: (todoArea: string, todoId: number) => void;
+  checkDelete: (todoArea: number, todoId: number) => void;
 }
 
 export const Type = {
@@ -30,6 +31,7 @@ const TodoCheckBox = ({
   toDoId,
   toDoContent,
   target,
+  targetId,
   handleFocus,
   inputRef,
   index,
@@ -53,6 +55,7 @@ const TodoCheckBox = ({
   }, [editMode]);
   useEffect(() => {
     setDeleteCheck(false);
+    console.log(targetId);
   }, [deleteMode]);
   const handleChangeType = () =>
     setTypeStatus(typeStatus === 'todo' ? 'inProgress' : typeStatus === 'inProgress' ? 'done' : 'todo');
@@ -78,7 +81,7 @@ const TodoCheckBox = ({
                 checked={deleteChecked}
                 onClick={() => {
                   setDeleteCheck((prev) => !prev);
-                  checkDelete(target, toDoId);
+                  checkDelete(targetId, toDoId);
                 }}
               />
             )}

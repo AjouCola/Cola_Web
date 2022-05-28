@@ -15,19 +15,29 @@ import { todoState } from 'src/store';
 
 export interface ITodoAreaProps {
   area: string;
+  areaId: number;
   idx: number;
   // toDos: string[];
   todoItems: ITodo[];
   dragMode?: boolean;
   deleteMode: boolean;
-  checkDelete: (todoAre: string, todoId: number) => void;
+  checkDelete: (todoAre: number, todoId: number) => void;
   children: any;
 }
 interface Props {
   [key: string]: string[];
 }
 
-const TodoArea = ({ todoItems, area, idx, dragMode = false, deleteMode, checkDelete, children }: ITodoAreaProps) => {
+const TodoArea = ({
+  todoItems,
+  area,
+  areaId,
+  idx,
+  dragMode = false,
+  deleteMode,
+  checkDelete,
+  children,
+}: ITodoAreaProps) => {
   const [todo, setTodoList] = useRecoilState(todoState);
 
   const [focus, setFocus] = useState(false);
@@ -112,6 +122,7 @@ const TodoArea = ({ todoItems, area, idx, dragMode = false, deleteMode, checkDel
                 toDoId={id}
                 toDoContent={content}
                 target={area}
+                targetId={areaId}
                 handleFocus={handleFocus}
                 inputRef={inputRef}
                 index={index}
@@ -124,6 +135,7 @@ const TodoArea = ({ todoItems, area, idx, dragMode = false, deleteMode, checkDel
                 toDoId={id}
                 toDoContent={content}
                 target={area}
+                targetId={areaId}
                 handleFocus={handleFocus}
                 inputRef={inputRef}
                 index={index}
