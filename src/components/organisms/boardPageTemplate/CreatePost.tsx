@@ -60,7 +60,7 @@ const WritePost = ({
       const res = await Board.create({
         content: editorContent,
         title: inputRef.current[WRITE_REF.title]?.value,
-        hashtags: JSON.stringify(chipList),
+        tags: chipList,
         boardCategory,
       }).catch((err) => {
         console.log(err);
@@ -76,7 +76,7 @@ const WritePost = ({
       content: editorContent,
       title: inputRef.current[WRITE_REF.hashtag].value,
       postId: Number(router.query?.id),
-      hashtags: JSON.stringify(chipList),
+      tags: chipList,
     });
 
     router.push('/board/' + router.query?.id);
