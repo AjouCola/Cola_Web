@@ -10,10 +10,11 @@ import FolderIcon from '@assets/icon/folder_primary.svg';
 import DraggableTodo from '@components/atoms/todoCheckBox/draggable';
 import TodoCheckBox from '@components/atoms/todoCheckBox/index';
 import { todoEditMode, todoModalContent } from '@store/todo';
-import { IFolder, ITodo } from '@utils/api/Todo';
+import TodoApi, { IFolder, ITodo } from '@utils/api/Todo';
 import { ITodoFolder, todoListState, todoState } from 'src/store';
 
 export interface ITodoAreaProps {
+  date: string;
   area: string;
   areaId: number;
   idx: number;
@@ -29,6 +30,7 @@ interface Props {
 }
 
 const TodoArea = ({
+  date,
   todoItems,
   area,
   areaId,
@@ -68,7 +70,7 @@ const TodoArea = ({
     });
     setFocus(true);
   };
-  const handleFocus = (key: number, value: string, todoId?: number) => {
+  const handleFocus = async (key: number, value: string, todoId?: number) => {
     setFocus(false);
     console.log('handleFocus', key, value, todoId);
     if (editValue.id) {
@@ -131,22 +133,13 @@ const TodoArea = ({
         });
       }
     }
-
-    // if (inputRef.current === null) return;
-
-    // if (inputRef.current.value) {
-    //   const newToDo = {
-    //     id: Date.now(),
-    //     content: inputRef.current.value + '',
-    //   };
-    //   setTodoList((prev) => ({
-    //     ...prev,
-    //     [key]: [...prev[key].slice(0, -1), newToDo],
-    //   }));
-    // } else {
-    //   setTodoList({ ...todo, [key]: todo[key].slice(0, -1) });
-    // }
   };
+
+  useEffect(() => {
+    (async function () {
+      await TodoApi.saveTodoList(date, todoList);
+    })();
+  }, [todoList]);
   return (
     <Container>
       <FolderTitleWrapper>

@@ -2,6 +2,7 @@
 
 import Api from './core';
 
+import { ITodoFolder } from '@store/index';
 export interface ITodo {
   id: number;
   content: string;
@@ -23,25 +24,29 @@ export interface IFolders {
   folders: IFolder[];
 }
 
+export interface ISaveTodoFolders {
+  date: string;
+  folderId: number;
+  progress: number;
+  todos: string;
+}
 const TodoApi = {
   getTodoList: async (date: string): Promise<IFolders> => {
     return (await Api.get('/api/v1/todos/' + date)) as unknown as any;
 
     // return data;
   },
-  saveTodoList: async (date: Date, todoList: any): Promise<boolean> => {
-    // const res = await Api.post('/todo', {
-    //   date,
-    //   todoList: JSON.stringify(todoList),
-    // }).catch((err) => console.error(err));
-
-    // if (!res?.data?.success) return false;
-    console.log('save todolist', date, JSON.stringify(todoList));
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(true);
-      }, 1500);
-    });
+  saveTodoList: async (date: string, todoList: ITodoFolder[]): Promise<boolean> => {
+    const res = (await Api.post('/todo', {
+      itemDtos: todoList.map((folder) => ({
+        date,
+        folderId: folder.folder_id,
+        progress: folder.progress,
+        todos: JSON.stringify(folder.todos),
+      })),
+    }).catch((err) => console.error(err))) as unknown as Promise<boolean>;
+    return res;
+    // if (!res?.data?.success) retu rn false;
   },
   createFolder: async (name: string, color: string) => {
     await Api.post('/api/v1/folder', {
