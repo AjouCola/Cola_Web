@@ -54,7 +54,7 @@ const ProgressDateWrapper = styled.div`
   }
 `;
 const ProgressItemWrapper = styled.div`
-  background: white;
+  background: #c3cdf9;
   width: 100%;
   border-radius: 5px;
 `;
@@ -145,7 +145,7 @@ const TodoSection = () => {
           </div>
         </ProgressDateWrapper>
         <ProgressItemWrapper>
-          <ProgressBar></ProgressBar>
+          <ProgressBar percent={60}></ProgressBar>
         </ProgressItemWrapper>
       </ProgressWrapper>
     </>
