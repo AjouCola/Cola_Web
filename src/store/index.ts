@@ -44,7 +44,7 @@ export const todoListSelector = selectorFamily({
       const contents = await TodoApi.getTodoList(date.toISOString().slice(0, 10));
       const { folders } = contents;
 
-      const todoList = folders.map((folder: any) => ({
+      const todoList = folders?.map((folder: any) => ({
         name: folder.name,
         color: folder.color,
         items_id: folder.items.items_id,

@@ -47,26 +47,51 @@ const TodoArea = ({
   const [editMode, setEditMode] = useRecoilState(todoEditMode);
   const [editValue, setEditValue] = useRecoilState(todoModalContent);
 
-  const handleClick = (key: string) => {
+  const handleClick = (key: number) => {
     console.log(key);
-    // setTodoList({ ...todo, [key]: [...todo[key], { id: Date.now(), content: '' }] });
+    const newToDo: ITodo = {
+      id: Date.now(),
+      content: '',
+      status: 'todo',
+    };
+    setTodoList((currentFolders) => {
+      const currentFolderIndex = currentFolders.findIndex((v) => v.items_id === key);
+      const currentFolder = JSON.parse(JSON.stringify(currentFolders[currentFolderIndex])) as ITodoFolder;
+      currentFolder.todos.push(newToDo);
+
+      currentFolders[currentFolderIndex] = currentFolder;
+
+      return currentFolders;
+    });
     setFocus(true);
   };
   const handleFocus = (key: number, value: string, todoId?: number) => {
     setFocus(false);
     if (editValue.id) {
       // 수정 모드
+      const modified: ITodo = {
+        id: Date.now(),
+        content: value + '',
+        status: 'todo',
+      };
       // setTodoList((todoList) => {
       //   const todoIdx = todoList[key].findIndex((todo) => todo.id === editValue.id);
-      //   const modified = {
-      //     id: Date.now(),
-      //     content: value + '',
-      //   };
       //   return {
       //     ...todoList,
       //     [key]: [...todoList[key].slice(0, todoIdx), modified, ...todoList[key].slice(todoIdx + 1)],
       //   };
       // });
+      setTodoList((currentFolders) => {
+        const currentFolderIndex = currentFolders.findIndex((v) => v.items_id === key);
+        const currentFolder = JSON.parse(JSON.stringify(currentFolders[currentFolderIndex])) as ITodoFolder;
+
+        const currentTodoIndex = currentFolder.todos.findIndex((v) => v.id === todoId);
+        currentFolder.todos[currentTodoIndex] = modified;
+
+        currentFolders[currentFolderIndex] = currentFolder;
+
+        return currentFolders;
+      });
       setEditValue({
         id: null,
         content: null,
@@ -125,7 +150,7 @@ const TodoArea = ({
           </span>
           <span>{area}</span>
         </div>
-        <BtnAddTodo onClick={() => !focus && handleClick(area)}>+</BtnAddTodo>
+        <BtnAddTodo onClick={() => !focus && handleClick(areaId)}>+</BtnAddTodo>
       </FolderTitleWrapper>
       <Wrapper>
         {
