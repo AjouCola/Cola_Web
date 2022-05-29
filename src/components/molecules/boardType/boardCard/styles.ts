@@ -49,6 +49,7 @@ const BoardImage = styled.div`
   height: 100%;
   position: relative;
   display: flex;
+  overflow: hidden;
   img {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;

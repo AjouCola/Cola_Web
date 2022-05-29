@@ -37,6 +37,14 @@ const Thumbnail = styled.div`
   background: ${({ theme: { colors } }) => `linear-gradient(to top,${colors.blue[500]}, 50%, #c2d2f7)`};
   border-radius: 10px;
   transition: width 20ms ease;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     width: 14rem;
   }
