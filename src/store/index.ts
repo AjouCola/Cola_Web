@@ -14,9 +14,9 @@ export interface ITodoFolder {
   todos: ITodo[];
 }
 // 해당 날짜의 투두 폴더 리스트
-export const todoState = atom<any[]>({
+export const todoState = atom<ITodoFolder[]>({
   key: 'todoState',
-  default: [] as any[],
+  default: [] as ITodoFolder[],
 });
 
 export const accessTokenState = atom<string>({

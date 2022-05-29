@@ -15,7 +15,7 @@ export interface Props {
   target: string;
   targetId: number;
   inputRef: RefObject<HTMLInputElement>;
-  handleFocus: (key: string, value: string, toDoId?: number) => void;
+  handleFocus: (key: number, value: string, toDoId?: number) => void;
   index: number;
   deleteMode: boolean;
   checkDelete: (todoArea: number, todoId: number) => void;
@@ -94,12 +94,12 @@ const TodoCheckBox = ({
           value={inputValue}
           onChange={(e) => setInputValue(e.currentTarget.value)}
           onBlur={() => {
-            handleFocus(target, inputValue, toDoId);
+            handleFocus(targetId, inputValue, toDoId);
             setInputValue('');
           }}
           onKeyPress={(e) => {
             if (e.key === 'Enter') {
-              handleFocus(target, inputValue, toDoId);
+              handleFocus(targetId, inputValue, toDoId);
               setInputValue('');
             }
           }}
