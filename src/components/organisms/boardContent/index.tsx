@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { marked } from 'marked';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
 
@@ -24,7 +25,6 @@ import Heart from '@assets/icon/heart_primary.svg';
 import Logo from '@assets/icon/logo.svg';
 import HashtagChip from '@atoms/hashtagChip';
 import UserDefault from '@components/atoms/icon/userDefault';
-import CommentViewer from '@components/molecules/editor/PostViewer';
 import { IUserInfo, useUserSelector } from '@store/selector/user';
 import { Board } from '@utils/api/Board';
 import Comment from 'public/comment.svg';
@@ -35,6 +35,7 @@ import LeftArrow from 'public/left_arrow.svg';
 import RightArrow from 'public/right_arrow.svg';
 import Visit from 'public/visit.svg';
 
+const PostViewer = dynamic(import('@components/molecules/editor/PostViewer'), { ssr: false });
 interface Props {
   postType: string;
   title: string;
@@ -161,7 +162,7 @@ const BoardContent = ({ postType, title, userId, tags, userName, content, create
           </ContentDetail>
         </div>
         {/* <TextArea dangerouslySetInnerHTML={{ __html: marked(content) }}></TextArea> */}
-        <CommentViewer content={content} />s
+        <PostViewer content={content} />s
         <HashTagBar data={tags ?? []} />
       </Content>
     </Container>
