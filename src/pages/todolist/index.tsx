@@ -10,6 +10,7 @@ import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from 'recoil';
 import TodoArea from '@components/molecules/todoArea';
 import { DeleteBlock, TodoInfoWrapper, TodoWrapper } from '@components/molecules/todoContent/styles';
 import TodoMenuModal from '@components/molecules/todoMenuModal';
+import Calender from '@molecules/calender';
 import TodoContent from '@molecules/todoContent';
 import EditTodoContent from '@molecules/todoContent/edit';
 import { todoModal } from '@store/todo';
@@ -27,7 +28,6 @@ import {
 } from '@styles/todolist';
 import TodoApi from '@utils/api/Todo';
 import { ITodoState, todoState } from 'src/store';
-const Calender = dynamic(import('@molecules/calender'), { ssr: false });
 
 export const useCalendar = (): [Date, Date, (condition: number) => void] => {
   const [date, setDate] = useState(new Date());
