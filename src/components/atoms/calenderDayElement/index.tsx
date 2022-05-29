@@ -1,16 +1,18 @@
 import DoneImg from '../doneImg';
 
 import { Container, DayText } from './styles';
+
 interface Props {
   date: number;
-  day: number;
+  day: Date;
   status: 'prev' | 'this' | 'today';
+  elementData: { color: string; name: string; progress: number }[] | undefined;
 }
-const CalenderDayElement = ({ status, date, day }: Props) => {
+const CalenderDayElement = ({ status, elementData, day }: Props) => {
   return (
     <Container status={status}>
-      <DayText status={status}>{day}</DayText>
-      <DoneImg data={['', '', '', '']} />
+      <DayText status={status}>{day.getDate()}</DayText>
+      <DoneImg data={elementData === undefined ? [] : elementData} />
     </Container>
   );
 };

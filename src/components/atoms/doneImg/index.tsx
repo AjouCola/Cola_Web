@@ -13,14 +13,14 @@ const Rect = styled.rect<{ rotate: number }>`
 `;
 
 interface Props {
-  data: any[];
+  data: { color: string; name: string; progress: number }[];
 }
 
 const DoneImg = ({ data }: Props) => {
   return (
     <Svg viewBox="-17 -3 39 39">
-      {data.map((v, i) => (
-        <Rect key={i} rotate={i} x="0" y="0" width="7" height="33" rx="4" ry="4" fill={theme.colors.blue[100]} />
+      {data.map(({ color }, i) => (
+        <Rect key={i} rotate={i} x="0" y="0" width="7" height="33" rx="4" ry="4" fill={color} />
       ))}
     </Svg>
   );
