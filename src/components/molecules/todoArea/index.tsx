@@ -123,11 +123,10 @@ const TodoArea = ({
         setTodoList((currentFolders) => {
           const currentFolderIndex = currentFolders.findIndex((v) => v.folder_id === key);
           const currentFolder = JSON.parse(JSON.stringify(currentFolders[currentFolderIndex])) as ITodoFolder;
-          currentFolder.todos.push(newToDo);
+          currentFolder.todos = [...currentFolder.todos.slice(0, -1), newToDo];
 
-          const newFolders: ITodoFolder[] = [...currentFolders];
-          newFolders[currentFolderIndex] = currentFolder;
-
+          const newFolders = [...currentFolders];
+          newFolders.splice(currentFolderIndex, 1, currentFolder);
           return newFolders;
         });
       }
