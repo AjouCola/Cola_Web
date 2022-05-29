@@ -63,10 +63,27 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
 
   useEffect(() => {
     if (isEditMode) {
+      const userInfo = {
+        createdDate: '2022-05-26T11:06:22.10263',
+        modifiedDate: '2022-05-27T09:46:55.950991',
+        id: 2,
+        role: 'USER',
+        email: 'dmstmdrbs98@gmail.com',
+        name: '은승균',
+        ajouEmail: 'dmstmdrbs@ajou.ac.kr',
+        gitEmail: 'dmstmdrbs98@gmail.com',
+        department: 'SW',
+        profilePath: null,
+        folderOrder: [null],
+        roleKey: 'ROLE_USER',
+        verified: true,
+      };
+      console.log(userInfo.department.toLowerCase());
       setValue('email', userInfo.ajouEmail);
       setValue('name', userInfo.name);
-      setValue('department', MAJOR_TYPE[major]);
+      setValue('department', MAJOR_TYPE[userInfo.department.toLowerCase() as keyof typeof MAJOR_TYPE]);
       setValue('gitEmailId', userInfo.gitEmail ?? '');
+      console.log(major, MAJOR_TYPE[major]);
     }
   }, []);
 
@@ -107,7 +124,7 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
   const onSubmit = (data: SignUpFormInterface) => {
     if (!isEmailValid && !isEditMode) return;
     console.log(data);
-    onSubmitForm(data.name, major, data.email, data.gitEmailId);
+    onSubmitForm(data.name, major, data.gitEmailId, data.email);
   };
 
   const handleChange = () => {
