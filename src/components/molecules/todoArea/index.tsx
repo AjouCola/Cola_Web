@@ -133,13 +133,11 @@ const TodoArea = ({
         });
       }
     }
-  };
-
-  useEffect(() => {
     (async function () {
       await TodoApi.saveTodoList(date, todoList);
     })();
-  }, [todoList]);
+  };
+
   return (
     <Container>
       <FolderTitleWrapper>
