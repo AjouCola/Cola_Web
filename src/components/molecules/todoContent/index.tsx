@@ -127,6 +127,7 @@ const TodoContent = ({ today }: { today: Date }) => {
               folder_id: folder.folder_id,
               items_id: folder.item?.items_id ?? null,
               todos: folder.item?.todos ?? [],
+              progress: folder.item?.progress,
             } as ITodoFolder),
         ) ?? ([] as ITodoFolder[]);
       setTodoList(todoList);
@@ -158,6 +159,7 @@ const TodoContent = ({ today }: { today: Date }) => {
                 {(provided, snapshot) => (
                   <div ref={provided.innerRef} {...provided.droppableProps}>
                     <TodoArea
+                      date={today.toISOString().slice(0, 10)}
                       todoItems={folder.todos}
                       area={folder.name}
                       areaId={folder.folder_id}

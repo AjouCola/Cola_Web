@@ -12,6 +12,7 @@ export interface ITodoFolder {
   color: string;
   items_id: number;
   folder_id: number;
+  progress: number;
   todos: ITodo[];
 }
 // 해당 날짜의 투두 폴더 리스트
