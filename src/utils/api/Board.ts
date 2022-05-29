@@ -2,8 +2,10 @@ import Api from './core';
 
 interface IPost {
   content: string;
+  preview: string;
   title: string;
   tags?: string[];
+  thumbnailPath: string;
 }
 interface ICreatePost extends IPost {
   boardCategory: 'info' | 'common' | 'qna';
@@ -12,9 +14,9 @@ interface IUpdatePost extends IPost {
   postId: number;
 }
 export const Board = {
-  async create({ content, title, tags, boardCategory }: ICreatePost) {
-    return await Api.post(`/api/v1/posts/` + boardCategory, { content, title, tags }).catch((err) =>
-      console.error(err),
+  async create({ content, preview, title, thumbnailPath, tags, boardCategory }: ICreatePost) {
+    return await Api.post(`/api/v1/posts/` + boardCategory, { content, preview, title, tags, thumbnailPath }).catch(
+      (err) => console.error(err),
     );
   },
   async get(postId: number) {
