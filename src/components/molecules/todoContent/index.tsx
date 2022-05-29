@@ -118,15 +118,16 @@ const TodoContent = ({ today }: { today: Date }) => {
     (async function () {
       const { date, folders } = await TodoApi.getTodoList(today.toISOString().slice(0, 10));
 
-      const todoList: ITodoFolder[] = folders.map(
-        (folder: IFolder) =>
-          ({
-            name: folder.name,
-            color: folder.color,
-            items_id: folder.item?.items_id ?? null,
-            todos: folder.item?.todos ?? null,
-          } as ITodoFolder),
-      );
+      const todoList: ITodoFolder[] =
+        folders?.map(
+          (folder: IFolder) =>
+            ({
+              name: folder.name,
+              color: folder.color,
+              items_id: folder.item?.items_id ?? null,
+              todos: folder.item?.todos ?? null,
+            } as ITodoFolder),
+        ) ?? ([] as ITodoFolder[]);
       console.log(todoList);
       setTodoList(todoList);
       setIsLoading(false);

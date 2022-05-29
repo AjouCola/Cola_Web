@@ -10,8 +10,8 @@ import FolderIcon from '@assets/icon/folder_primary.svg';
 import DraggableTodo from '@components/atoms/todoCheckBox/draggable';
 import TodoCheckBox from '@components/atoms/todoCheckBox/index';
 import { todoEditMode, todoModalContent } from '@store/todo';
-import { ITodo } from '@utils/api/Todo';
-import { todoState } from 'src/store';
+import { IFolder, ITodo } from '@utils/api/Todo';
+import { ITodoFolder, todoState } from 'src/store';
 
 export interface ITodoAreaProps {
   area: string;
@@ -38,7 +38,7 @@ const TodoArea = ({
   checkDelete,
   children,
 }: ITodoAreaProps) => {
-  const [todo, setTodoList] = useRecoilState(todoState);
+  const [todoList, setTodoList] = useRecoilState(todoState);
 
   const [focus, setFocus] = useState(false);
   // const [todo, setTodoList] = useState<Props>({});
@@ -47,42 +47,83 @@ const TodoArea = ({
   const [editMode, setEditMode] = useRecoilState(todoEditMode);
   const [editValue, setEditValue] = useRecoilState(todoModalContent);
 
-  const handleClick = (key: string) => {
+  const handleClick = (key: number) => {
     console.log(key);
-    // setTodoList({ ...todo, [key]: [...todo[key], { id: Date.now(), content: '' }] });
+    const newToDo: ITodo = {
+      id: Date.now(),
+      content: '',
+      status: 'todo',
+    };
+    setTodoList((currentFolders) => {
+      const currentFolderIndex = currentFolders.findIndex((v) => v.items_id === key);
+      const currentFolder = JSON.parse(JSON.stringify(currentFolders[currentFolderIndex])) as ITodoFolder;
+      currentFolder.todos.push(newToDo);
+
+      currentFolders[currentFolderIndex] = currentFolder;
+
+      return currentFolders;
+    });
     setFocus(true);
   };
-  const handleFocus = (key: string, value: string, todoId?: number) => {
+  const handleFocus = (key: number, value: string, todoId?: number) => {
     setFocus(false);
     if (editValue.id) {
       // 수정 모드
+      const modified: ITodo = {
+        id: Date.now(),
+        content: value + '',
+        status: 'todo',
+      };
       // setTodoList((todoList) => {
       //   const todoIdx = todoList[key].findIndex((todo) => todo.id === editValue.id);
-      //   const modified = {
-      //     id: Date.now(),
-      //     content: value + '',
-      //   };
       //   return {
       //     ...todoList,
       //     [key]: [...todoList[key].slice(0, todoIdx), modified, ...todoList[key].slice(todoIdx + 1)],
       //   };
       // });
+      setTodoList((currentFolders) => {
+        const currentFolderIndex = currentFolders.findIndex((v) => v.items_id === key);
+        const currentFolder = JSON.parse(JSON.stringify(currentFolders[currentFolderIndex])) as ITodoFolder;
+
+        const currentTodoIndex = currentFolder.todos.findIndex((v) => v.id === todoId);
+        currentFolder.todos[currentTodoIndex] = modified;
+
+        currentFolders[currentFolderIndex] = currentFolder;
+
+        return currentFolders;
+      });
       setEditValue({
         id: null,
         content: null,
       });
     } else {
-      // if (!value) setTodoList({ ...todo, [key]: todo[key].slice(0, -1) });
-      // else {
-      //   const newToDo = {
-      //     id: Date.now(),
-      //     content: value + '',
-      //   };
-      //   setTodoList((prev) => ({
-      //     ...prev,
-      //     [key]: [...prev[key].slice(0, -1), newToDo],
-      //   }));
-      // }
+      if (!value)
+        setTodoList((currentFolders) => {
+          const currentFolderIndex = currentFolders.findIndex((v) => v.items_id === key);
+          const currentFolder = JSON.parse(JSON.stringify(currentFolders[currentFolderIndex])) as ITodoFolder;
+
+          currentFolder.todos.splice(-1, 1);
+
+          currentFolders[currentFolderIndex] = currentFolder;
+
+          return currentFolders;
+        });
+      else {
+        const newToDo: ITodo = {
+          id: Date.now(),
+          content: value + '',
+          status: 'todo',
+        };
+        setTodoList((currentFolders) => {
+          const currentFolderIndex = currentFolders.findIndex((v) => v.items_id === key);
+          const currentFolder = JSON.parse(JSON.stringify(currentFolders[currentFolderIndex])) as ITodoFolder;
+          currentFolder.todos.push(newToDo);
+
+          currentFolders[currentFolderIndex] = currentFolder;
+
+          return currentFolders;
+        });
+      }
     }
 
     // if (inputRef.current === null) return;
@@ -109,7 +150,7 @@ const TodoArea = ({
           </span>
           <span>{area}</span>
         </div>
-        <BtnAddTodo onClick={() => !focus && handleClick(area)}>+</BtnAddTodo>
+        <BtnAddTodo onClick={() => !focus && handleClick(areaId)}>+</BtnAddTodo>
       </FolderTitleWrapper>
       <Wrapper>
         {
