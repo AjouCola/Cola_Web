@@ -60,7 +60,9 @@ const Todolist: NextPage = () => {
   );
 };
 
-export default Todolist;
+export default dynamic(() => Promise.resolve(Todolist), {
+  ssr: false,
+});
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   resetServerContext();
