@@ -115,24 +115,26 @@ const TodoContent = ({ today }: { today: Date }) => {
   const [todoList, setTodoList] = useRecoilState(todoListState);
 
   useEffect(() => {
-    (async function () {
-      const { date, folders } = await TodoApi.getTodoList(today.toISOString().slice(0, 10));
+    if (today) {
+      (async function () {
+        const { date, folders } = await TodoApi.getTodoList(today.toISOString().slice(0, 10));
 
-      const todoList: ITodoFolder[] =
-        folders?.map(
-          (folder: IFolder) =>
-            ({
-              name: folder.name,
-              color: folder.color,
-              folder_id: folder.folder_id,
-              items_id: folder.item?.items_id ?? null,
-              todos: folder.item?.todos ?? [],
-              progress: folder.item?.progress,
-            } as ITodoFolder),
-        ) ?? ([] as ITodoFolder[]);
-      setTodoList(todoList);
-      setIsLoading(false);
-    })();
+        const todoList: ITodoFolder[] =
+          folders?.map(
+            (folder: IFolder) =>
+              ({
+                name: folder.name,
+                color: folder.color,
+                folder_id: folder.folder_id,
+                items_id: folder.item?.items_id ?? null,
+                todos: folder.item?.todos ?? [],
+                progress: folder.item?.progress,
+              } as ITodoFolder),
+          ) ?? ([] as ITodoFolder[]);
+        setTodoList(todoList);
+        setIsLoading(false);
+      })();
+    }
   }, [today]);
 
   // useEffect(() => {}, [todoList]);
