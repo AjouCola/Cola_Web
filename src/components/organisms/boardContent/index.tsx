@@ -162,7 +162,7 @@ const BoardContent = ({ postType, title, userId, tags, userName, content, create
           </ContentDetail>
         </div>
         {/* <TextArea dangerouslySetInnerHTML={{ __html: marked(content) }}></TextArea> */}
-        <PostViewer content={content} />s
+        <PostViewer content={content} />
         <HashTagBar data={tags ?? []} />
       </Content>
     </Container>
