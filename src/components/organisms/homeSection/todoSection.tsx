@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import ProgressBar from '../../molecules/todoProgress/index';
+
 import Calender from '@components/molecules/calender';
 import { useCalendar } from '@pages/todolist';
 import { theme } from '@styles/theme';
@@ -142,9 +144,12 @@ const TodoSection = () => {
             <span>1</span>
           </div>
         </ProgressDateWrapper>
-        <ProgressItemWrapper></ProgressItemWrapper>
+        <ProgressItemWrapper>
+          <ProgressBar></ProgressBar>
+        </ProgressItemWrapper>
       </ProgressWrapper>
     </>
   );
 };
+
 export default TodoSection;
