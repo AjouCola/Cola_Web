@@ -1,52 +1,31 @@
-import styled from '@emotion/styled';
-import { number } from 'yup';
+import { useEffect, useState } from 'react';
 
-const WholeBar = styled.div`
-  max-width: 100%;
-  height: 14px;
-  font-family: monospace;
-  display: flex;
-  font-size: 0.8rem;
-  transform: translate(0, 2px);
-  justify-content: space-around;
-  flex-flow: row wrap;
-  align-items: stretch;
+import styled from '@emotion/styled';
+
+const BarWrapper = styled.div`
+  background-color: white;
+  border-radius: 0.5rem;
+  width: 100%;
 `;
 
-const BarDone = styled.div`
-  background: #6c7bfa 0% 0% no-repeat padding-box;
-  border-radius: 5px;
-  opacity: 1;
-  transition: all 0.2s;
-  position: relative;
-  border-radius: 5px;
+const Bar = styled.div<{ width: number }>`
+  width: ${({ width }) => `${width}%`};
+  transition: width 0.5s linear;
+  border-radius: 1rem;
+  background-color: #6c7bfa;
   height: 10px;
 `;
 
-const BarProgress = styled.div`
-  background: #6c7bfa 0% 0% no-repeat padding-box;
-  border-radius: 5px;
-  opacity: 1;
-  transition: all 0.2s;
-  position: relative;
-  border-radius: 5px;
-  opacity: 0;
-`;
+const ProgressBar = ({ percent }: { percent: number }) => {
+  const [width, setWidth] = useState(0);
+  useEffect(() => {
+    setWidth(percent);
+  }, []);
 
-const RenderBar = ({ type = '', num = 1 }: { type?: string; num?: number }) => {
-  return type === 'done' ? (
-    <BarDone style={{ flexGrow: num }}></BarDone>
-  ) : (
-    <BarProgress style={{ flexGrow: num }}></BarProgress>
-  );
-};
-
-const ProgressBar = () => {
   return (
-    <WholeBar>
-      <RenderBar type="done" num={2} />
-      <RenderBar type="progress" num={1} />
-    </WholeBar>
+    <BarWrapper>
+      <Bar width={width} />
+    </BarWrapper>
   );
 };
 
