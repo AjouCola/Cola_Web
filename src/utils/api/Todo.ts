@@ -37,7 +37,7 @@ const TodoApi = {
     // return data;
   },
   saveTodoList: async (date: string, todoList: ITodoFolder[]): Promise<boolean> => {
-    const res = (await Api.post('/todo', {
+    const res = (await Api.post('/api/v1/item', {
       itemDtos: todoList.map((folder) => ({
         date,
         folderId: folder.folder_id,
