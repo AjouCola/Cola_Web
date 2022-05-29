@@ -27,7 +27,7 @@ const FolderContent = ({ setIsEdit }: { setIsEdit: Dispatch<SetStateAction<any>>
 
   useEffect(() => {
     async function getfolders() {
-      const data = await Api.get('/api/v1/folder' + '?email=' + user?.email + '&userId=' + user?.id);
+      const data = await Api.get('/api/v1/folder');
       setfolders(data);
     }
     getfolders();

@@ -2,20 +2,13 @@ import { useState } from 'react';
 
 import type { NextPage } from 'next';
 import Link from 'next/link';
-import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
+import { useRecoilValueLoadable } from 'recoil';
 
 import Card from '@components/atoms/card';
 import Modal from '@components/molecules/modal';
 import PostContent from '@components/molecules/postContent';
-import { IUserInfo, useUserSelector } from '@store/selector/user';
+import { useUserSelector } from '@store/selector/user';
 import { Container, Title, CardContainer, ContentContainer, BackgroundImage, ModalContainer } from '@styles/mypage';
-
-const data = {
-  name: '김이름',
-  department: '소프트웨어학과',
-  ajouEmail: 'maxcha98@ajou.ac.kr',
-  githubEmail: 'maxcha98@naver.com',
-};
 
 const Mypage: NextPage = () => {
   const { contents: userInfo } = useRecoilValueLoadable(useUserSelector({}));
@@ -32,6 +25,7 @@ const Mypage: NextPage = () => {
           </BackgroundImage>
           <Card
             name={userInfo?.name ?? '이름'}
+            profilePath={userInfo?.profilePath}
             department={userInfo?.department ?? '학과'}
             ajouEmail={userInfo?.ajouEmail ?? '아주이메일'}
             githubEmail={userInfo?.gitEmail ?? '깃메일'}

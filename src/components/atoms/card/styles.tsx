@@ -15,6 +15,17 @@ const Container = styled.div`
   background: ${theme.colors.white};
 `;
 
+const UserProfileWarpper = styled.div`
+  width: 8rem;
+  height: 8rem;
+  border-radius: 50%;
+  img {
+    width: 8rem;
+    height: 8rem;
+    border-radius: 50%;
+  }
+`;
+
 const UserProfile = styled.p`
   border-radius: 50%;
   background: green;
@@ -66,4 +77,33 @@ const IconWrapper = styled.div`
   }
 `;
 
-export { Container, UserProfile, CardWrapper, TextWrapper, IconWrapper };
+const ModalContainer = styled.div`
+  background: white;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 1rem;
+  border-radius: 10px;
+  width: 60vmin;
+  height: 60vmin;
+  img {
+    width: 30vmin;
+    height: 30vmin;
+  }
+  button {
+    border: none;
+    place-self: center;
+    width: 50%;
+    border-radius: 10px;
+    color: white;
+    background: ${theme.colors.blue[500]};
+    font-size: 2rem;
+    cursor: pointer;
+    :hover {
+      opacity: 50%;
+    }
+  }
+`;
+
+export { Container, ModalContainer, UserProfileWarpper, UserProfile, CardWrapper, TextWrapper, IconWrapper };
