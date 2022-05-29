@@ -45,16 +45,16 @@ const Calender = ({ date, handleChangeMonth }: Props) => {
   const [data, setData] = useState<ChangedDateProps>({});
 
   useEffect(() => {
-    async function getData() {
-      const data = (await Api.get(`/api/v1/todos/progress/${date.toISOString().slice(0, 7)}-01`)) as DataProps[];
-      setData(
-        data.reduce((r, { date, progress }) => {
-          r[date] = progress;
-          return r;
-        }, {} as ChangedDateProps),
-      );
-    }
-    getData();
+    // async function getData() {
+    //   const data = (await Api.get(`/api/v1/todos/progress/${date.toISOString().slice(0, 7)}-01`)) as DataProps[];
+    //   setData(
+    //     data.reduce((r, { date, progress }) => {
+    //       r[date] = progress;
+    //       return r;
+    //     }, {} as ChangedDateProps),
+    //   );
+    // }
+    // getData();
   }, []);
 
   const currentMonth = useMemo(() => {
@@ -151,4 +151,5 @@ const Calender = ({ date, handleChangeMonth }: Props) => {
     </>
   );
 };
+
 export default Calender;
