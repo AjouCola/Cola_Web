@@ -126,7 +126,7 @@ const TodoContent = ({ today }: { today: Date }) => {
               color: folder.color,
               folder_id: folder.folder_id,
               items_id: folder.item?.items_id ?? null,
-              todos: folder.item?.todos ?? null,
+              todos: folder.item?.todos ?? [],
             } as ITodoFolder),
         ) ?? ([] as ITodoFolder[]);
       setTodoList(todoList);
