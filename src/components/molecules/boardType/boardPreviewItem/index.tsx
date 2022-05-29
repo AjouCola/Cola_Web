@@ -25,9 +25,7 @@ const BoardPreviewItem = ({ id, title, username, createdAt, thumbnailPath, previ
   const router = useRouter();
   return (
     <Container onClick={() => router.push(`/board/${id}`)}>
-      <Thumbnail>
-        <img src={thumbnailPath} alt={thumbnailPath + ' 이미지'} />
-      </Thumbnail>
+      <Thumbnail>{thumbnailPath && <img src={thumbnailPath} alt={thumbnailPath + ' 이미지'} />}</Thumbnail>
       <TextWrapper>
         <TopContent>
           <Title>{title}</Title>

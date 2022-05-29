@@ -30,9 +30,7 @@ const BoardCard = ({ id, username, createdAt, title, preview, thumbnailPath }: I
     <Container>
       <BoardContent onClick={() => router.push(`/board/${id}`)}>
         <a href="#" style={{ height: '70%', display: 'block', color: 'inherit', textDecoration: 'none' }}>
-          <BoardImage>
-            <img src={thumbnailPath} alt={title + ' 이미지'} />
-          </BoardImage>
+          <BoardImage>{thumbnailPath && <img src={thumbnailPath} alt={title + ' 이미지'} />}</BoardImage>
         </a>
         <TextWrapper>
           <a href="#">
