@@ -68,26 +68,22 @@ const WritePost = ({
   const [submitData, setSubmitData] = useState({});
 
   const onSubmit = async () => {
-    if (editorContent.trim().length > 0) {
-      // const res = await Board.create({
-      //   content: editorContent,
-      //   title: inputRef.current[WRITE_REF.title]?.value,
-      //   tags: chipList,
-      //   boardCategory,
-      // }).catch((err) => {
-      //   console.log(err);
-      // });
-      // if (res) router.push('/board/' + res);
-      setModal(true);
-      setSubmitData({
-        content: editorContent,
-        title: inputRef.current[WRITE_REF.title]?.value,
-        tags: chipList,
-        boardCategory,
-      });
-    } else {
+    if (editorContent.trim().length === 0) {
       alert('게시글 내용을 입력해주세요');
+      return;
     }
+    if (inputRef.current[WRITE_REF.title].value.trim().length === 0) {
+      alert('제목을 입력해주세요');
+      return;
+    }
+
+    setModal(true);
+    setSubmitData({
+      content: editorContent,
+      title: inputRef.current[WRITE_REF.title]?.value,
+      tags: chipList,
+      boardCategory,
+    });
   };
 
   const onEditSubmit = async () => {
