@@ -11,7 +11,7 @@ import DraggableTodo from '@components/atoms/todoCheckBox/draggable';
 import TodoCheckBox from '@components/atoms/todoCheckBox/index';
 import { todoEditMode, todoModalContent } from '@store/todo';
 import { IFolder, ITodo } from '@utils/api/Todo';
-import { ITodoFolder, todoState } from 'src/store';
+import { ITodoFolder, todoListState, todoState } from 'src/store';
 
 export interface ITodoAreaProps {
   area: string;
@@ -38,7 +38,7 @@ const TodoArea = ({
   checkDelete,
   children,
 }: ITodoAreaProps) => {
-  const [todoList, setTodoList] = useRecoilState(todoState);
+  const [todoList, setTodoList] = useRecoilState(todoListState);
 
   const [focus, setFocus] = useState(false);
   // const [todo, setTodoList] = useState<Props>({});
@@ -48,25 +48,29 @@ const TodoArea = ({
   const [editValue, setEditValue] = useRecoilState(todoModalContent);
 
   const handleClick = (key: number) => {
-    console.log(key);
+    console.log('handleClick', key, todoList);
     const newToDo: ITodo = {
       id: Date.now(),
       content: '',
       status: 'todo',
     };
     setTodoList((currentFolders) => {
+      console.log('currentFolders, key', currentFolders, key);
       const currentFolderIndex = currentFolders.findIndex((v) => v.items_id === key);
+      console.log('currentFolderIndex', currentFolderIndex);
       const currentFolder = JSON.parse(JSON.stringify(currentFolders[currentFolderIndex])) as ITodoFolder;
       currentFolder.todos.push(newToDo);
 
-      currentFolders[currentFolderIndex] = currentFolder;
+      const newFolders: ITodoFolder[] = [...currentFolders];
+      newFolders[currentFolderIndex] = currentFolder;
 
-      return currentFolders;
+      return newFolders;
     });
     setFocus(true);
   };
   const handleFocus = (key: number, value: string, todoId?: number) => {
     setFocus(false);
+    console.log('handleFocus', key, value, todoId);
     if (editValue.id) {
       // 수정 모드
       const modified: ITodo = {
@@ -88,9 +92,10 @@ const TodoArea = ({
         const currentTodoIndex = currentFolder.todos.findIndex((v) => v.id === todoId);
         currentFolder.todos[currentTodoIndex] = modified;
 
-        currentFolders[currentFolderIndex] = currentFolder;
+        const newFolders: ITodoFolder[] = [...currentFolders];
+        newFolders[currentFolderIndex] = currentFolder;
 
-        return currentFolders;
+        return newFolders;
       });
       setEditValue({
         id: null,
@@ -104,9 +109,10 @@ const TodoArea = ({
 
           currentFolder.todos.splice(-1, 1);
 
-          currentFolders[currentFolderIndex] = currentFolder;
+          const newFolders: ITodoFolder[] = [...currentFolders];
+          newFolders[currentFolderIndex] = currentFolder;
 
-          return currentFolders;
+          return newFolders;
         });
       else {
         const newToDo: ITodo = {
@@ -119,9 +125,10 @@ const TodoArea = ({
           const currentFolder = JSON.parse(JSON.stringify(currentFolders[currentFolderIndex])) as ITodoFolder;
           currentFolder.todos.push(newToDo);
 
-          currentFolders[currentFolderIndex] = currentFolder;
+          const newFolders: ITodoFolder[] = [...currentFolders];
+          newFolders[currentFolderIndex] = currentFolder;
 
-          return currentFolders;
+          return newFolders;
         });
       }
     }
