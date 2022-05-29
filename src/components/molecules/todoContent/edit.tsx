@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 
-import { useRecoilValueLoadable } from 'recoil';
+// import { useRecoilValueLoadable } from 'recoil';
 
 import FolderProperty from '../folderProperty';
 
@@ -15,12 +15,13 @@ import {
 } from './styles';
 
 import FolderItem from '@atoms/folderItem';
-import { IUserInfo, useUserSelector } from '@store/selector/user';
+// import { IUserInfo, useUserSelector } from '@store/selector/user';
 import Api from '@utils/api/core';
 import TodoApi from '@utils/api/Todo';
 
 const FolderContent = ({ setIsEdit }: { setIsEdit: Dispatch<SetStateAction<any>> }) => {
-  const { contents: user } = useRecoilValueLoadable(useUserSelector({}));
+  // const { contents: user } = useRecoilValueLoadable(useUserSelector({}));
+  const [isLoading, setIsLoading] = useState(true);
   const [editState, setEditState] = useState(false);
   const [folders, setfolders] = useState<any>([]);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -29,6 +30,7 @@ const FolderContent = ({ setIsEdit }: { setIsEdit: Dispatch<SetStateAction<any>>
     async function getfolders() {
       const data = await Api.get('/api/v1/folder');
       setfolders(data);
+      setIsLoading(false);
     }
     getfolders();
   }, []);
@@ -53,7 +55,13 @@ const FolderContent = ({ setIsEdit }: { setIsEdit: Dispatch<SetStateAction<any>>
         )}
       </FolderWrapper>
       <FolderItemContainer>
-        {folders.length > 0 &&
+        {isLoading && (
+          <div>
+            <p>Loading...</p>
+          </div>
+        )}
+        {!isLoading &&
+          folders.length > 0 &&
           folders.map(({ color, folderId, name }: any) => (
             <FolderItem key={folderId} name={name} id={folderId} color={color} setIsEdit={setIsEdit} />
           ))}
@@ -62,7 +70,7 @@ const FolderContent = ({ setIsEdit }: { setIsEdit: Dispatch<SetStateAction<any>>
   );
 };
 
-const forderExample = ['#9779D3', '#BEB3E0', '#94ABF2', '#3CBA78', '#4DC4C4', '#F7D546', '#8461C9', '#FCC0C0'];
+// const forderExample = ['#9779D3', '#BEB3E0', '#94ABF2', '#3CBA78', '#4DC4C4', '#F7D546', '#8461C9', '#FCC0C0'];
 
 const EditTodoContent = () => {
   const [isEdit, setIsEdit] = useState({ id: -1 });
