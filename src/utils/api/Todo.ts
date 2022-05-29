@@ -31,9 +31,23 @@ export interface ISaveTodoFolders {
   todos: string;
 }
 const TodoApi = {
-  getTodoList: async (date: string): Promise<IFolders> => {
-    return (await Api.get('/api/v1/todos/' + date)) as unknown as any;
-
+  getTodoList: async (date: string): Promise<any> => {
+    // return (await Api.get('/api/v1/todos/' + date)) as unknown as any;
+    return {
+      date: '2022-05-29',
+      folders: [
+        {
+          item: {
+            itemsId: 11,
+            progress: 0,
+            todos: '[{"id":1653849509658,"content":"","status":"todo"}]',
+          },
+          name: '일반',
+          color: '#ffffff',
+          folder_id: 9,
+        },
+      ],
+    };
     // return data;
   },
   saveTodoList: async (date: string, todoList: ITodoFolder[]): Promise<boolean> => {
