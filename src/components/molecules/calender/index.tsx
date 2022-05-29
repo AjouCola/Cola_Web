@@ -44,6 +44,19 @@ const Calender = ({ date, handleChangeMonth }: Props) => {
   const today = new Date();
   const [data, setData] = useState<ChangedDateProps>({});
 
+  useEffect(() => {
+    async function getData() {
+      const data = (await Api.get(`/api/v1/todos/progress/${date.toISOString().slice(0, 7)}-01`)) as DataProps[];
+      setData(
+        data.reduce((r, { date, progress }) => {
+          r[date] = progress;
+          return r;
+        }, {} as ChangedDateProps),
+      );
+    }
+    getData();
+  }, []);
+
   const currentMonth = useMemo(() => {
     const month = date.getMonth() + 1;
     switch (month) {
@@ -72,19 +85,6 @@ const Calender = ({ date, handleChangeMonth }: Props) => {
       case 12:
         return 'DECEMBER';
     }
-  }, [date]);
-
-  useEffect(() => {
-    async function getData() {
-      const data = (await Api.get(`/api/v1/todos/progress/${date.toISOString().slice(0, 7)}-01`)) as DataProps[];
-      setData(
-        data.reduce((r, { date, progress }) => {
-          r[date] = progress;
-          return r;
-        }, {} as ChangedDateProps),
-      );
-    }
-    getData();
   }, [date]);
 
   const handleCheckToday = (element: Date) =>
