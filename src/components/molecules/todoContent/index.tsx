@@ -128,7 +128,6 @@ const TodoContent = ({ today }: { today: Date }) => {
               todos: folder.item?.todos ?? null,
             } as ITodoFolder),
         ) ?? ([] as ITodoFolder[]);
-      console.log(todoList);
       setTodoList(todoList);
       setIsLoading(false);
     })();
@@ -154,7 +153,7 @@ const TodoContent = ({ today }: { today: Date }) => {
         <TodoWrapper>
           <DragDropContext onDragEnd={onDragEnd}>
             {todoList.map((folder: ITodoFolder, idx: number) => (
-              <Droppable key={folder.items_id + (idx + '')} droppableId={folder.items_id + ''}>
+              <Droppable key={folder.items_id} droppableId={folder.items_id + ''}>
                 {(provided, snapshot) => (
                   <div ref={provided.innerRef} {...provided.droppableProps}>
                     <TodoArea
