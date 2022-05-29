@@ -24,6 +24,7 @@ import Heart from '@assets/icon/heart_primary.svg';
 import Logo from '@assets/icon/logo.svg';
 import HashtagChip from '@atoms/hashtagChip';
 import UserDefault from '@components/atoms/icon/userDefault';
+import CommentViewer from '@components/molecules/editor/PostViewer';
 import { IUserInfo, useUserSelector } from '@store/selector/user';
 import { Board } from '@utils/api/Board';
 import Comment from 'public/comment.svg';
@@ -159,7 +160,8 @@ const BoardContent = ({ postType, title, userId, tags, userName, content, create
             </ContentDetailRow>
           </ContentDetail>
         </div>
-        <TextArea dangerouslySetInnerHTML={{ __html: marked(content) }}></TextArea>
+        {/* <TextArea dangerouslySetInnerHTML={{ __html: marked(content) }}></TextArea> */}
+        <CommentViewer content={content} />s
         <HashTagBar data={tags ?? []} />
       </Content>
     </Container>
