@@ -1,11 +1,20 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { DateWrapper, CalenderNav, DayWrapper, MonthText, YearText, DayText, CurrentDayMarker } from './styles';
 
 import LeftArrow from '@assets/icon/left_arrow_primary.svg';
 import RightArrow from '@assets/icon/right_arrow_primary.svg';
 import CalenderDayElement from '@atoms/calenderDayElement';
+import Api from '@utils/api/core';
 
+interface DataProps {
+  date: string;
+  progress: { color: string; name: string; progress: number }[];
+}
+
+interface ChangedDateProps {
+  [key: string]: { color: string; name: string; progress: number }[];
+}
 interface Props {
   date: Date;
   handleChangeMonth: (condition: number) => void;
@@ -20,12 +29,12 @@ const getDate = (date: Date) => {
   const startDate = start.getDate();
   const startDay = start.getDay();
   const endDate = end.getDate();
-  const thisDates = [...Array(endDate + 1).keys()].slice(1);
+  const thisDates = [...Array(endDate + 1).keys()].slice(1).map((d) => new Date(end.getFullYear(), end.getMonth(), d));
+
   const prevDates =
     startDay !== 6
-      ? Array(startDay + 1)
-          .fill('')
-          .map((element, i) => startDate - i)
+      ? Array.from({ length: startDay + 1 })
+          .map((e, i) => new Date(start.getFullYear(), start.getMonth(), startDate - i))
           .reverse()
       : [];
   return { thisDates, prevDates };
@@ -33,7 +42,8 @@ const getDate = (date: Date) => {
 
 const Calender = ({ date, handleChangeMonth }: Props) => {
   const today = new Date();
-  const title = date.getFullYear() + '년' + ' ' + (date.getMonth() + 1) + '월';
+  const [data, setData] = useState<ChangedDateProps>({});
+
   const currentMonth = useMemo(() => {
     const month = date.getMonth() + 1;
     switch (month) {
@@ -64,15 +74,38 @@ const Calender = ({ date, handleChangeMonth }: Props) => {
     }
   }, [date]);
 
-  const handleCheckToday = (element: number) =>
+  useEffect(() => {
+    async function getData() {
+      const year = date.getFullYear();
+      const month = ('0' + (1 + date.getMonth())).slice(-2);
+      const data = (await Api.get(`/ api/v1/todos/progress/${year}-${month}`)) as DataProps[];
+      setData(
+        data.reduce((r, { date, progress }) => {
+          r[date] = progress;
+          return r;
+        }, {} as ChangedDateProps),
+      );
+    }
+    getData();
+  }, [date]);
+
+  const handleCheckToday = (element: Date) =>
     !!(
-      today.getFullYear() === date.getFullYear() &&
-      today.getMonth() === date.getMonth() &&
-      today.getDate() === element
+      today.getFullYear() === element.getFullYear() &&
+      today.getMonth() === element.getMonth() &&
+      today.getDate() === element.getDate()
     );
   const { thisDates, prevDates } = getDate(date);
   const handleUp = () => handleChangeMonth(1);
   const handleDown = () => handleChangeMonth(-1);
+
+  function getDateFormat(date: Date) {
+    const year = date.getFullYear();
+    const month = ('0' + (1 + date.getMonth())).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+
+    return year + '-' + month + '-' + day;
+  }
 
   const getCurrentDate = (): string => {
     const todayArr = today.toDateString().split(' ');
@@ -103,7 +136,13 @@ const Calender = ({ date, handleChangeMonth }: Props) => {
           </DayText>
         ))}
         {prevDates.map((element, index) => (
-          <CalenderDayElement status="prev" key={index} day={element} date={(index + 1) % 7} />
+          <CalenderDayElement
+            status="prev"
+            key={index}
+            day={element}
+            date={(index + 1) % 7}
+            elementData={data[getDateFormat(element)]}
+          />
         ))}
         {thisDates.map((element, index) => (
           <CalenderDayElement
@@ -111,6 +150,7 @@ const Calender = ({ date, handleChangeMonth }: Props) => {
             key={index}
             day={element}
             date={(index + 1) % 7}
+            elementData={data[getDateFormat(element)]}
           />
         ))}
       </DayWrapper>
