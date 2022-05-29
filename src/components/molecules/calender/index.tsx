@@ -76,9 +76,7 @@ const Calender = ({ date, handleChangeMonth }: Props) => {
 
   useEffect(() => {
     async function getData() {
-      const year = date.getFullYear();
-      const month = ('0' + (1 + date.getMonth())).slice(-2);
-      const data = (await Api.get(`/ api/v1/todos/progress/${year}-${month}`)) as DataProps[];
+      const data = (await Api.get(`/ api/v1/todos/progress/${date.toISOString().slice(0, 7)}-01`)) as DataProps[];
       setData(
         data.reduce((r, { date, progress }) => {
           r[date] = progress;
@@ -100,11 +98,7 @@ const Calender = ({ date, handleChangeMonth }: Props) => {
   const handleDown = () => handleChangeMonth(-1);
 
   function getDateFormat(date: Date) {
-    const year = date.getFullYear();
-    const month = ('0' + (1 + date.getMonth())).slice(-2);
-    const day = ('0' + date.getDate()).slice(-2);
-
-    return year + '-' + month + '-' + day;
+    return date.toISOString().slice(0, 10);
   }
 
   const getCurrentDate = (): string => {
