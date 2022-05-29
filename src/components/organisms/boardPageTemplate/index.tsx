@@ -37,6 +37,8 @@ interface IPost {
   };
   createdDate: string;
   modifiedDate: string;
+  preview: string;
+  thumbnailPath: string;
 }
 interface IQueryPage {
   result: IPost[];
@@ -136,7 +138,8 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
                   key={post.postId}
                   id={post.postId}
                   title={post.title}
-                  content={post.content}
+                  preview={post.preview}
+                  thumbnailPath={post.thumbnailPath}
                   username={post.userInfo.userName}
                   createdAt={post.createdDate}
                 />
@@ -147,7 +150,8 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
                   key={post.postId}
                   title={post.title}
                   id={post.postId}
-                  content={post.content}
+                  preview={post.preview}
+                  thumbnailPath={post.thumbnailPath}
                   username={post.userInfo.userName}
                   createdAt={post.createdDate}
                 />
@@ -158,7 +162,6 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
                   key={post.postId}
                   id={post.postId}
                   title={post.title}
-                  content={post.content}
                   username={post.userInfo.userName}
                   createdAt={post.createdDate}
                 />

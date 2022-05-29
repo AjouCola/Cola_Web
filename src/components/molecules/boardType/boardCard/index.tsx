@@ -23,19 +23,21 @@ import UserDefault from '@components/atoms/icon/userDefault';
 import { theme } from '@styles/theme';
 import { IBoardItem } from '~/types/board';
 
-const BoardCard = ({ id, username, createdAt, title, content }: IBoardItem) => {
+const BoardCard = ({ id, username, createdAt, title, preview, thumbnailPath }: IBoardItem) => {
   const router = useRouter();
 
   return (
     <Container>
       <BoardContent onClick={() => router.push(`/board/${id}`)}>
         <a href="#" style={{ height: '70%', display: 'block', color: 'inherit', textDecoration: 'none' }}>
-          <BoardImage>{/* <img src={} alt="" /> */}</BoardImage>
+          <BoardImage>
+            <img src={thumbnailPath} alt={title + ' 이미지'} />
+          </BoardImage>
         </a>
         <TextWrapper>
           <a href="#">
             <Title>{title}</Title>
-            <BodyText>{content}</BodyText>
+            <BodyText>{preview}</BodyText>
           </a>
           <SubInfo>
             <span>{createdAt.slice(0, 10)}</span>

@@ -21,17 +21,19 @@ import UserIcon from '@assets/icon/userDefault.svg';
 import ViewIcon from '@assets/icon/view_small.svg';
 import { IBoardItem } from '~/types/board';
 
-const BoardPreviewItem = ({ id, title, username, createdAt, content }: IBoardItem) => {
+const BoardPreviewItem = ({ id, title, username, createdAt, thumbnailPath, preview }: IBoardItem) => {
   const router = useRouter();
   return (
     <Container onClick={() => router.push(`/board/${id}`)}>
-      <Thumbnail></Thumbnail>
+      <Thumbnail>
+        <img src={thumbnailPath} alt={thumbnailPath + ' 이미지'} />
+      </Thumbnail>
       <TextWrapper>
         <TopContent>
           <Title>{title}</Title>
         </TopContent>
         <Divider />
-        <BodyText>{content}</BodyText>
+        <BodyText>{preview}</BodyText>
         <BottomContent>
           <WriterDescription>
             <a style={{ display: 'inline-block' }}>
