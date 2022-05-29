@@ -58,7 +58,7 @@ const contents: IFolders = {
 };
 const TodoApi = {
   getTodoList: async (date: string): Promise<IFolders> => {
-    // const { contents } = await Api.get('/api/v1/todos/' + date);
+    const { contents } = (await Api.get('/api/v1/todos/' + date)) as unknown as any;
     return contents;
     // return data;
   },
