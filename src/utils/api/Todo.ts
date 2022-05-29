@@ -14,7 +14,7 @@ export interface IItem {
 export interface IFolder {
   name: string;
   color: string;
-  items: IItem;
+  item: IItem | null;
 }
 export interface IFolders {
   date: string;
@@ -58,8 +58,8 @@ const contents: IFolders = {
 };
 const TodoApi = {
   getTodoList: async (date: string): Promise<IFolders> => {
-    const { contents } = (await Api.get('/api/v1/todos/' + date)) as unknown as any;
-    return contents;
+    return (await Api.get('/api/v1/todos/' + date)) as unknown as any;
+
     // return data;
   },
   saveTodoList: async (date: Date, todoList: any): Promise<boolean> => {
