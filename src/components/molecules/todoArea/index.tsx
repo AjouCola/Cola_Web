@@ -80,29 +80,23 @@ const TodoArea = ({
         content: value + '',
         status: 'todo',
       };
-      // setTodoList((todoList) => {
-      //   const todoIdx = todoList[key].findIndex((todo) => todo.id === editValue.id);
-      //   return {
-      //     ...todoList,
-      //     [key]: [...todoList[key].slice(0, todoIdx), modified, ...todoList[key].slice(todoIdx + 1)],
-      //   };
-      // });
+
       setTodoList((currentFolders) => {
         const currentFolderIndex = currentFolders.findIndex((v) => v.folder_id === key);
         const currentFolder = JSON.parse(JSON.stringify(currentFolders[currentFolderIndex])) as ITodoFolder;
+        currentFolder.todos = [...currentFolder.todos.slice(0, -1), modified];
 
-        const currentTodoIndex = currentFolder.todos.findIndex((v) => v.id === todoId);
-        currentFolder.todos[currentTodoIndex] = modified;
-
-        const newFolders: ITodoFolder[] = [...currentFolders];
-        newFolders[currentFolderIndex] = currentFolder;
-
+        const newFolders = [...currentFolders];
+        newFolders.splice(currentFolderIndex, 1, currentFolder);
         return newFolders;
       });
       setEditValue({
         id: null,
         content: null,
       });
+      (async function () {
+        await TodoApi.saveTodoList(date, todoList);
+      })();
     } else {
       if (!value)
         setTodoList((currentFolders) => {
@@ -131,11 +125,11 @@ const TodoArea = ({
           newFolders.splice(currentFolderIndex, 1, currentFolder);
           return newFolders;
         });
+        (async function () {
+          await TodoApi.saveTodoList(date, todoList);
+        })();
       }
     }
-    (async function () {
-      await TodoApi.saveTodoList(date, todoList);
-    })();
   };
 
   return (
