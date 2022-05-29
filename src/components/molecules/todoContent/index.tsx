@@ -116,14 +116,8 @@ const TodoContent = ({ today }: { today: Date }) => {
 
   useEffect(() => {
     (async function () {
-      // const { folders } = await TodoApi.getTodoList(today.toISOString().slice(0, 10));
-      const folders: IFolder[] = [
-        {
-          item: null,
-          name: '일반',
-          color: '#ffffff',
-        },
-      ];
+      const { date, folders } = await TodoApi.getTodoList(today.toISOString().slice(0, 10));
+
       const todoList: ITodoFolder[] = folders.map(
         (folder: IFolder) =>
           ({
