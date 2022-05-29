@@ -22,7 +22,8 @@ const Modify = () => {
   const [major, setMajor] = useState<keyof typeof MAJOR_TYPE>('' as keyof typeof MAJOR_TYPE);
 
   useEffect(() => {
-    setMajor(userInfo?.department?.toLowerCase() as keyof typeof MAJOR_TYPE);
+    const department = userInfo.department?.toLowerCase() as keyof typeof MAJOR_TYPE;
+    setMajor(department); // sw
   }, []);
   const [modalOnOff, setModalOnOff] = useState(false);
 
