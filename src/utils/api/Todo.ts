@@ -22,40 +22,6 @@ export interface IFolders {
   folders: IFolder[];
 }
 
-const contents: IFolders = {
-  date: '2022-05-27',
-  folder_orders: [1, 2],
-  folders: [
-    {
-      name: 'asdf',
-      color: '#ffffff',
-      items: {
-        items_id: 1,
-        todos: JSON.parse(
-          JSON.stringify([
-            { id: 1, content: 'asdf', status: 'todo' },
-            { id: 3, content: 'asdf2', status: 'doing' },
-            { id: 7, content: 'asdf3', status: 'done' },
-          ]),
-        ),
-      },
-    },
-    {
-      name: 'asdf2',
-      color: '#ffffff',
-      items: {
-        items_id: 2,
-        todos: JSON.parse(
-          JSON.stringify([
-            { id: 2, content: 'asdf2', status: 'todo' },
-            { id: 5, content: 'asdf5', status: 'done' },
-            { id: 6, content: 'asdf6', status: 'done' },
-          ]),
-        ),
-      },
-    },
-  ],
-};
 const TodoApi = {
   getTodoList: async (date: string): Promise<IFolders> => {
     return (await Api.get('/api/v1/todos/' + date)) as unknown as any;
