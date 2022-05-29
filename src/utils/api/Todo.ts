@@ -9,16 +9,17 @@ export interface ITodo {
 }
 export interface IItem {
   items_id: number;
+  progress: number;
   todos: ITodo[];
 }
 export interface IFolder {
   name: string;
   color: string;
   item: IItem | null;
+  folder_id: number;
 }
 export interface IFolders {
   date: string;
-  folder_orders: number[];
   folders: IFolder[];
 }
 

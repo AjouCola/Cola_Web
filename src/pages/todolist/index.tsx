@@ -26,7 +26,7 @@ import {
   SheetButton,
 } from '@styles/todolist';
 import TodoApi from '@utils/api/Todo';
-import { ITodoState, todoListSelector, todoState } from 'src/store';
+import { ITodoState, todoState } from 'src/store';
 
 export const useCalendar = (): [Date, Date, (condition: number) => void] => {
   const [date, setDate] = useState(new Date());

@@ -35,8 +35,8 @@ const useDragableTodo = (date: Date) => {
       setTodoList((prev: any) => {
         const newTodoList = JSON.parse(JSON.stringify(prev));
         // droppableId === folderId
-        const srcFolderIndex = prev.findIndex((f: any) => f.items_id == source.droppableId);
-        const destFolderIndex = prev.findIndex((f: any) => f.items_id == destination.droppableId);
+        const srcFolderIndex = prev.findIndex((f: any) => f.folder_id == source.droppableId);
+        const destFolderIndex = prev.findIndex((f: any) => f.folder_id == destination.droppableId);
 
         // source.index에서 1개 잘라서 destination.index에 1개 넣기
         const newSrcTodos = Array.from(newTodoList[srcFolderIndex].todos);
@@ -89,7 +89,7 @@ const useDeleteTodo = (date: Date): [boolean, () => void, (todoArea: number, tod
       setTodoList((allFolder: ITodoFolder[]) => {
         const currentFolders = JSON.parse(JSON.stringify(allFolder));
 
-        const currentFolderIndex = currentFolders.findIndex((v: ITodoFolder) => v.items_id === +folder);
+        const currentFolderIndex = currentFolders.findIndex((v: ITodoFolder) => v.folder_id === +folder);
 
         const currentTodos = [...currentFolders[currentFolderIndex].todos];
         for (const item of toDeleteItems[folder]) {
@@ -124,6 +124,7 @@ const TodoContent = ({ today }: { today: Date }) => {
             ({
               name: folder.name,
               color: folder.color,
+              folder_id: folder.folder_id,
               items_id: folder.item?.items_id ?? null,
               todos: folder.item?.todos ?? null,
             } as ITodoFolder),
@@ -153,13 +154,13 @@ const TodoContent = ({ today }: { today: Date }) => {
         <TodoWrapper>
           <DragDropContext onDragEnd={onDragEnd}>
             {todoList.map((folder: ITodoFolder, idx: number) => (
-              <Droppable key={folder.items_id} droppableId={folder.items_id + ''}>
+              <Droppable key={folder.folder_id} droppableId={folder.folder_id + ''}>
                 {(provided, snapshot) => (
                   <div ref={provided.innerRef} {...provided.droppableProps}>
                     <TodoArea
                       todoItems={folder.todos}
                       area={folder.name}
-                      areaId={folder.items_id}
+                      areaId={folder.folder_id}
                       idx={idx}
                       dragMode={true}
                       deleteMode={deleteMode}

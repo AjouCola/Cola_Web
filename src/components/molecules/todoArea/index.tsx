@@ -56,7 +56,7 @@ const TodoArea = ({
     };
     setTodoList((currentFolders) => {
       console.log('currentFolders, key', currentFolders, key);
-      const currentFolderIndex = currentFolders.findIndex((v) => v.items_id === key);
+      const currentFolderIndex = currentFolders.findIndex((v) => v.folder_id === key);
       console.log('currentFolderIndex', currentFolderIndex);
       const currentFolder = JSON.parse(JSON.stringify(currentFolders[currentFolderIndex])) as ITodoFolder;
       currentFolder.todos.push(newToDo);
@@ -86,7 +86,7 @@ const TodoArea = ({
       //   };
       // });
       setTodoList((currentFolders) => {
-        const currentFolderIndex = currentFolders.findIndex((v) => v.items_id === key);
+        const currentFolderIndex = currentFolders.findIndex((v) => v.folder_id === key);
         const currentFolder = JSON.parse(JSON.stringify(currentFolders[currentFolderIndex])) as ITodoFolder;
 
         const currentTodoIndex = currentFolder.todos.findIndex((v) => v.id === todoId);
@@ -104,7 +104,7 @@ const TodoArea = ({
     } else {
       if (!value)
         setTodoList((currentFolders) => {
-          const currentFolderIndex = currentFolders.findIndex((v) => v.items_id === key);
+          const currentFolderIndex = currentFolders.findIndex((v) => v.folder_id === key);
           const currentFolder = JSON.parse(JSON.stringify(currentFolders[currentFolderIndex])) as ITodoFolder;
 
           currentFolder.todos.splice(-1, 1);
@@ -121,7 +121,7 @@ const TodoArea = ({
           status: 'todo',
         };
         setTodoList((currentFolders) => {
-          const currentFolderIndex = currentFolders.findIndex((v) => v.items_id === key);
+          const currentFolderIndex = currentFolders.findIndex((v) => v.folder_id === key);
           const currentFolder = JSON.parse(JSON.stringify(currentFolders[currentFolderIndex])) as ITodoFolder;
           currentFolder.todos.push(newToDo);
 
