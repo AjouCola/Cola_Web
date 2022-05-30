@@ -94,6 +94,10 @@ const Select = styled.select`
   box-shadow: 0px 0px 5px ${({ theme }) => theme.colors.shadow};
   position: relative;
 
+  @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.sm}) {
+    padding: 1rem 3rem 1rem 1rem;
+  }
+
   &::after {
     content: '';
     position: absolute;
