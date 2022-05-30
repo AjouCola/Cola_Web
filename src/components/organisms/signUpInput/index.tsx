@@ -1,5 +1,7 @@
 import { MouseEvent, forwardRef } from 'react';
 
+import styled from '@emotion/styled';
+
 import { Title, InputStyle, Wrapper, ErrorMessage, Spinner } from './styles';
 
 import AuthBtn from '@components/atoms/button/auth';
@@ -16,6 +18,8 @@ interface InputProps {
   authBtnSuspense?: boolean;
   disabled?: boolean;
 }
+
+const InputWrapper = styled.div``;
 
 const SignUpInput = forwardRef<HTMLInputElement, InputProps>(
   (
@@ -34,23 +38,25 @@ const SignUpInput = forwardRef<HTMLInputElement, InputProps>(
     ref,
   ) => {
     return (
-      <FlexDiv direction="column">
-        <Wrapper direction="row">
+      <div style={{ width: '100%' }}>
+        <div style={{ width: '100%' }}>
           <Title>{content}</Title>
-          <InputStyle
-            ref={ref}
-            {...rest}
-            type={type}
-            placeholder={placeholder}
-            onChange={onChange}
-            disabled={disabled}
-          />
-          {buttonContent !== undefined && !disabled && (
-            <AuthBtn onClick={onClick}>{authBtnSuspense ? <Spinner></Spinner> : buttonContent}</AuthBtn>
-          )}
-        </Wrapper>
+          <div style={{ display: 'flex', width: '100%' }}>
+            <InputStyle
+              ref={ref}
+              {...rest}
+              type={type}
+              placeholder={placeholder}
+              onChange={onChange}
+              disabled={disabled}
+            />
+            {buttonContent !== undefined && !disabled && (
+              <AuthBtn onClick={onClick}>{authBtnSuspense ? <Spinner></Spinner> : buttonContent}</AuthBtn>
+            )}
+          </div>
+        </div>
         {error !== undefined && !disabled && <ErrorMessage>{error}</ErrorMessage>}
-      </FlexDiv>
+      </div>
     );
   },
 );

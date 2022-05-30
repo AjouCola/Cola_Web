@@ -16,8 +16,9 @@ const NormalContainer = styled.div<{ flag: boolean }>`
 `;
 
 const AuthContainer = styled.div`
-  width: 100vw;
-  height: calc(100vh - 8rem);
+  width: 100%;
+  // height: calc(100vh - 8rem);
+  height: calc(100% - 8rem);
   display: flex;
   justify-content: center;
   transition: 0.2s ease-in-out;

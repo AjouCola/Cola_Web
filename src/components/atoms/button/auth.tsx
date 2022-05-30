@@ -7,9 +7,8 @@ import { theme } from '@styles/theme';
 const AuthBtn = styled(Button)`
   border-radius: 5px;
   box-shadow: 0px 0px 5px ${({ theme }) => theme.colors.shadow};
-  min-width: 4vw;
-  height: 4vh;
-  margin: 0.2vmin;
+  white-space: nowrap;
+  padding: 0 1rem;
   margin-left: 20px;
   font-size: 1.2rem;
   font-weight: 600;

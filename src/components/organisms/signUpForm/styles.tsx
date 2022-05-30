@@ -5,9 +5,16 @@ import Check from 'public/check.svg';
 const SignUpFormStyle = styled.form`
   display: flex;
   flex-direction: column;
-  row-gap: 2vh;
+  gap: 1.5rem;
   align-items: flex-start;
-  max-width: 30rem;
+  width: 30rem;
+
+  @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.sm}) {
+    width: 100vw;
+    gap: 1rem;
+    width: 100%;
+    padding: 0 1rem;
+  }
 `;
 
 const CheckIcon = styled(Check)`

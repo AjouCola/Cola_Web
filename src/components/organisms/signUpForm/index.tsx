@@ -12,7 +12,7 @@ import SignUpInput from '@components/organisms/signUpInput';
 import { MAJOR_TYPE } from '@constants/index';
 import { IUserInfo, useUserSelector } from '@store/selector/user';
 import { FlexDiv } from '@styles/index';
-import { Select, Triangle, SubTitle } from '@styles/signUp';
+import { Select, Triangle, SubTitle, MajorWrapper } from '@styles/signUp';
 import Auth from '@utils/api/Auth';
 
 interface Props {
@@ -124,20 +124,20 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
         {...register('name', SignUpData.name)}
         error={errors.name?.message}
       />
-      <FlexDiv direction="row" style={{ position: 'relative' }}>
-        <SignUpInput
-          placeholder="아주대 메일"
-          content="이메일 인증"
-          buttonContent={!isEmailValid ? '인증' : undefined}
-          onClick={onClickEmailAuth}
-          {...register('email', SignUpData.email)}
-          error={errors.email?.message}
-          onChange={handleChange}
-          authBtnSuspense={emailCheckLoading}
-          disabled={isEditMode}
-        />
-        {isEmailValid && <CheckIcon />}
-      </FlexDiv>
+
+      <SignUpInput
+        placeholder="아주대 메일"
+        content="이메일 인증"
+        buttonContent={!isEmailValid ? '인증' : undefined}
+        onClick={onClickEmailAuth}
+        {...register('email', SignUpData.email)}
+        error={errors.email?.message}
+        onChange={handleChange}
+        authBtnSuspense={emailCheckLoading}
+        disabled={isEditMode}
+      />
+      {isEmailValid && <CheckIcon />}
+
       {checkEmail && !isEmailValid && (
         <SignUpInput
           type="password"
@@ -148,23 +148,18 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
           error={errors.emailCheck?.message}
         />
       )}
-      <FlexDiv direction="row">
+
+      <MajorWrapper>
         <SubTitle>학과</SubTitle>
-        {/* <MajorSelectBox
-          major={major}
-          register={register}
-          handleModalOnOff={handleModalOnOff}
-          onSubmitForm={onSubmitForm}
-        /> */}
-        <div style={{ position: 'relative' }}>
+        <div style={{ flex: 1, position: 'relative', width: '100%' }}>
           <Select onClick={handleModalOnOff} {...register('department', SignUpData.department)}>
             <option value={MAJOR_TYPE[major]} hidden>
               {MAJOR_TYPE[major]}
             </option>
           </Select>
-          <Triangle />
+          {/* <Triangle /> */}
         </div>
-      </FlexDiv>
+      </MajorWrapper>
       <SignUpInput
         placeholder="GIT 이메일"
         content="GIT 계정"
@@ -172,7 +167,7 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
         error={errors.gitEmailId?.message}
       />
       {!isEditMode && (
-        <FlexDiv direction="column" style={{ gap: '0.5rem' }}>
+        <FlexDiv direction="row" style={{ gap: '2rem' }}>
           <FlexDiv direction="row" style={{ alignItems: 'center', gap: '0.5rem' }}>
             <input type="checkbox" name="" id="policy" />
             <label htmlFor="policy">이용약관 동의</label>

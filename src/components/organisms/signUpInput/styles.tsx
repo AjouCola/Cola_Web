@@ -5,28 +5,35 @@ import { FlexDiv } from '@styles/index';
 import { theme } from '@styles/theme';
 
 const Title = styled.h3`
-  margin-top: 1vh;
   color: ${theme.colors.blue['400']};
-  width: 8vw;
+  width: 10rem;
+  padding: 0.5rem 0;
 `;
 
 const ErrorMessage = styled.p`
   color: red;
-  margin-left: 8vw;
   text-align: start;
-  padding: 5px 0;
+  margin-top: 1rem;
 `;
 
 const Wrapper = styled(FlexDiv)`
   align-items: center;
+  width: 100%;
+  @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.sm}) {
+    flex-direction: column;
+  }
 `;
 
 const InputStyle = styled.input`
   box-shadow: 0px 0px 5px ${({ theme }) => theme.colors.shadow};
   border: none;
   padding-left: 1rem;
-  min-width: 350px;
-  min-height: 60px;
+  min-height: 4rem;
+  width: 100%;
+  @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.sm}) {
+    height: 3rem;
+    min-height: 3rem;
+  }
 `;
 
 const rotate = keyframes`

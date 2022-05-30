@@ -14,21 +14,30 @@ const Wrapper = styled.div`
   display: flex;
 `;
 const Title = styled.h1`
-  font-size: 5rem;
+  font-size: 4.8rem;
   color: ${theme.colors.blue[500]};
-  padding: 55px 0 70px 0;
-`;
+  padding: 1rem;
 
+  @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.sm}) {
+    font-size: 3rem;
+    padding: 0;
+  }
+`;
+const MajorWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+`;
 const SubTitle = styled.h3`
-  margin-top: 1vh;
   color: ${theme.colors.blue['400']};
-  width: 8vw;
+  white-space: nowrap;
+  width: 5rem;
 `;
 
 const FormWrapper = styled.form`
   display: flex;
   flex-direction: column;
-  row-gap: 2vh;
   align-items: flex-start;
 `;
 const SubFormWrapper = styled.div`
@@ -78,18 +87,31 @@ const Select = styled.select`
   -moz-appearance: none; /* Firefox */
   -webkit-appearance: none; /* Safari and Chrome */
   appearance: none;
-  min-width: 350px;
-  min-height: 60px;
-  padding-left: 12px;
+  width: 100%;
+  padding: 1.5rem 3rem 1.5rem 1rem;
   border: none;
   background: white;
   box-shadow: 0px 0px 5px ${({ theme }) => theme.colors.shadow};
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: 0px;
+    top: 6px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 12px 7px 0 7px;
+    border-color: ${({ theme }) => theme.colors.blue['200']} transparent transparent transparent;
+    opacity: 1;
+  }
 `;
 
 const Triangle = styled.div`
   position: absolute;
-  right: 20px;
-  top: 24px;
+  right: 0px;
+  top: 6px;
   width: 0;
   height: 0;
   border-style: solid;
@@ -113,4 +135,5 @@ export {
   SubmitBtn,
   Select,
   Triangle,
+  MajorWrapper,
 };
