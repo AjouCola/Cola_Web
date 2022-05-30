@@ -39,7 +39,7 @@ const useDraggableTodo = (date: Date) => {
       setTodoList((allFolders) => {
         const currentAllFolders = JSON.parse(JSON.stringify(allFolders));
         const currentFolderIndex = currentAllFolders.findIndex(
-          (folder: ITodoFolder) => folder.folder_id === +draggableId,
+          (folder: ITodoFolder) => folder.folder_id === +source.droppableId,
         );
         const currentFolder = Array.from(currentAllFolders[currentFolderIndex]) as unknown as ITodoFolder;
         const todos = [...currentFolder.todos];
