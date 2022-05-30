@@ -1,11 +1,15 @@
+import { useEffect, useMemo, useState } from 'react';
+
 import styled from '@emotion/styled';
 
-import ProgressBar from '../../molecules/todoProgress/index';
-
+import { Type } from '@components/atoms/todoCheckBox';
 import Calender from '@components/molecules/calender';
+import ProgressBar from '@components/molecules/todoProgress/index';
 import { progressDummy } from '@constants/homeDummy';
 import { useCalendar } from '@pages/todolist';
+import { ITodoFolder } from '@store/index';
 import { theme } from '@styles/theme';
+import TodoApi, { IFolder } from '@utils/api/Todo';
 
 const CalendarWrapper = styled.div`
   display: flex;
@@ -133,12 +137,116 @@ const Title = styled.div`
 const RightSection = styled.div`
   grid-area: content;
   background: white;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 0;
+`;
+
+const TodoItemWrapper = styled.div`
+  display: flex;
+  gap: 1rem;
+  height: 2rem;
+  width: 80%;
+  margin: 0 auto;
+  justify-content: space-between;
+  align-items: center;
+`;
+const TodoCheckbox = styled.div<{ statusColor: string }>`
+  height: 1.2rem;
+  width: 1.2rem;
+  border-radius: 6px;
+  border: 1px solid gray;
+  background: ${({ statusColor }) => statusColor};
+  cursor: pointer;
+`;
+const TodoText = styled.p`
+  text-align: left;
+  line-height: 2rem;
+  flex: 1;
+  border-radius: 14px;
+  background: #6c7bfa10;
+  padding: 0 0.8rem;
+`;
+const TodoFolderInfo = styled.div<{ folderColor: string }>`
+  background: ${({ folderColor }) => folderColor};
+  width: 1rem;
+  height: 1rem;
+  border-radius: 6px;
+  position: relative;
+  cursor: pointer;
+  &:hover p {
+    opacity: 1;
+  }
+  p {
+    position: absolute;
+    bottom: 1.6rem;
+    left: 0.2rem;
+    white-space: nowrap;
+    text-overflow: ellipse;
+    background: #00000070;
+    padding: 0.1rem 0.5rem;
+    color: #eeeeee;
+    transition: all 200ms linear;
+    opacity: 0;
+    &::after {
+      position: absolute;
+      bottom: -0.5rem;
+      left: 0;
+      content: '';
+      border-bottom: 8px solid #00000070;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      width: 0;
+      height: 0;
+      transform: rotate(180deg);
+      // background: #00000070;
+    }
+  }
 `;
 
 const DAY = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
 
+const useTodayTodo = (today: string) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [todoList, setTodoList] = useState<ITodoFolder[]>([]);
+
+  useEffect(() => {
+    async function getTodoList() {
+      const { date, folders } = await TodoApi.getTodoList(today);
+
+      const todoList: ITodoFolder[] =
+        folders?.map(
+          (folder: IFolder) =>
+            ({
+              name: folder.name,
+              color: folder.color,
+              folder_id: folder.folder_id,
+              items_id: folder.item?.items_id ?? null,
+              todos: folder.item?.todos ? JSON.parse(folder.item.todos as string) : [],
+              progress: folder.item?.progress,
+            } as ITodoFolder),
+        ) ?? ([] as ITodoFolder[]);
+      setTodoList(todoList);
+      setIsLoading(false);
+      console.log('Todo List', todoList);
+      console.log('fetch todo list done');
+    }
+    if (today) {
+      getTodoList();
+    }
+  }, [today]);
+
+  return { isLoading, todoList };
+};
+
 const TodoSection = () => {
   const [today, date, handleChangeMonth] = useCalendar();
+  const { isLoading, todoList } = useTodayTodo(today.toISOString().slice(0, 10));
+
+  const flattenTodoList = useMemo(() => {
+    return todoList.map((folder) => folder?.todos.map((todo) => ({ ...todo, ...folder }))).flat();
+  }, [todoList]);
 
   return (
     <>
@@ -152,9 +260,22 @@ const TodoSection = () => {
         </DateTitle>
         <Title>
           <p>오늘의 할 일</p>
-          <span>0 / 8</span>
+          <span>
+            {flattenTodoList.filter((v) => v.status === 'done').length} / {flattenTodoList.length}
+          </span>
         </Title>
-        <RightSection></RightSection>
+        <RightSection>
+          {!isLoading &&
+            flattenTodoList.map((todo, idx) => (
+              <TodoItemWrapper key={todo.id}>
+                <TodoFolderInfo folderColor={todo.color}>
+                  <p>{todo.name}</p>
+                </TodoFolderInfo>
+                <TodoText>{todo.content}</TodoText>
+                <TodoCheckbox statusColor={Type[todo.status]} />
+              </TodoItemWrapper>
+            ))}
+        </RightSection>
       </TodoWrapper>
       <ProgressWrapper>
         <ProgressDateWrapper>
