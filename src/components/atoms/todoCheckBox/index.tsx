@@ -22,6 +22,7 @@ export interface Props {
   index: number;
   deleteMode: boolean;
   checkDelete: (todoArea: number, todoId: number) => void;
+  date: string;
 }
 
 export const Type = {
@@ -41,6 +42,7 @@ const TodoCheckBox = ({
   index,
   deleteMode,
   checkDelete,
+  date,
 }: Props) => {
   const setTodoList = useSetRecoilState(todoListState);
 
@@ -73,6 +75,9 @@ const TodoCheckBox = ({
       const currentTodo = currentFolder.todos.find((v: ITodo) => v.id === toDoId) as ITodo;
       currentTodo.status = typeStatus;
       console.log('change todo status', newFolders[currentFolderIndex].todos);
+      (async function () {
+        await TodoApi.saveTodoList(date, newFolders);
+      })();
       return newFolders;
     });
   }, [typeStatus]);

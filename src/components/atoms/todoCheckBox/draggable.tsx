@@ -16,6 +16,7 @@ const DraggableTodoCheckBox = ({
   index,
   deleteMode,
   checkDelete,
+  date,
 }: Props) => {
   return (
     <Draggable draggableId={toDoId + ''} index={index}>
@@ -33,6 +34,7 @@ const DraggableTodoCheckBox = ({
               index,
               deleteMode,
               checkDelete,
+              date,
             }}
           ></TodoCheckBox>
         </div>

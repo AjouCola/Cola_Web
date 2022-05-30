@@ -30,7 +30,7 @@ interface Props {
 }
 
 const TodoArea = ({
-  date,
+  date, // '2022-05-29'
   todoItems,
   area,
   areaId,
@@ -169,6 +169,7 @@ const TodoArea = ({
                 index={index}
                 deleteMode={deleteMode}
                 checkDelete={checkDelete}
+                date={date}
               />
             ) : (
               <TodoCheckBox
@@ -183,6 +184,7 @@ const TodoArea = ({
                 index={index}
                 deleteMode={deleteMode}
                 checkDelete={checkDelete}
+                date={date}
               />
             ),
           )
