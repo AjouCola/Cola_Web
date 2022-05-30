@@ -179,6 +179,7 @@ const TodoContent = ({ today }: { today: Date }) => {
                       todoItems={folder.todos}
                       area={folder.name}
                       areaId={folder.folder_id}
+                      folderColor={folder.color}
                       idx={idx}
                       dragMode={true}
                       deleteMode={deleteMode}

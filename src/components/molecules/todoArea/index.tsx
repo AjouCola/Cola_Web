@@ -6,7 +6,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Container, Wrapper, FolderTitleWrapper, BtnAddTodo } from './styles';
 
-import FolderIcon from '@assets/icon/folder_primary.svg';
+import FolderIcon from '@atoms/FolderIcon';
 import DraggableTodo from '@components/atoms/todoCheckBox/draggable';
 import TodoCheckBox from '@components/atoms/todoCheckBox/index';
 import { todoEditMode, todoModalContent } from '@store/todo';
@@ -18,7 +18,7 @@ export interface ITodoAreaProps {
   area: string;
   areaId: number;
   idx: number;
-  // toDos: string[];
+  folderColor: string;
   todoItems: ITodo[];
   dragMode?: boolean;
   deleteMode: boolean;
@@ -34,6 +34,7 @@ const TodoArea = ({
   todoItems,
   area,
   areaId,
+  folderColor,
   idx,
   dragMode = false,
   deleteMode,
@@ -144,7 +145,7 @@ const TodoArea = ({
       <FolderTitleWrapper>
         <div>
           <span>
-            <FolderIcon />
+            <FolderIcon color={folderColor} />
           </span>
           <span>{area}</span>
         </div>
