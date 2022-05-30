@@ -1,15 +1,22 @@
 import { useEffect, useRef } from 'react';
 
 import styled from '@emotion/styled';
+import codeSyntaxHighlightPlugin from '@toast-ui/editor-plugin-code-syntax-highlight';
+import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import { Viewer } from '@toast-ui/react-editor';
 import { useRouter } from 'next/router';
 
 import { FlexDiv } from '@styles/index';
 
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
+
 const CustomViewer = styled(Viewer)`
   min-height: 200px;
   background: white;
   border-radius: 14px;
+  img {
+    width: 100%;
+  }
 `;
 
 const EditorWrapper = styled.div`
@@ -34,7 +41,7 @@ const CommentViewer = ({ content }: { content: string }) => {
 
   return (
     <EditorWrapper>
-      <CustomViewer ref={viewerRef} initialValue={content} />
+      <CustomViewer ref={viewerRef} initialValue={content} plugins={[colorSyntax, codeSyntaxHighlightPlugin]} />
     </EditorWrapper>
   );
 };

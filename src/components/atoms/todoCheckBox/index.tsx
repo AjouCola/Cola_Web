@@ -80,7 +80,7 @@ const TodoCheckBox = ({
         // 총 done의 개수
         const allDone = currentFolder.todos.filter((v) => v.status === 'done').length;
         const allLength = currentFolder.todos.length;
-        currentFolder.progress = Math.round(((allDone + 1) / allLength) * 100);
+        currentFolder.progress = Math.round((allDone / allLength) * 100);
       }
 
       (async function () {
