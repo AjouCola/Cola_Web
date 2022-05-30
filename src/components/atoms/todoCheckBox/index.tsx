@@ -2,7 +2,7 @@ import { RefObject, useEffect, useRef, useState } from 'react';
 
 import { GetServerSideProps } from 'next';
 import { resetServerContext } from 'react-beautiful-dnd';
-import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { FlexRow, CheckBoxWrapper, CheckBox, MenuWrapper, DeleteCheckBox } from './styles';
 
@@ -42,7 +42,7 @@ const TodoCheckBox = ({
   deleteMode,
   checkDelete,
 }: Props) => {
-  const setTodoList = useResetRecoilState(todoListState);
+  const setTodoList = useSetRecoilState(todoListState);
 
   const [inputValue, setInputValue] = useState('');
   const [typeStatus, setTypeStatus] = useState<keyof typeof Type>(toDoStatus);
