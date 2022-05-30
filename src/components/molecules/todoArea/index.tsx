@@ -88,18 +88,13 @@ const TodoArea = ({
 
         const newFolders = [...currentFolders];
         newFolders.splice(currentFolderIndex, 1, currentFolder);
-        (async function () {
-          await TodoApi.saveTodoList(date, newFolders);
-        })();
+
         return newFolders;
       });
       setEditValue({
         id: null,
         content: null,
       });
-      // (async function () {
-      //   await TodoApi.saveTodoList(date, todoList);
-      // })();
     } else {
       if (value.trim().length > 0)
         setTodoList((currentFolders) => {
@@ -126,15 +121,19 @@ const TodoArea = ({
 
           const newFolders = [...currentFolders];
           newFolders.splice(currentFolderIndex, 1, currentFolder);
-          (async function () {
-            await TodoApi.saveTodoList(date, newFolders);
-          })();
+
           return newFolders;
         });
       }
     }
   };
 
+  useEffect(() => {
+    console.log('change todoList', todoList);
+    (async function () {
+      await TodoApi.saveTodoList(date, todoList);
+    })();
+  }, [JSON.stringify(todoList)]);
   return (
     <Container>
       <FolderTitleWrapper>
