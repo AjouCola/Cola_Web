@@ -61,7 +61,7 @@ const useDraggableTodo = (date: Date) => {
   return onDragEnd;
 };
 const useDeleteTodo = (date: Date): [boolean, () => void, (todoArea: number, todoId: number) => void] => {
-  const setTodoList = useSetRecoilState(todoListState);
+  const [todoList, setTodoList] = useRecoilState(todoListState);
 
   const [deleteMode, setDeleteMode] = useState(false);
   const [toDeleteItems, setToDeleteItems] = useState<{
@@ -107,6 +107,9 @@ const useDeleteTodo = (date: Date): [boolean, () => void, (todoArea: number, tod
         return currentFolders;
       });
     }
+    (async function () {
+      await TodoApi.saveTodoList(date.toISOString().slice(0, 10), todoList);
+    })();
   };
 
   return [deleteMode, onClickDelete, onCheckDeleteItem];
