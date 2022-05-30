@@ -10,11 +10,11 @@ import { FlexDiv } from '@styles/index';
 
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 
-const CustomViewer = styled(Viewer)`
-  min-height: 200px;
-  background: white;
-  border-radius: 14px;
-`;
+// const CustomViewer = styled(Viewer)`
+//   min-height: 200px;
+//   background: white;
+//   border-radius: 14px;
+// `;
 
 const EditorWrapper = styled.div`
   display: flex;
@@ -25,9 +25,6 @@ const EditorWrapper = styled.div`
   border-radius: 1rem;
   width: 100%;
   height: 100%;
-  img {
-    width: 100%;
-  }
 `;
 
 const CommentViewer = ({ content }: { content: string }) => {
@@ -41,7 +38,7 @@ const CommentViewer = ({ content }: { content: string }) => {
 
   return (
     <EditorWrapper>
-      <CustomViewer ref={viewerRef} initialValue={content} plugins={[colorSyntax, codeSyntaxHighlightPlugin]} />
+      <Viewer ref={viewerRef} initialValue={content} plugins={[colorSyntax, codeSyntaxHighlightPlugin]} />
     </EditorWrapper>
   );
 };
