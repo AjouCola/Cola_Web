@@ -1,10 +1,6 @@
-import { useRef, useEffect, SetStateAction, Dispatch, MutableRefObject, RefObject, useState } from 'react';
+import { useRef, useEffect, SetStateAction, Dispatch, RefObject } from 'react';
 
 import { useRouter } from 'next/router';
-import { useRecoilState } from 'recoil';
-import { boolean } from 'yup';
-
-// import { sideBarState } from '../store/sidebar';
 
 export const useClickOutSide = (
   isOpen: boolean,

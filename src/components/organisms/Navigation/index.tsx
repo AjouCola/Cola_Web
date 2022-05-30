@@ -6,6 +6,9 @@ const Container = styled.div`
   z-index: 100;
   position: fixed;
   height: 5rem;
+  @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.md}) {
+    height: 4rem;
+  }
 `;
 
 const Navigation = () => {

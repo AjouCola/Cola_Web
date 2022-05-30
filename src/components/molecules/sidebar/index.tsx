@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { Dispatch, ReactElement, SetStateAction, useRef } from 'react';
 
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -11,6 +11,7 @@ import InfoBoardIcon from '@assets/icon/info.svg';
 import QuestionBoardIcon from '@assets/icon/question.svg';
 import TodoIcon from '@assets/icon/todo.svg';
 import HashtagChip from '@components/atoms/hashtagChip';
+import { useClickOutSide } from '@utils/libs/useClickOutside';
 
 const categories = [
   {
@@ -65,10 +66,19 @@ interface ICategoryItem {
   children?: ReactElement;
 }
 
-const SideBar = () => {
+const SideBar = ({
+  isOpen,
+  setIsOpen,
+  headerRef,
+}: {
+  isOpen: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  headerRef: React.RefObject<HTMLElement>;
+}) => {
   const router = useRouter();
 
-  // const onClickClose = () => {};
+  const sidebarRef = useRef(null);
+  const sidebar = useClickOutSide(isOpen, setIsOpen, sidebarRef, false, headerRef);
 
   const CategoryCrossLine = () => (
     <div className="cross-line">
@@ -88,16 +98,14 @@ const SideBar = () => {
   );
 
   return (
-    <Container>
-      <div style={{ display: 'flex', justifyContent: 'center', width: '100%', padding: '0 55px' }}>
-        <Link href="/">
-          <a style={{ display: 'flex', gap: '1rem', justifyContent: 'center', alignItems: 'center' }}>
-            <HomeIcon />
-            <span style={{ color: 'white', fontSize: '1.6rem' }}>HOME</span>
-          </a>
-        </Link>
-        {/* <CloseSidebar onClick={onClickClose} /> */}
-      </div>
+    <Container isOpen={sidebar} ref={sidebarRef}>
+      <Link href="/">
+        <a style={{ display: 'flex', gap: '1rem', justifyContent: 'center', alignItems: 'center' }}>
+          <HomeIcon />
+          <span style={{ color: 'white', fontSize: '1.6rem' }}>HOME</span>
+        </a>
+      </Link>
+
       <Section>
         <MenuWrapper>
           <h3>카테고리</h3>

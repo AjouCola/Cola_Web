@@ -1,17 +1,9 @@
 import styled from '@emotion/styled';
 
-const Container = styled.nav`
-  position: absolute;
+const Container = styled.nav<{ isOpen: boolean }>`
   padding-top: 3.5rem;
-  top: 1.5rem;
-  bottom: 0;
-  left: 0;
-  width: 54px;
-  height: 54px;
   border-radius: 0px 30px 30px 0px;
-  background-color: ${(props) => props.theme.colors.blue[500]};
-  overflow: hidden;
-  z-index: 1000;
+  background: ${(props) => props.theme.colors.blue[500]};
   color: #222;
   user-select: none;
 
@@ -19,17 +11,24 @@ const Container = styled.nav`
   flex-direction: column;
   align-items: center;
   gap: 3rem;
+
   transition: all 150ms ease-in;
-  &:hover {
-    width: 250px;
-    height: calc(100vh - 3rem);
-  }
-  @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.md}) {
-    top: 1rem;
-  }
+  width: 250px;
+  height: calc(100vh - 3rem);
+  overflow: hidden;
+  z-index: 2000;
+
+  transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(-250px)')};
   @media screen and (max-width: 426px) {
     gap: 1.5rem;
   }
+`;
+
+const SidebarContent = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
 `;
 
 const Section = styled.section`
@@ -138,4 +137,4 @@ const ListItem = styled.li`
   }
 `;
 
-export { Container, Section, ListWrapper, ListItem, MenuWrapper };
+export { Container, SidebarContent, Section, ListWrapper, ListItem, MenuWrapper };

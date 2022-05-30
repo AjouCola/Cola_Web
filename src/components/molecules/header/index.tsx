@@ -1,12 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
 
 import { useRouter } from 'next/router';
-import { useRecoilState, useRecoilStateLoadable, useRecoilValue } from 'recoil';
+import { useRecoilStateLoadable } from 'recoil';
 
 import SearchBar from '../searchBar';
 
 import {
   Container,
+  SideBar,
+  HeaderWrapper,
   TitleWrapper,
   Title,
   HeaderSection,
@@ -22,14 +24,16 @@ import Logo from '@assets/icon/logo.svg';
 import UserDefault from '@components/atoms/icon/userDefault';
 import NotifyDropdown from '@components/organisms/notifyDropdown';
 import { NAV_MENU } from '@constants/index';
-import SideBar from '@molecules/sidebar';
+import SideBarContents from '@molecules/sidebar';
 import { IUserInfo, useUserSelector } from '@store/selector/user';
-import Auth from '@utils/api/Auth';
-import { setCookies, getCookies } from '@utils/cookie';
 
 const Header = () => {
   const router = useRouter();
   const [{ contents: user }, setUser] = useRecoilStateLoadable(useUserSelector({}));
+
+  const [isOpen, setIsOpen] = useState(false);
+  const headerRef = useRef(null);
+
   const dropdownRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   const notifyRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   const [profileMenu, setProfileMenu] = useState(false);
@@ -103,29 +107,33 @@ const Header = () => {
 
   return (
     <Container isTransparent={isTransparent}>
-      <SideBar />
-      <TitleWrapper>
-        <Title onClick={() => router.push('/')}>
-          <Logo width="120px" height="50px" />
-        </Title>
-      </TitleWrapper>
-      <HeaderSection>
-        <SearchBar />
-        <DropDownWrapper>
-          <HeaderBtn onClick={openNotifyMenu}>
-            <Heart />
-          </HeaderBtn>
-          <DropDownContent isOpen={notifyMenu} ref={notifyRef}>
-            <NotifyDropdown />
-          </DropDownContent>
-          <HeaderBtn onClick={openMenu}>
-            <UserDefault />
-          </HeaderBtn>
-          <DropDownContent isOpen={profileMenu} ref={dropdownRef}>
-            <ContentWrapper>{authMenu()}</ContentWrapper>
-          </DropDownContent>
-        </DropDownWrapper>
-      </HeaderSection>
+      <SideBar ref={headerRef}>
+        <SideBarContents isOpen={isOpen ?? false} setIsOpen={setIsOpen} headerRef={headerRef} />
+      </SideBar>
+      <HeaderWrapper>
+        <TitleWrapper>
+          <Title onClick={() => router.push('/')}>
+            <Logo width="120px" height="50px" />
+          </Title>
+        </TitleWrapper>
+        <HeaderSection>
+          <SearchBar />
+          <DropDownWrapper>
+            <HeaderBtn onClick={openNotifyMenu}>
+              <Heart />
+            </HeaderBtn>
+            <DropDownContent isOpen={notifyMenu} ref={notifyRef}>
+              <NotifyDropdown />
+            </DropDownContent>
+            <HeaderBtn onClick={openMenu}>
+              <UserDefault />
+            </HeaderBtn>
+            <DropDownContent isOpen={profileMenu} ref={dropdownRef}>
+              <ContentWrapper>{authMenu()}</ContentWrapper>
+            </DropDownContent>
+          </DropDownWrapper>
+        </HeaderSection>
+      </HeaderWrapper>
     </Container>
   );
 };

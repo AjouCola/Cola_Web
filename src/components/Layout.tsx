@@ -1,15 +1,11 @@
-import { ReactChild, ReactChildren, isValidElement, useCallback } from 'react';
+import { ReactChild, ReactChildren, isValidElement } from 'react';
 
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
-import { useRecoilState } from 'recoil';
 
 import TopButton from './atoms/topbutton';
 import Navigation from './organisms/Navigation';
 import AuthNavigation from './organisms/Navigation/AuthNavigation';
-
-import User from '@utils/api/User';
-import { getCookies } from '@utils/cookie';
 
 const NormalContainer = styled.div<{ flag: boolean }>`
   display: flex;
