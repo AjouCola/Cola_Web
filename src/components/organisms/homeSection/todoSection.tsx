@@ -261,6 +261,10 @@ const useTodayTodo = (today: string) => {
         currentTodo.status =
           currentTodo.status === 'todo' ? 'inProgress' : currentTodo.status === 'inProgress' ? 'done' : 'todo';
       }
+      newFolder.progress = Math.round(
+        (newFolder.todos.reduce((acc, cur) => (cur.status === 'done' ? (acc += 1) : acc), 0) / newFolder.todos.length) *
+          100,
+      );
 
       (async function () {
         await TodoApi.saveTodoList(today, newFolders);
