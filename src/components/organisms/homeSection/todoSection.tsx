@@ -241,8 +241,8 @@ const useTodayTodo = (today: string) => {
 };
 
 const TodoSection = () => {
-  const [today, date, handleChangeMonth] = useCalendar();
-  const { isLoading, todoList } = useTodayTodo(today.toISOString().slice(0, 10));
+  const [today, date, setDate, handleChangeMonth] = useCalendar();
+  const { isLoading, todoList } = useTodayTodo(date.toISOString().slice(0, 10));
 
   const flattenTodoList = useMemo(() => {
     return todoList.map((folder) => folder?.todos.map((todo) => ({ ...todo, ...folder }))).flat();
@@ -251,12 +251,12 @@ const TodoSection = () => {
   return (
     <>
       <CalendarWrapper>
-        <Calender date={date} handleChangeMonth={handleChangeMonth} />
+        <Calender date={date} setDate={setDate} handleChangeMonth={handleChangeMonth} />
       </CalendarWrapper>
       <TodoWrapper>
         <DateTitle>
-          <h2>{today.getDate()}</h2>
-          <h3>{DAY[today.getDay()]}</h3>
+          <h2>{date.getDate()}</h2>
+          <h3>{DAY[date.getDay()]}</h3>
         </DateTitle>
         <Title>
           <p>오늘의 할 일</p>
@@ -275,6 +275,9 @@ const TodoSection = () => {
                 <TodoCheckbox statusColor={Type[todo.status]} />
               </TodoItemWrapper>
             ))}
+          {(isLoading || flattenTodoList.length === 0) && (
+            <p style={{ textAlign: 'center', color: 'gray' }}>오늘의 할 일이 없습니다.</p>
+          )}
         </RightSection>
       </TodoWrapper>
       <ProgressWrapper>

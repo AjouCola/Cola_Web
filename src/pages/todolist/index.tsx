@@ -29,17 +29,17 @@ import {
 import TodoApi from '@utils/api/Todo';
 import { ITodoState, todoState } from 'src/store';
 
-export const useCalendar = (): [Date, Date, (condition: number) => void] => {
+export const useCalendar = (): [Date, Date, Dispatch<SetStateAction<Date>>, (condition: number) => void] => {
   const [date, setDate] = useState(new Date());
 
   const today = new Date();
   const handleChangeMonth = (condition: number) => setDate(new Date(date.getFullYear(), date.getMonth() + condition));
 
-  return [today, date, handleChangeMonth];
+  return [today, date, setDate, handleChangeMonth];
 };
 
 const Todolist: NextPage = () => {
-  const [today, date, handleChangeMonth] = useCalendar();
+  const [today, date, setDate, handleChangeMonth] = useCalendar();
   const [mode, setMode] = useState('default');
 
   const [bottomSheetOnOff, setBottomSheetOnOff] = useState(false);
@@ -47,14 +47,14 @@ const Todolist: NextPage = () => {
   return (
     <Container>
       <TodoContainer>
-        {mode === 'default' && <TodoContent today={today} />}
+        {mode === 'default' && <TodoContent today={date} />}
         {mode === 'edit' && <EditTodoContent />}
         <MenuBtn onClick={() => setMode((v) => (v === 'default' ? 'edit' : 'default'))}>메뉴</MenuBtn>
       </TodoContainer>
 
       <SheetButton onClick={() => setBottomSheetOnOff((v) => !v)}>ㅡ</SheetButton>
       <CalendarContainer flag={bottomSheetOnOff}>
-        <Calender {...{ date, handleChangeMonth }} />
+        <Calender {...{ date, handleChangeMonth, setDate }} />
       </CalendarContainer>
     </Container>
   );

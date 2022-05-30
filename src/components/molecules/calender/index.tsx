@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { SetStateAction, Dispatch, useEffect, useMemo, useState } from 'react';
 
 import { DateWrapper, CalenderNav, DayWrapper, MonthText, YearText, DayText, CurrentDayMarker } from './styles';
 
@@ -18,6 +18,7 @@ interface ChangedDateProps {
 interface Props {
   date: Date;
   handleChangeMonth: (condition: number) => void;
+  setDate: Dispatch<SetStateAction<Date>>;
 }
 
 // const Day = ['월', '화', '수', '목', '금', '토', '일'];
@@ -40,21 +41,21 @@ const getDate = (date: Date) => {
   return { thisDates, prevDates };
 };
 
-const Calender = ({ date, handleChangeMonth }: Props) => {
+const Calender = ({ date, handleChangeMonth, setDate }: Props) => {
   const today = new Date();
   const [data, setData] = useState<ChangedDateProps>({});
 
   useEffect(() => {
-    // async function getData() {
-    //   const data = (await Api.get(`/api/v1/todos/progress/${date.toISOString().slice(0, 7)}-01`)) as DataProps[];
-    //   setData(
-    //     data.reduce((r, { date, progress }) => {
-    //       r[date] = progress;
-    //       return r;
-    //     }, {} as ChangedDateProps),
-    //   );
-    // }
-    // getData();
+    async function getData() {
+      const data = (await Api.get(`/api/v1/todos/progress/${date.toISOString().slice(0, 7)}-01`)) as DataProps[];
+      setData(
+        data.reduce((r, { date, progress }) => {
+          r[date] = progress;
+          return r;
+        }, {} as ChangedDateProps),
+      );
+    }
+    getData();
   }, []);
 
   const currentMonth = useMemo(() => {
@@ -136,6 +137,7 @@ const Calender = ({ date, handleChangeMonth }: Props) => {
             day={element}
             date={(index + 1) % 7}
             elementData={data[getDateFormat(element)]}
+            setDate={setDate}
           />
         ))}
         {thisDates.map((element, index) => (
@@ -145,6 +147,7 @@ const Calender = ({ date, handleChangeMonth }: Props) => {
             day={element}
             date={(index + 1) % 7}
             elementData={data[getDateFormat(element)]}
+            setDate={setDate}
           />
         ))}
       </DayWrapper>
