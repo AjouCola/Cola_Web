@@ -46,7 +46,7 @@ const useDraggableTodo = (date: Date) => {
         [todos[source.index], todos[destination.index]] = [todos[destination.index], todos[source.index]];
         currentFolder.todos = todos;
         (async function () {
-          await TodoApi.saveTodoList(date.toISOString().slice(0, 10), newTodoList);
+          await TodoApi.saveTodoList(date.toISOString().slice(0, 10), currentAllFolders);
         })();
         return currentAllFolders;
       });
