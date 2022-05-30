@@ -50,16 +50,17 @@ const CommentSubmitBtn = styled.button`
 `;
 const CommentWrapper = styled.div``;
 
-interface IUserInfo {
-  name: string;
+interface IPostUserInfo {
   userId?: number;
   userName: string;
+  profilePath: string | null;
+  department: string;
 }
 
 export interface IComment {
   commentId: number;
   content: string;
-  userInfo: IUserInfo;
+  userInfo: IPostUserInfo;
 }
 
 interface IPost {
@@ -67,7 +68,7 @@ interface IPost {
   postId: number;
   title: string;
   content: string;
-  userInfo: IUserInfo;
+  userInfo: IPostUserInfo;
   comments: IComment[];
   tags: string[];
   createdDate: string;
@@ -142,6 +143,27 @@ const BoardDetail = () => {
 
   useEffect(() => {
     getPostData();
+    // const data = {
+    //   postId: 9,
+    //   postType: 'common',
+    //   title: '안녕하세여-',
+    //   content:
+    //     '안녕하세요\n첫 게시물을 작성합니다![imageURL](https://cola-image-bucket.s3.ap-northeast-2.amazonaws.com/9270f7ab-53ca-4cc2-a93e-4a9a76d8f590.jpeg)',
+    //   userInfo: {
+    //     userId: 14,
+    //     userName: '서재명',
+    //     profilePath: null,
+    //     department: 'SW',
+    //   },
+    //   comments: [],
+    //   tags: [],
+    //   createdDate: '2022-05-30T12:29:26.180762',
+    //   modifiedDate: '2022-05-30T12:29:26.180762',
+    // } as unknown as IPost;
+    // setPostData(data);
+
+    // setComments(data.comments);
+    // setIsLoading(false);
   }, []);
 
   if (isLoading) return <div>Loading...</div>;

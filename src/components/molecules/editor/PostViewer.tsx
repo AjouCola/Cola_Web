@@ -27,19 +27,20 @@ const EditorWrapper = styled.div`
   height: 100%;
 `;
 
-const CommentViewer = ({ content }: { content: string }) => {
+const PostViewer = ({ content }: { content: string }) => {
   const viewerRef = useRef<Viewer>(null);
 
   useEffect(() => {
     if (viewerRef.current) {
       viewerRef.current.getInstance().setMarkdown(content);
+      viewerRef.current.getRootElement().style.cssText = `img{width:100%}`;
     }
-  }, [content, name]);
+  }, [content]);
 
   return (
     <EditorWrapper>
-      <Viewer ref={viewerRef} initialValue={content} plugins={[colorSyntax, codeSyntaxHighlightPlugin]} />
+      <Viewer ref={viewerRef} initialValue={content} />
     </EditorWrapper>
   );
 };
-export default CommentViewer;
+export default PostViewer;

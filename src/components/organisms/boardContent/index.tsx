@@ -146,7 +146,7 @@ const BoardContent = ({ postType, title, userId, tags, userName, content, create
               <DetailIconWrapper>
                 <HeartBig />
                 <CommentBig />
-                {userInfo.id === userId && (
+                {(userInfo?.id ?? null) === userId && (
                   <MenuBtn onClick={onClickMenu}>
                     <span>•••</span>
                     {menu && (

@@ -1,8 +1,7 @@
-import Auth from '@utils/api/Auth';
 import { AxiosResponse } from 'axios';
-import { selector, selectorFamily } from 'recoil';
+import { selector, selectorFamily, atom } from 'recoil';
 
-import { atom } from 'recoil';
+import Auth from '@utils/api/Auth';
 
 export interface IUserInfo {
   state: string;
