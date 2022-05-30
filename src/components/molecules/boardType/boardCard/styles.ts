@@ -74,6 +74,7 @@ const TextWrapper = styled.div`
     color: inherit;
     text-decoration: none;
     position: relative;
+    overflow: hidden;
   }
 `;
 const Title = styled.h3`
@@ -96,7 +97,7 @@ const BodyText = styled.p`
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  overflow: hidden;
+
   text-overflow: ellipsis;
   color: ${theme.colors.gray[900]};
 

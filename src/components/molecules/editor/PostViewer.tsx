@@ -14,9 +14,6 @@ const CustomViewer = styled(Viewer)`
   min-height: 200px;
   background: white;
   border-radius: 14px;
-  img {
-    width: 100%;
-  }
 `;
 
 const EditorWrapper = styled.div`
@@ -28,6 +25,9 @@ const EditorWrapper = styled.div`
   border-radius: 1rem;
   width: 100%;
   height: 100%;
+  img {
+    width: 100%;
+  }
 `;
 
 const CommentViewer = ({ content }: { content: string }) => {
