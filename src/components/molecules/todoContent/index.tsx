@@ -34,16 +34,32 @@ const useDraggableTodo = (date: Date) => {
   const onDragEnd = (info: DropResult) => {
     const { destination, draggableId, source } = info;
     if (!destination) return;
-    if (destination?.droppableId === source.droppableId) return;
+    if (destination?.droppableId === source.droppableId) {
+      // same board movement
+      setTodoList((allFolders) => {
+        const currentAllFolders = JSON.parse(JSON.stringify(allFolders));
+        const currentFolderIndex = currentAllFolders.findIndex(
+          (folder: ITodoFolder) => folder.folder_id === +draggableId,
+        );
+        const currentFolder = Array.from(currentAllFolders[currentFolderIndex]) as unknown as ITodoFolder;
+        const todos = [...currentFolder.todos];
+        [todos[source.index], todos[destination.index]] = [todos[destination.index], todos[source.index]];
+        currentFolder.todos = todos;
+        (async function () {
+          await TodoApi.saveTodoList(date.toISOString().slice(0, 10), newTodoList);
+        })();
+        return currentAllFolders;
+      });
+    }
     // console.log(destFolder, srcFolder);
 
     if (destination.droppableId !== source.droppableId) {
       // cross board movement
-      setTodoList((prev: any) => {
+      setTodoList((prev) => {
         const newTodoList = JSON.parse(JSON.stringify(prev));
         // droppableId === folderId
-        const srcFolderIndex = prev.findIndex((f: any) => f.folder_id == source.droppableId);
-        const destFolderIndex = prev.findIndex((f: any) => f.folder_id == destination.droppableId);
+        const srcFolderIndex = prev.findIndex((f) => f.folder_id === +source.droppableId);
+        const destFolderIndex = prev.findIndex((f) => f.folder_id === +destination.droppableId);
 
         // source.index에서 1개 잘라서 destination.index에 1개 넣기
         const newSrcTodos = Array.from(newTodoList[srcFolderIndex].todos);
