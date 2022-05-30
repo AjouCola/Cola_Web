@@ -78,7 +78,7 @@ export const NAV_MENU: INavMenu[] = [
     id: 'logout',
     content: '로그아웃',
     division: 'AUTH',
-    link: '/logout',
+    link: '/',
   },
   {
     id: 'myPage',

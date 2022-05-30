@@ -26,6 +26,7 @@ import NotifyDropdown from '@components/organisms/notifyDropdown';
 import { NAV_MENU } from '@constants/index';
 import SideBarContents from '@molecules/sidebar';
 import { IUserInfo, useUserSelector } from '@store/selector/user';
+import User from '@utils/api/User';
 
 const Header = () => {
   const router = useRouter();
@@ -85,9 +86,11 @@ const Header = () => {
     NAV_MENU.filter((v) => v.division === 'AUTH').map((menu) => (
       <DropDownItem
         key={menu.id}
-        onClick={() => {
-          if (menu.link === 'logout') {
+        onClick={async () => {
+          if (menu.id === 'logout') {
+            await User.logout();
             setUser({} as IUserInfo);
+
             router.push('/');
           } else {
             router.push(menu.link);
