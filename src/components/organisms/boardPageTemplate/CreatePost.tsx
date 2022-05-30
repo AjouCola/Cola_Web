@@ -3,12 +3,14 @@ import { DetailedHTMLProps, InputHTMLAttributes, useRef, useState, useEffect } f
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useRecoilState } from 'recoil';
 
 import SubmitBtn from '@components/atoms/button/submit';
 import HashtagChip from '@components/atoms/hashtagChip';
 import Modal from '@components/molecules/modal';
 import PostCreateModal from '@components/molecules/modal/PostCreateModal';
 import { MODE, WRITE_REF } from '@constants/index';
+import { editPostData, IEditPost } from '@store/post';
 import { FlexWrapper } from '@styles/global';
 import { Container, HashtagBar, Wrapper, TitleWrapper, TitleInput, EditorWrapper } from '@styles/write';
 import { Board } from '@utils/api/Board';
@@ -17,7 +19,6 @@ import AllCheck from 'public/all_check.svg';
 import Edit from 'public/edit.svg';
 import EditCheck from 'public/edit_check.svg';
 import { InputProps } from '~/types/write';
-
 const PostEditor = dynamic(import('@components/molecules/editor/PostEditor'), { ssr: false });
 
 const WritePost = ({
@@ -27,6 +28,8 @@ const WritePost = ({
   boardCategory: 'common' | 'info' | 'qna';
   postEditMode?: boolean;
 }) => {
+  const [postData, setPostData] = useRecoilState(editPostData);
+
   const router = useRouter();
   const [modal, setModal] = useState(false);
   const [editMode, setEditMode] = useState<typeof MODE[number]>('all');
@@ -37,13 +40,17 @@ const WritePost = ({
     (inputRef.current[value] = el as HTMLInputElement);
 
   useEffect(() => {
+    return () => {
+      setPostData({} as IEditPost);
+    };
+  });
+  useEffect(() => {
     if (postEditMode) {
-      const { title, content, tags } = router.query;
-      if (tags) {
-        const parsed = JSON.parse(tags as string);
-        if (Array.isArray(parsed)) {
-          setChipList(parsed);
-        }
+      const { postId, title, content, tags } = postData;
+      if (!postId) router.push('/'); // wrong access
+      console.log('post edit mode', postData);
+      if (tags.length > 0) {
+        setChipList(tags);
       }
       if (inputRef.current[WRITE_REF.title]) {
         inputRef.current[WRITE_REF.title].value = title as string;

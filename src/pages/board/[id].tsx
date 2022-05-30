@@ -132,7 +132,7 @@ const BoardDetail = () => {
   const router = useRouter();
 
   const getPostData = async () => {
-    if (router.query?.id) {
+    if (router.query?.id && !isNaN(+router.query?.id)) {
       const data = (await BoardApi.get(+router.query.id)) as unknown as IPost;
       setPostData(data);
 
@@ -170,6 +170,7 @@ const BoardDetail = () => {
   return (
     <div style={{ maxWidth: '1200px', width: '100%', padding: '4rem 2rem' }}>
       <BoardContent
+        postId={postData.postId}
         postType={postData.postType}
         title={postData.title}
         content={postData.content}

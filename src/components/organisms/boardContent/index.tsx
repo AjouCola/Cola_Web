@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { marked } from 'marked';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
+import { useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
 
 import {
   Container,
@@ -25,6 +25,7 @@ import Heart from '@assets/icon/heart_primary.svg';
 import Logo from '@assets/icon/logo.svg';
 import HashtagChip from '@atoms/hashtagChip';
 import UserDefault from '@components/atoms/icon/userDefault';
+import { editPostData } from '@store/post';
 import { IUserInfo, useUserSelector } from '@store/selector/user';
 import { Board } from '@utils/api/Board';
 import Comment from 'public/comment.svg';
@@ -37,6 +38,7 @@ import Visit from 'public/visit.svg';
 
 const PostViewer = dynamic(import('@components/molecules/editor/PostViewer'), { ssr: false });
 interface Props {
+  postId: number;
   postType: string;
   title: string;
   userId: number;
@@ -89,23 +91,36 @@ const HashTagBar = ({ data }: { data: string[] }) => {
   );
 };
 
-const BoardContent = ({ postType, title, userId, tags, userName, content, createdDate, modifiedDate }: Props) => {
+const BoardContent = ({
+  postId,
+  postType,
+  title,
+  userId,
+  tags,
+  userName,
+  content,
+  createdDate,
+  modifiedDate,
+}: Props) => {
   const router = useRouter();
+
+  const setEditPostData = useSetRecoilState(editPostData);
   const { contents: userInfo } = useRecoilValueLoadable(useUserSelector({}));
   const [menu, setMenu] = useState(false);
+
   const onClickMenu = () => {
     setMenu((prev) => !prev);
   };
   const onClickEdit = () => {
     // alert('준비중입니다');
     if (confirm('게시글을 수정하시겠습니까?')) {
-      router.push(`/board/edit/${router.query?.id}`, {
-        query: {
-          title,
-          content,
-          tags: JSON.stringify(tags),
-        },
+      setEditPostData({
+        postId,
+        title,
+        content,
+        tags: tags ?? [],
       });
+      router.push(`/board/edit/${postId}`, {});
     }
   };
   const onClickDelete = async () => {
