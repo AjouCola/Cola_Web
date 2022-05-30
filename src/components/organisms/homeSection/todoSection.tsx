@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import ProgressBar from '../../molecules/todoProgress/index';
 
 import Calender from '@components/molecules/calender';
+import { progressDummy } from '@constants/homeDummy';
 import { useCalendar } from '@pages/todolist';
 import { theme } from '@styles/theme';
 
@@ -39,6 +40,7 @@ const ProgressWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  max-width: 30rem;
 `;
 const ProgressDateWrapper = styled.div`
   display: flex;
@@ -55,38 +57,39 @@ const ProgressDateWrapper = styled.div`
 `;
 const ProgressItemWrapper = styled.div`
   background: #c3cdf9;
-  width: 297px;
-  height: 85%;
-  padding: 30px;
-  background: #ffffff 0% 0% no-repeat padding-box;
   width: 100%;
+  height: 85%;
+  padding: 1.5rem 2rem;
+  background: #ffffff 0% 0% no-repeat padding-box;
   border-radius: 5px;
-  display: inline-grid;
-  div {
-    display: flex;
-    align-items: center;
-  }
-  span {
-    font-size: 1rem;
-    margin: -7px 20px 0 20px;
-  }
-  h3 {
-    letter-spacing: 0px;
-    color: #6c7bfa;
-    margin: -14px 25px 0 25px;
-    font-size: 1.5rem;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 `;
+
+const ProgressItem = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+`;
+const ProgressText = styled.span`
+  min-width: 15%;
+  flex-basis: 15%;
+  color: #6c7bfa;
+  font-size: 1.2rem;
+`;
+
 const TodoWrapper = styled.div`
   box-shadow: 0px 0px 6px #00000029;
   background: ${({ theme: { colors } }) => colors.blue[500]};
   display: grid;
-  max-height: 60vh;
+  max-height: 65vh;
   grid-template:
     'date content' 1fr
     '. content' 4fr
     'title content' 1fr
-    /1fr 1fr;
+    /1fr 2fr;
   @media (max-width: ${theme.breakpoints.md}) {
     padding: 1rem;
     grid-template:
@@ -164,12 +167,12 @@ const TodoSection = () => {
           </div>
         </ProgressDateWrapper>
         <ProgressItemWrapper>
-          {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((d, index) => (
-            <div key={index}>
-              <h3>{d}</h3>
-              <ProgressBar percent={60}></ProgressBar>
-              <p>10/10</p>
-            </div>
+          {progressDummy.map((data, index) => (
+            <ProgressItem key={index}>
+              <ProgressText>{data.day}</ProgressText>
+              <ProgressBar color={data.color} percent={data.progress} idx={index + 1}></ProgressBar>
+              <ProgressText>{Math.round(data.progress / 10)}/10</ProgressText>
+            </ProgressItem>
           ))}
         </ProgressItemWrapper>
       </ProgressWrapper>

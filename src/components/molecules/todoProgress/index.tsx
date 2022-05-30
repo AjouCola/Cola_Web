@@ -9,15 +9,16 @@ const BarWrapper = styled.div`
   height: 10px;
 `;
 
-const Bar = styled.div<{ width: number }>`
+const Bar = styled.div<{ width: number; color: string; delay?: number }>`
   width: ${({ width }) => `${width}%`};
-  transition: width 0.5s linear;
   border-radius: 1rem;
-  background-color: #6c7bfa;
+  background-color: ${({ color }) => color};
   height: 10px;
+  transition: width 1s cubic-bezier(0, 0.37, 0, 0.76);
+  transition-delay: ${({ delay }) => (delay ? delay * 0.25 : 0)}s;
 `;
 
-const ProgressBar = ({ percent }: { percent: number }) => {
+const ProgressBar = ({ percent, color, idx }: { percent: number; color: string; idx?: number }) => {
   const [width, setWidth] = useState(0);
   useEffect(() => {
     setWidth(percent);
@@ -25,7 +26,7 @@ const ProgressBar = ({ percent }: { percent: number }) => {
 
   return (
     <BarWrapper>
-      <Bar width={width} />
+      <Bar width={width} color={color} delay={idx} />
     </BarWrapper>
   );
 };

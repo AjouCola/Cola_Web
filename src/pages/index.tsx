@@ -14,7 +14,7 @@ const SectionWrapper = styled.div`
   padding: 1rem;
   box-sizing: border-box;
   column-gap: 1rem;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1.5fr 1.5fr 1fr;
   @media (max-width: ${theme.breakpoints.md}) {
     grid-template-columns: repeat(1, 1fr);
   }
@@ -39,6 +39,13 @@ const BoardSectionWrapper = styled.div`
 const Container = styled.div`
   height: 100%;
   width: 100%;
+  padding-top: 5rem;
+  @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.md}) {
+    padding-top: 4rem;
+  }
+  @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.sm}) {
+    padding-top: 3rem;
+  }
 `;
 
 const Banner = styled.div`
