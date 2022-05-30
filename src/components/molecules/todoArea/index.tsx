@@ -87,7 +87,7 @@ const TodoArea = ({
         const currentFolder = JSON.parse(JSON.stringify(currentFolders[currentFolderIndex])) as ITodoFolder;
         const currentTodoIndex = currentFolder.todos.findIndex((v) => v.id === todoId);
 
-        currentFolder.todos = [...currentFolder.todos.splice(currentTodoIndex, 1, modified)];
+        currentFolder.todos.splice(currentTodoIndex, 1, modified);
 
         const newFolders = [...currentFolders];
         newFolders.splice(currentFolderIndex, 1, currentFolder);
