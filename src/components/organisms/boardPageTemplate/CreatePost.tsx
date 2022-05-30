@@ -44,6 +44,7 @@ const WritePost = ({
       setPostData({} as IEditPost);
     };
   }, []);
+
   useEffect(() => {
     if (postEditMode) {
       const { postId, title, content, tags } = postData;
@@ -53,9 +54,7 @@ const WritePost = ({
       if (tags.length > 0) {
         setChipList(tags);
       }
-      if (inputRef.current[WRITE_REF.title]) {
-        inputRef.current[WRITE_REF.title].value = title;
-      }
+      inputRef.current[WRITE_REF.title].value = title;
       setEditorContent(content);
     }
   }, [postEditMode]);
@@ -118,7 +117,7 @@ const WritePost = ({
     } else {
       await Board.edit({
         content: editorContent,
-        title: inputRef.current[WRITE_REF.hashtag].value,
+        title: inputRef.current[WRITE_REF.title]?.value,
         postId: Number(router.query?.id),
         tags: chipList,
         thumbnailPath,

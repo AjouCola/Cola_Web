@@ -13,6 +13,7 @@ export const useClickOutSide = (
   const isOpenValue = useRef(initialValue);
 
   const handleOutSide = (e: any) => {
+    console.log(e);
     if (ref.current && !ref.current.contains(e.target)) {
       if (e.path.includes(containRef.current) || isOpenValue.current) {
         setIsOpen((prev) => {

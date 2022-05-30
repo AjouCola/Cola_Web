@@ -24,6 +24,9 @@ const Comment = styled.div`
   box-shadow: 0px 0px 6px ${({ theme: { colors } }) => colors.shadow};
   margin-bottom: 1rem;
   padding: 1rem 2rem;
+  @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.sm}) {
+    padding: 1rem 1rem;
+  }
 `;
 const CustomViewer = styled(Viewer)`
   min-height: 200px;
@@ -65,6 +68,10 @@ const MenuBtnWrapper = styled.div`
   svg:hover {
     opacity: 0.8;
     cursor: pointer;
+  }
+
+  @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.sm}) {
+    width: 7.5rem;
   }
 `;
 const MenuBtn = styled.button`
