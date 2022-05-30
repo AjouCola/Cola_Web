@@ -5,7 +5,7 @@ const InputProps = {
   },
   hashtag: {
     style: { border: 'none', background: 'none' },
-    placeholder: '태그를 입력하세요.',
+    placeholder: '태그를 입력하세요',
   },
 };
 

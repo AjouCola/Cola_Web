@@ -10,7 +10,7 @@ import Modal from '@components/molecules/modal';
 import PostCreateModal from '@components/molecules/modal/PostCreateModal';
 import { MODE, WRITE_REF } from '@constants/index';
 import { FlexWrapper } from '@styles/global';
-import { Container, HashtagBar, Wrapper, TitleInput, EditorWrapper } from '@styles/write';
+import { Container, HashtagBar, Wrapper, TitleWrapper, TitleInput, EditorWrapper } from '@styles/write';
 import { Board } from '@utils/api/Board';
 import All from 'public/all.svg';
 import AllCheck from 'public/all_check.svg';
@@ -87,19 +87,10 @@ const WritePost = ({
   };
 
   const onEditSubmit = async () => {
-    // await Board.edit({
-    //   content: editorContent,
-    //   title: inputRef.current[WRITE_REF.hashtag].value,
-    //   postId: Number(router.query?.id),
-    //   tags: chipList,
-    // });
-
-    // router.push('/board/' + router.query?.id);
     setModal(true);
   };
 
   const handleSubmit = () => {
-    // postEditMode ? onEditSubmit() : onSubmit();
     onSubmit();
   };
 
@@ -132,8 +123,16 @@ const WritePost = ({
   return (
     <>
       <Container>
-        <TitleInput {...InputProps.title} ref={(el) => selectRef(el)(WRITE_REF.title)} autoFocus />
-        <Wrapper style={{ gridArea: 'mode' }}>
+        <TitleWrapper>
+          <TitleInput
+            {...InputProps.title}
+            ref={(el) => selectRef(el)(WRITE_REF.title)}
+            autoFocus
+            placeholder="제목을 입력해주세요"
+            style={{}}
+          />
+        </TitleWrapper>
+        <Wrapper>
           <div onClick={() => handleChangeMode('all')}>{editMode === 'all' ? <AllCheck /> : <All />}</div>
           <div onClick={() => handleChangeMode('edit')}>{editMode === 'edit' ? <EditCheck /> : <Edit />}</div>
         </Wrapper>

@@ -1,11 +1,17 @@
 import { useEffect, Dispatch, SetStateAction, useRef } from 'react';
 
+import styled from '@emotion/styled';
+import codeSyntaxHighlightPlugin from '@toast-ui/editor-plugin-code-syntax-highlight';
+import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import { Editor } from '@toast-ui/react-editor';
 
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { WRITE_EXAMPLE, MODE } from '@constants/index';
 import Api from '@utils/api/core';
 
+const CustomEditor = styled(Editor)`
+  width: 100%;
+`;
 interface IPostEditor {
   initialValue?: string;
   placeholder?: string;
@@ -50,7 +56,7 @@ const ToastEditor = ({ initialValue, placeholder, setContent, previewStyle }: IP
   }, []);
 
   return (
-    <Editor
+    <CustomEditor
       ref={editorRef}
       initialValue={initialValue ?? ''}
       previewStyle="vertical"
@@ -58,6 +64,7 @@ const ToastEditor = ({ initialValue, placeholder, setContent, previewStyle }: IP
       placeholder={placeholder}
       height="100%"
       onChange={onChange}
+      plugins={[colorSyntax, codeSyntaxHighlightPlugin]}
     />
   );
 };
