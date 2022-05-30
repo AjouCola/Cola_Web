@@ -237,12 +237,44 @@ const useTodayTodo = (today: string) => {
     }
   }, [today]);
 
-  return { isLoading, todoList };
+  const handleTodoCheck = (todo: any) => {
+    /**
+     * todo :{
+      id: number;
+      content:string;
+      status:string;
+      name: string;
+      color: string;
+      items_id: number;
+      folder_id: number;
+      progress: number;
+      todos: ITodo[];
+     * }
+     */
+    setTodoList((allFolders) => {
+      const newFolders = JSON.parse(JSON.stringify(allFolders)) as ITodoFolder[];
+      const folderIndex = allFolders.findIndex((folder) => folder.folder_id === todo.folder_id);
+      const newFolder = newFolders[folderIndex];
+
+      const currentTodo = newFolder.todos.find((v) => v.id === todo.id);
+      if (currentTodo?.status) {
+        currentTodo.status =
+          currentTodo.status === 'todo' ? 'inProgress' : currentTodo.status === 'inProgress' ? 'done' : 'todo';
+      }
+
+      (async function () {
+        await TodoApi.saveTodoList(today, newFolders);
+      })();
+      return newFolders;
+    });
+  };
+
+  return { isLoading, todoList, handleTodoCheck };
 };
 
 const TodoSection = () => {
   const [today, date, setDate, handleChangeMonth] = useCalendar();
-  const { isLoading, todoList } = useTodayTodo(date.toISOString().slice(0, 10));
+  const { isLoading, todoList, handleTodoCheck } = useTodayTodo(date.toISOString().slice(0, 10));
 
   const flattenTodoList = useMemo(() => {
     return todoList.map((folder) => folder?.todos.map((todo) => ({ ...todo, ...folder }))).flat();
@@ -272,7 +304,7 @@ const TodoSection = () => {
                   <p>{todo.name}</p>
                 </TodoFolderInfo>
                 <TodoText>{todo.content}</TodoText>
-                <TodoCheckbox statusColor={Type[todo.status]} />
+                <TodoCheckbox statusColor={Type[todo.status]} onClick={() => handleTodoCheck(todo)} />
               </TodoItemWrapper>
             ))}
           {(isLoading || flattenTodoList.length === 0) && (
