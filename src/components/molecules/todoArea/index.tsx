@@ -155,12 +155,13 @@ const TodoArea = ({
         {
           // dragMode에 따라 드래그 가능한 컴포넌트 or 일반 컴포넌트 렌더링
 
-          todoItems?.map(({ id, content }, index) =>
+          todoItems?.map(({ id, content, status }, index) =>
             dragMode ? (
               <DraggableTodo
                 key={id}
                 toDoId={id}
                 toDoContent={content}
+                toDoStatus={status}
                 target={area}
                 targetId={areaId}
                 handleFocus={handleFocus}
@@ -174,6 +175,7 @@ const TodoArea = ({
                 key={id}
                 toDoId={id}
                 toDoContent={content}
+                toDoStatus={status}
                 target={area}
                 targetId={areaId}
                 handleFocus={handleFocus}

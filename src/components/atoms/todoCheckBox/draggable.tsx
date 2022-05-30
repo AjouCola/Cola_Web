@@ -8,6 +8,7 @@ import TodoCheckBox, { Props } from './index';
 const DraggableTodoCheckBox = ({
   toDoId,
   toDoContent,
+  toDoStatus,
   target,
   targetId,
   handleFocus,
@@ -21,7 +22,18 @@ const DraggableTodoCheckBox = ({
       {(provided, snapshot) => (
         <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
           <TodoCheckBox
-            {...{ toDoId, toDoContent, target, targetId, handleFocus, inputRef, index, deleteMode, checkDelete }}
+            {...{
+              toDoId,
+              toDoContent,
+              toDoStatus,
+              target,
+              targetId,
+              handleFocus,
+              inputRef,
+              index,
+              deleteMode,
+              checkDelete,
+            }}
           ></TodoCheckBox>
         </div>
       )}

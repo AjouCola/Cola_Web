@@ -2,16 +2,19 @@ import { RefObject, useEffect, useRef, useState } from 'react';
 
 import { GetServerSideProps } from 'next';
 import { resetServerContext } from 'react-beautiful-dnd';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import { FlexRow, CheckBoxWrapper, CheckBox, MenuWrapper, DeleteCheckBox } from './styles';
 
+import { todoListState, ITodoFolder } from '@store/index';
 import { todoEditMode, todoModal, todoModalContent } from '@store/todo';
 import { theme } from '@styles/theme';
+import TodoApi, { ITodo } from '@utils/api/Todo';
 
 export interface Props {
   toDoId: number;
   toDoContent: string;
+  toDoStatus: 'todo' | 'inProgress' | 'done';
   target: string;
   targetId: number;
   inputRef: RefObject<HTMLInputElement>;
@@ -30,6 +33,7 @@ export const Type = {
 const TodoCheckBox = ({
   toDoId,
   toDoContent,
+  toDoStatus,
   target,
   targetId,
   handleFocus,
@@ -38,8 +42,10 @@ const TodoCheckBox = ({
   deleteMode,
   checkDelete,
 }: Props) => {
+  const setTodoList = useResetRecoilState(todoListState);
+
   const [inputValue, setInputValue] = useState('');
-  const [typeStatus, setTypeStatus] = useState<keyof typeof Type>('todo');
+  const [typeStatus, setTypeStatus] = useState<keyof typeof Type>(toDoStatus);
 
   const [deleteChecked, setDeleteCheck] = useState(false);
 
@@ -57,6 +63,20 @@ const TodoCheckBox = ({
     setDeleteCheck(false);
     console.log(targetId);
   }, [deleteMode]);
+
+  useEffect(() => {
+    setTodoList((allFolders: ITodoFolder[]) => {
+      const currentFolderIndex = allFolders.findIndex((folder: ITodoFolder) => folder.folder_id === targetId);
+      const newFolders = JSON.parse(JSON.stringify(allFolders)) as ITodoFolder[];
+
+      const currentFolder = newFolders[currentFolderIndex];
+      const currentTodo = currentFolder.todos.find((v: ITodo) => v.id === toDoId) as ITodo;
+      currentTodo.status = typeStatus;
+      console.log('change todo status', newFolders[currentFolderIndex].todos);
+      return newFolders;
+    });
+  }, [typeStatus]);
+
   const handleChangeType = () =>
     setTypeStatus(typeStatus === 'todo' ? 'inProgress' : typeStatus === 'inProgress' ? 'done' : 'todo');
 
