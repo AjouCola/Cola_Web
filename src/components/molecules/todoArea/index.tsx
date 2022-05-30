@@ -72,9 +72,10 @@ const TodoArea = ({
   };
   const handleFocus = async (key: number, value: string, todoId?: number) => {
     setFocus(false);
-    console.log('handleFocus', key, value, todoId);
+    console.log('handleFocus', key, value, todoId, editValue.id);
     if (editValue.id) {
       // 수정 모드
+      console.log('수정모드');
       const modified: ITodo = {
         id: Date.now(),
         content: value + '',
@@ -96,7 +97,7 @@ const TodoArea = ({
         content: null,
       });
     } else {
-      if (value.trim().length > 0)
+      if (value.trim().length === 0) {
         setTodoList((currentFolders) => {
           const currentFolderIndex = currentFolders.findIndex((v) => v.folder_id === key);
           const currentFolder = JSON.parse(JSON.stringify(currentFolders[currentFolderIndex])) as ITodoFolder;
@@ -108,7 +109,7 @@ const TodoArea = ({
 
           return newFolders;
         });
-      else {
+      } else {
         const newToDo: ITodo = {
           id: Date.now(),
           content: value + '',
