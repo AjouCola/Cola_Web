@@ -85,10 +85,13 @@ const TodoArea = ({
       setTodoList((currentFolders) => {
         const currentFolderIndex = currentFolders.findIndex((v) => v.folder_id === key);
         const currentFolder = JSON.parse(JSON.stringify(currentFolders[currentFolderIndex])) as ITodoFolder;
-        currentFolder.todos = [...currentFolder.todos.slice(0, -1), modified];
+        const currentTodoIndex = currentFolder.todos.findIndex((v) => v.id === todoId);
+
+        currentFolder.todos = [...currentFolder.todos.splice(currentTodoIndex, 1, modified)];
 
         const newFolders = [...currentFolders];
         newFolders.splice(currentFolderIndex, 1, currentFolder);
+
         (async function () {
           await TodoApi.saveTodoList(date, newFolders);
         })();
