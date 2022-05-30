@@ -94,11 +94,11 @@ const TodoArea = ({
         id: null,
         content: null,
       });
-      (async function () {
-        await TodoApi.saveTodoList(date, todoList);
-      })();
+      // (async function () {
+      //   await TodoApi.saveTodoList(date, todoList);
+      // })();
     } else {
-      if (!value)
+      if (value.trim().length > 0)
         setTodoList((currentFolders) => {
           const currentFolderIndex = currentFolders.findIndex((v) => v.folder_id === key);
           const currentFolder = JSON.parse(JSON.stringify(currentFolders[currentFolderIndex])) as ITodoFolder;
@@ -125,16 +125,17 @@ const TodoArea = ({
           newFolders.splice(currentFolderIndex, 1, currentFolder);
           return newFolders;
         });
-        (async function () {
-          await TodoApi.saveTodoList(date, todoList);
-        })();
       }
     }
   };
 
   useEffect(() => {
-    console.log('date', date, 'area', area, 'todoItems', todoItems, typeof todoItems);
-  }, []);
+    console.log('useEffect', todoList);
+
+    (async function () {
+      await TodoApi.saveTodoList(date, todoList);
+    })();
+  }, [todoList]);
   return (
     <Container>
       <FolderTitleWrapper>
