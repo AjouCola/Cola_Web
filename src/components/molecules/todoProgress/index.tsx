@@ -3,9 +3,10 @@ import { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 
 const BarWrapper = styled.div`
-  background-color: white;
+  background-color: #c3cdf9;
   border-radius: 0.5rem;
   width: 100%;
+  height: 10px;
 `;
 
 const Bar = styled.div<{ width: number }>`

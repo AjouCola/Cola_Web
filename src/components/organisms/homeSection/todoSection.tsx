@@ -55,8 +55,27 @@ const ProgressDateWrapper = styled.div`
 `;
 const ProgressItemWrapper = styled.div`
   background: #c3cdf9;
+  width: 297px;
+  height: 85%;
+  padding: 30px;
+  background: #ffffff 0% 0% no-repeat padding-box;
   width: 100%;
   border-radius: 5px;
+  display: inline-grid;
+  div {
+    display: flex;
+    align-items: center;
+  }
+  span {
+    font-size: 1rem;
+    margin: -7px 20px 0 20px;
+  }
+  h3 {
+    letter-spacing: 0px;
+    color: #6c7bfa;
+    margin: -14px 25px 0 25px;
+    font-size: 1.5rem;
+  }
 `;
 const TodoWrapper = styled.div`
   box-shadow: 0px 0px 6px #00000029;
@@ -145,7 +164,13 @@ const TodoSection = () => {
           </div>
         </ProgressDateWrapper>
         <ProgressItemWrapper>
-          <ProgressBar percent={60}></ProgressBar>
+          {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((d, index) => (
+            <div key={index}>
+              <h3>{d}</h3>
+              <ProgressBar percent={60}></ProgressBar>
+              <p>10/10</p>
+            </div>
+          ))}
         </ProgressItemWrapper>
       </ProgressWrapper>
     </>
