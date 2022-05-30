@@ -1,7 +1,14 @@
 /* eslint-disable eqeqeq */
 import { useEffect, useState } from 'react';
 
-import { useRecoilValue, useRecoilState, useRecoilValueLoadable, useRecoilStateLoadable } from 'recoil';
+import Image from 'next/image';
+import {
+  useRecoilValue,
+  useRecoilState,
+  useRecoilValueLoadable,
+  useRecoilStateLoadable,
+  useSetRecoilState,
+} from 'recoil';
 
 import {
   TodoContainer,
@@ -21,8 +28,8 @@ import { todoModal } from '@store/todo';
 import TodoApi, { IFolder, IFolders } from '@utils/api/Todo';
 import { ITodoFolder, todoListState } from 'src/store';
 
-const useDragableTodo = (date: Date) => {
-  const [todoList, setTodoList] = useRecoilState(todoListState);
+const useDraggableTodo = (date: Date) => {
+  const setTodoList = useSetRecoilState(todoListState);
 
   const onDragEnd = (info: DropResult) => {
     const { destination, draggableId, source } = info;
@@ -54,7 +61,7 @@ const useDragableTodo = (date: Date) => {
   return onDragEnd;
 };
 const useDeleteTodo = (date: Date): [boolean, () => void, (todoArea: number, todoId: number) => void] => {
-  const [todoList, setTodoList] = useRecoilState(todoListState);
+  const setTodoList = useSetRecoilState(todoListState);
 
   const [deleteMode, setDeleteMode] = useState(false);
   const [toDeleteItems, setToDeleteItems] = useState<{
@@ -86,8 +93,8 @@ const useDeleteTodo = (date: Date): [boolean, () => void, (todoArea: number, tod
 
   const deleteTodo = () => {
     for (const folder in toDeleteItems) {
-      setTodoList((allFolder: ITodoFolder[]) => {
-        const currentFolders = JSON.parse(JSON.stringify(allFolder));
+      setTodoList((allFolders: ITodoFolder[]) => {
+        const currentFolders = JSON.parse(JSON.stringify(allFolders));
 
         const currentFolderIndex = currentFolders.findIndex((v: ITodoFolder) => v.folder_id === +folder);
 
@@ -106,7 +113,7 @@ const useDeleteTodo = (date: Date): [boolean, () => void, (todoArea: number, tod
 };
 
 const TodoContent = ({ today }: { today: Date }) => {
-  const onDragEnd = useDragableTodo(today);
+  const onDragEnd = useDraggableTodo(today);
   const [deleteMode, onClickDelete, onCheckDeleteItem] = useDeleteTodo(today);
 
   const todoMenuModal = useRecoilValue(todoModal);
@@ -115,30 +122,30 @@ const TodoContent = ({ today }: { today: Date }) => {
   const [todoList, setTodoList] = useRecoilState(todoListState);
 
   useEffect(() => {
-    if (today) {
-      (async function () {
-        const { date, folders } = await TodoApi.getTodoList(today.toISOString().slice(0, 10));
+    async function getTodoList() {
+      const { date, folders } = await TodoApi.getTodoList(today.toISOString().slice(0, 10));
 
-        const todoList: ITodoFolder[] =
-          folders?.map(
-            (folder: IFolder) =>
-              ({
-                name: folder.name,
-                color: folder.color,
-                folder_id: folder.folder_id,
-                items_id: folder.item?.items_id ?? null,
-                todos: folder.item?.todos ?? [],
-                progress: folder.item?.progress,
-              } as ITodoFolder),
-          ) ?? ([] as ITodoFolder[]);
-        setTodoList(todoList);
-        setIsLoading(false);
-        console.log('fetch todo list done');
-      })();
+      const todoList: ITodoFolder[] =
+        folders?.map(
+          (folder: IFolder) =>
+            ({
+              name: folder.name,
+              color: folder.color,
+              folder_id: folder.folder_id,
+              items_id: folder.item?.items_id ?? null,
+              todos: folder.item?.todos ?? [],
+              progress: folder.item?.progress,
+            } as ITodoFolder),
+        ) ?? ([] as ITodoFolder[]);
+      setTodoList(todoList);
+      setIsLoading(false);
+      console.log('fetch todo list done');
+    }
+    if (today) {
+      getTodoList();
     }
   }, [today]);
 
-  // useEffect(() => {}, [todoList]);
   return (
     <TodoContainer>
       <TodoInfoWrapper>
@@ -147,14 +154,14 @@ const TodoContent = ({ today }: { today: Date }) => {
           <span>{today.toDateString().split(' ')[0].toUpperCase()}</span>
           <DeleteBtn deleteMode={deleteMode} onClick={onClickDelete}>
             <DeleteBlock deleteMode={deleteMode}>
-              <img src="/trash.svg" />
+              <Image src="/trash.svg" alt="삭제 버튼 이미지" />
             </DeleteBlock>
             삭제
           </DeleteBtn>
         </TodoUtils>
       </TodoInfoWrapper>
 
-      <TodoWrapper>
+      {/* <TodoWrapper>
         <DragDropContext onDragEnd={onDragEnd}>
           {!isLoading &&
             todoList.map((folder: ITodoFolder, idx: number) => (
@@ -178,7 +185,7 @@ const TodoContent = ({ today }: { today: Date }) => {
               </Droppable>
             ))}
         </DragDropContext>
-      </TodoWrapper>
+      </TodoWrapper> */}
 
       {todoMenuModal && <TodoMenuModal></TodoMenuModal>}
     </TodoContainer>
