@@ -33,6 +33,8 @@ const useDraggableTodo = (date: Date) => {
 
   const onDragEnd = (info: DropResult) => {
     const { destination, draggableId, source } = info;
+    console.log(info);
+
     if (!destination) return;
     if (destination?.droppableId === source.droppableId) {
       // same board movement
@@ -41,10 +43,14 @@ const useDraggableTodo = (date: Date) => {
         const currentFolderIndex = currentAllFolders.findIndex(
           (folder: ITodoFolder) => folder.folder_id === +source.droppableId,
         );
-        const currentFolder = Array.from(currentAllFolders[currentFolderIndex]) as unknown as ITodoFolder;
-        const todos = [...currentFolder.todos];
-        [todos[source.index], todos[destination.index]] = [todos[destination.index], todos[source.index]];
-        currentFolder.todos = todos;
+
+        const todos = [...currentAllFolders[currentFolderIndex].todos];
+
+        const toMoveItem = todos[source.index];
+        const swappedItem = todos.splice(destination.index, 1, toMoveItem)[0];
+        todos.splice(source.index, 1, swappedItem);
+
+        currentAllFolders[currentFolderIndex].todos = todos;
         (async function () {
           await TodoApi.saveTodoList(date.toISOString().slice(0, 10), currentAllFolders);
         })();
