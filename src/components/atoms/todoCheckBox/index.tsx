@@ -75,6 +75,14 @@ const TodoCheckBox = ({
       const currentTodo = currentFolder.todos.find((v: ITodo) => v.id === toDoId) as ITodo;
       currentTodo.status = typeStatus;
       console.log('change todo status', newFolders[currentFolderIndex].todos);
+
+      if (typeStatus === 'done') {
+        // 총 done의 개수
+        const allDone = currentFolder.todos.filter((v) => v.status === 'done').length;
+        const allLength = currentFolder.todos.length;
+        currentFolder.progress = Math.round(((allDone + 1) / allLength) * 100);
+      }
+
       (async function () {
         await TodoApi.saveTodoList(date, newFolders);
       })();
