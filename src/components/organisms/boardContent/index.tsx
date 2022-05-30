@@ -119,6 +119,8 @@ const BoardContent = ({
         title,
         content,
         tags: tags ?? [],
+        thumbnailPath: postData.thumbnailPath,
+        preview: postData.preview,
       });
       console.log(postData);
       router.push(`/board/edit/` + postId);
