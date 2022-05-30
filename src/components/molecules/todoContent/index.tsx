@@ -52,7 +52,9 @@ const useDraggableTodo = (date: Date) => {
         newDestTodos.splice(destination.index, 0, item);
         newTodoList[srcFolderIndex].todos = newSrcTodos;
         newTodoList[destFolderIndex].todos = newDestTodos;
-
+        (async function () {
+          await TodoApi.saveTodoList(date.toISOString().slice(0, 10), newTodoList);
+        })();
         return newTodoList;
       });
     }
@@ -104,12 +106,12 @@ const useDeleteTodo = (date: Date): [boolean, () => void, (todoArea: number, tod
           currentTodos.splice(itemIdx, 1);
         }
         currentFolders[+currentFolderIndex].todos = currentTodos;
+        (async function () {
+          await TodoApi.saveTodoList(date.toISOString().slice(0, 10), currentFolders);
+        })();
         return currentFolders;
       });
     }
-    (async function () {
-      await TodoApi.saveTodoList(date.toISOString().slice(0, 10), todoList);
-    })();
   };
 
   return [deleteMode, onClickDelete, onCheckDeleteItem];
