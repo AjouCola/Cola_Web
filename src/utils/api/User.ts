@@ -8,7 +8,7 @@ const User = {
     return await Api.put(`/api/v1/users`, params).catch((err) => console.error(err));
   },
   async logout() {
-    return await Api.get('/api/v1/login');
+    return await Api.get('/api/v1/logout');
   },
 };
 
