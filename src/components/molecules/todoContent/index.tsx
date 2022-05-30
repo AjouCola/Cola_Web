@@ -25,7 +25,7 @@ import { DragDropContext, DropResult, Droppable, resetServerContext } from 'reac
 import TodoMenuModal from '@components/molecules/todoMenuModal';
 import TodoArea from '@molecules/todoArea';
 import { todoModal } from '@store/todo';
-import TodoApi, { IFolder, IFolders } from '@utils/api/Todo';
+import TodoApi, { IFolder, IFolders, ITodo } from '@utils/api/Todo';
 import { ITodoFolder, todoListState } from 'src/store';
 
 const useDraggableTodo = (date: Date) => {
@@ -133,7 +133,7 @@ const TodoContent = ({ today }: { today: Date }) => {
               color: folder.color,
               folder_id: folder.folder_id,
               items_id: folder.item?.items_id ?? null,
-              todos: folder.item?.todos ?? [],
+              todos: folder.item?.todos ? JSON.parse(folder.item.todos as string) : [],
               progress: folder.item?.progress,
             } as ITodoFolder),
         ) ?? ([] as ITodoFolder[]);
