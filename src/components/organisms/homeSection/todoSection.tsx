@@ -147,7 +147,7 @@ const TodoItemWrapper = styled.div`
   display: flex;
   gap: 1rem;
   height: 2rem;
-  width: 80%;
+  width: 90%;
   margin: 0 auto;
   justify-content: space-between;
   align-items: center;
@@ -170,8 +170,8 @@ const TodoText = styled.p`
 `;
 const TodoFolderInfo = styled.div<{ folderColor: string }>`
   background: ${({ folderColor }) => folderColor};
-  width: 1rem;
-  height: 1rem;
+  width: 0.4rem;
+  height: 100%;
   border-radius: 6px;
   position: relative;
   cursor: pointer;
@@ -180,8 +180,8 @@ const TodoFolderInfo = styled.div<{ folderColor: string }>`
   }
   p {
     position: absolute;
-    bottom: 1.6rem;
-    left: 0.2rem;
+    bottom: 2.5rem;
+    left: 0;
     white-space: nowrap;
     text-overflow: ellipse;
     background: #00000070;
