@@ -139,6 +139,7 @@ const TodoContent = ({ today }: { today: Date }) => {
         ) ?? ([] as ITodoFolder[]);
       setTodoList(todoList);
       setIsLoading(false);
+      console.log('Todo List', todoList);
       console.log('fetch todo list done');
     }
     if (today) {
@@ -161,11 +162,11 @@ const TodoContent = ({ today }: { today: Date }) => {
         </TodoUtils>
       </TodoInfoWrapper>
 
-      {/* <TodoWrapper>
+      <TodoWrapper>
         <DragDropContext onDragEnd={onDragEnd}>
           {!isLoading &&
             todoList.map((folder: ITodoFolder, idx: number) => (
-              <Droppable key={folder.folder_id} droppableId={folder.folder_id + ''}>
+              <Droppable key={folder?.folder_id ?? Date.now()} droppableId={folder.folder_id + ''}>
                 {(provided, snapshot) => (
                   <div ref={provided.innerRef} {...provided.droppableProps}>
                     <TodoArea
@@ -185,7 +186,7 @@ const TodoContent = ({ today }: { today: Date }) => {
               </Droppable>
             ))}
         </DragDropContext>
-      </TodoWrapper> */}
+      </TodoWrapper>
 
       {todoMenuModal && <TodoMenuModal></TodoMenuModal>}
     </TodoContainer>

@@ -132,6 +132,9 @@ const TodoArea = ({
     }
   };
 
+  useEffect(() => {
+    console.log('date', date, 'area', area, 'todoItems', todoItems);
+  }, []);
   return (
     <Container>
       <FolderTitleWrapper>
@@ -143,7 +146,7 @@ const TodoArea = ({
         </div>
         <BtnAddTodo onClick={() => !focus && handleClick(areaId)}>+</BtnAddTodo>
       </FolderTitleWrapper>
-      <Wrapper>
+      {/* <Wrapper>
         {
           // dragMode에 따라 드래그 가능한 컴포넌트 or 일반 컴포넌트 렌더링
 
@@ -178,7 +181,7 @@ const TodoArea = ({
           )
         }
         {dragMode && children}
-      </Wrapper>
+      </Wrapper> */}
     </Container>
   );
 };
