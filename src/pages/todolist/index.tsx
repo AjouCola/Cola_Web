@@ -46,11 +46,11 @@ const Todolist: NextPage = () => {
 
   return (
     <Container>
-      <TodoContainer>
+      {/* <TodoContainer>
         {mode === 'default' && <TodoContent today={today} />}
         {mode === 'edit' && <EditTodoContent />}
         <MenuBtn onClick={() => setMode((v) => (v === 'default' ? 'edit' : 'default'))}>메뉴</MenuBtn>
-      </TodoContainer>
+      </TodoContainer> */}
 
       <SheetButton onClick={() => setBottomSheetOnOff((v) => !v)}>ㅡ</SheetButton>
       <CalendarContainer flag={bottomSheetOnOff}>
