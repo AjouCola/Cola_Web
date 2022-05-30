@@ -43,19 +43,20 @@ const WritePost = ({
     return () => {
       setPostData({} as IEditPost);
     };
-  });
+  }, []);
   useEffect(() => {
     if (postEditMode) {
       const { postId, title, content, tags } = postData;
       if (!postId) router.push('/'); // wrong access
+
       console.log('post edit mode', postData);
       if (tags.length > 0) {
         setChipList(tags);
       }
       if (inputRef.current[WRITE_REF.title]) {
-        inputRef.current[WRITE_REF.title].value = title as string;
+        inputRef.current[WRITE_REF.title].value = title;
       }
-      setEditorContent(content as string);
+      setEditorContent(content);
     }
   }, [postEditMode]);
 
@@ -146,7 +147,8 @@ const WritePost = ({
         <EditorWrapper>
           <PostEditor
             previewStyle={editMode === 'all' ? 'vertical' : 'tab'}
-            {...{ content: editorContent, setContent: setEditorContent }}
+            initialValue={editorContent ?? ''}
+            {...{ setContent: setEditorContent }}
           />
         </EditorWrapper>
         <HashtagBar>

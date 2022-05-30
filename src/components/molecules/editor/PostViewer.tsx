@@ -30,16 +30,16 @@ const EditorWrapper = styled.div`
 const PostViewer = ({ content }: { content: string }) => {
   const viewerRef = useRef<Viewer>(null);
 
-  useEffect(() => {
-    if (viewerRef.current) {
-      viewerRef.current.getInstance().setMarkdown(content);
-      viewerRef.current.getRootElement().style.cssText = `img{width:100%}`;
-    }
-  }, [content]);
+  // useEffect(() => {
+  //   if (viewerRef.current) {
+  //     viewerRef.current.getInstance().setMarkdown(content);
+  //     viewerRef.current.getRootElement().style.cssText = `img{width:100%}`;
+  //   }
+  // }, [content]);
 
   return (
     <EditorWrapper>
-      <Viewer ref={viewerRef} initialValue={content} />
+      <Viewer ref={viewerRef} initialValue={content ?? ''} />
     </EditorWrapper>
   );
 };

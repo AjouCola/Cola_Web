@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { marked } from 'marked';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
 
 import {
   Container,
@@ -104,7 +104,7 @@ const BoardContent = ({
 }: Props) => {
   const router = useRouter();
 
-  const setEditPostData = useSetRecoilState(editPostData);
+  const [postData, setEditPostData] = useRecoilState(editPostData);
   const { contents: userInfo } = useRecoilValueLoadable(useUserSelector({}));
   const [menu, setMenu] = useState(false);
 
@@ -120,7 +120,8 @@ const BoardContent = ({
         content,
         tags: tags ?? [],
       });
-      router.push(`/board/edit/${postId}`, {});
+      console.log(postData);
+      router.push(`/board/edit/` + postId);
     }
   };
   const onClickDelete = async () => {
