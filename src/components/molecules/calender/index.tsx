@@ -58,6 +58,8 @@ const Calender = ({ date, handleChangeMonth, setDate }: Props) => {
     getData();
   }, []);
 
+  useEffect(() => console.log(data), [data]);
+
   const currentMonth = useMemo(() => {
     const month = date.getMonth() + 1;
     switch (month) {

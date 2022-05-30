@@ -17,6 +17,7 @@ interface Props {
 }
 
 const DoneImg = ({ data }: Props) => {
+  console.log('배열', data);
   return (
     <Svg viewBox="-17 -3 39 39">
       {data.map(({ color }, i) => (
