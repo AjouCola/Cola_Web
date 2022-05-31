@@ -73,8 +73,11 @@ interface IPost {
   tags: string[];
   createdDate: string;
   modifiedDate: string;
-  isLike: boolean;
-  likes: number;
+  favorInfoResponseDto: {
+    isLike: boolean;
+    likes: number;
+    postId: number;
+  };
 }
 interface ICommentFormProps {
   postType: 'qna' | 'info' | 'common';
@@ -162,8 +165,8 @@ const BoardDetail = () => {
         tags={postData.tags}
         createdDate={postData.createdDate}
         modifiedDate={postData.modifiedDate}
-        likes={postData.likes}
-        isLike={postData.isLike}
+        likes={postData.favorInfoResponseDto.likes}
+        isLike={postData.favorInfoResponseDto.isLike}
       />
       <CommentForm
         postType={postData.postType}
