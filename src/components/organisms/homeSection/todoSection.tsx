@@ -210,17 +210,12 @@ const TodoFolderInfo = styled.div<{ folderColor: string }>`
 const DAY = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
 
 const useTodayTodo = (today: string) => {
-  console.log('click today', today);
-  const queryClient = useQueryClient();
-  const { isLoading, data } = useQuery(['todoList', today], () => TodoApi.getTodoList(today) as unknown as IFolders);
+  const { isLoading, data } = useQuery(['todoList', today], () => TodoApi.getTodoList(today) as unknown as IFolders, {
+    staleTime: 0,
+    cacheTime: 0,
+  });
   // const [isLoading, setIsLoading] = useState(true);
   const [todoList, setTodoList] = useState<ITodoFolder[]>([]);
-
-  useEffect(() => {
-    if (today) {
-      queryClient.cancelQueries(['todoList', today]);
-    }
-  }, [today]);
 
   useEffect(() => {
     if (data) {
