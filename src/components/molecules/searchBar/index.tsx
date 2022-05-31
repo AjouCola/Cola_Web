@@ -1,4 +1,4 @@
-import { DetailedHTMLProps, InputHTMLAttributes, useEffect, useRef, useState } from 'react';
+import { DetailedHTMLProps, Dispatch, InputHTMLAttributes, SetStateAction, useEffect, useRef, useState } from 'react';
 
 import {
   Container,
@@ -24,65 +24,24 @@ interface ISearch {
   keyword: string;
   date: string;
 }
-const searchHistory: ISearch[] = [
-  {
-    id: 1,
-    keyword: '리액트 구조',
-    date: dateFormatYYYYmmDD(new Date()),
-  },
-  {
-    id: 2,
-    keyword: 'NextJS 배포',
-    date: dateFormatYYYYmmDD(new Date()),
-  },
-  {
-    id: 3,
-    keyword: '이벤트 버블링',
-    date: dateFormatYYYYmmDD(new Date()),
-  },
-  {
-    id: 4,
-    keyword: '자소서',
-    date: dateFormatYYYYmmDD(new Date()),
-  },
-  {
-    id: 5,
-    keyword: '삼성 코테',
-    date: dateFormatYYYYmmDD(new Date()),
-  },
-  {
-    id: 6,
-    keyword: 'react-query',
-    date: dateFormatYYYYmmDD(new Date()),
-  },
-  {
-    id: 7,
-    keyword: 'asdlfkj',
-    date: dateFormatYYYYmmDD(new Date()),
-  },
-  {
-    id: 8,
-    keyword: '삼성 코테',
-    date: dateFormatYYYYmmDD(new Date()),
-  },
-  {
-    id: 9,
-    keyword: 'react-query',
-    date: dateFormatYYYYmmDD(new Date()),
-  },
-  {
-    id: 10,
-    keyword: 'asdlfkj',
-    date: dateFormatYYYYmmDD(new Date()),
-  },
-];
 
 interface ISearchDropdown {
+  searchHistory: ISearch[];
+  setSearchHistory: Dispatch<SetStateAction<ISearch[]>>;
   hashtags: string[];
   deleteChip: (idx: number) => void;
 }
 
-const SearchDropdown = ({ hashtags, deleteChip }: ISearchDropdown) => {
+const SearchDropdown = ({ searchHistory, setSearchHistory, hashtags, deleteChip }: ISearchDropdown) => {
+  const onClickDelete = (idx: number) => {
+    setSearchHistory((prev) => {
+      const newHistory = [...prev];
+      newHistory.splice(idx, 1);
+
+      localStorage.setItem('cola-search-history', JSON.stringify(newHistory));
+      return newHistory;
+    });
+  };
   return (
     <InputModal>
       <Divider />
@@ -94,11 +53,11 @@ const SearchDropdown = ({ hashtags, deleteChip }: ISearchDropdown) => {
         </HashtagWrapper>
       )}
       <HistoryWrapper>
-        {searchHistory.map((history) => (
+        {searchHistory.map((history, index) => (
           <HistoryItem key={history.id}>
             <div className="icon"></div>
             <span>{history.keyword}</span>
-            <button>X</button>
+            <button onClick={() => onClickDelete(index)}>X</button>
           </HistoryItem>
         ))}
       </HistoryWrapper>
@@ -114,10 +73,20 @@ const SearchDropdown = ({ hashtags, deleteChip }: ISearchDropdown) => {
 };
 
 const SearchBar = () => {
+  const [searchHistory, setSearchHistory] = useState<ISearch[]>([]);
   const [focus, setFocus] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>();
   const divRef = useRef<HTMLDivElement>();
   const [chipList, setChipList] = useState<string[]>([]);
+
+  useEffect(() => {
+    const storedSearchHistory = JSON.parse(localStorage.getItem('cola-search-history') ?? '[]');
+    if (storedSearchHistory && Array.isArray(storedSearchHistory)) {
+      setSearchHistory(storedSearchHistory);
+    } else {
+      localStorage.setItem('cola-search-history', JSON.stringify([]));
+    }
+  }, []);
 
   const inputStyle = {
     zIndex: 10,
@@ -128,6 +97,7 @@ const SearchBar = () => {
     paddingLeft: '1rem',
     outline: 'none',
   };
+
   const addChipList = (event: DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>) => {
     if (event.key !== ',' || inputRef.current === undefined) return;
     setChipList([...chipList, inputRef.current.value.split(',')[0]]);
@@ -136,25 +106,37 @@ const SearchBar = () => {
 
   const deleteChip = (index: number) => setChipList(chipList.filter((v, i) => i !== index));
 
-  const handleClick = (e: any) => {
-    if (!(divRef.current && !divRef.current.contains(e.target))) return;
-    setFocus((v) => (v ? false : v));
-  };
-
   const handleSubmit = () => {
-    console.log(inputRef.current?.value);
+    if (!inputRef.current) return;
+
+    const currentHistory = JSON.parse(localStorage.getItem('cola-search-history') ?? '[]');
+    if (Array.isArray(currentHistory)) {
+      const searchKeywordItem = {
+        id: Date.now(),
+        keyword: inputRef.current?.value,
+        date: dateFormatYYYYmmDD(new Date()),
+      };
+      const newHistory = [searchKeywordItem, ...currentHistory];
+      localStorage.setItem('cola-search-history', JSON.stringify(newHistory));
+      setSearchHistory((prev) => [searchKeywordItem, ...prev]);
+      inputRef.current.value = '';
+      setFocus(false);
+      // TODO: search API
+    }
   };
 
   useEffect(() => {
+    const handleClick = (e: any) => {
+      if (!(divRef.current && !divRef.current.contains(e.target))) return;
+      setFocus((v) => (v ? false : v));
+    };
     document.addEventListener('mousedown', handleClick);
     return () => document.removeEventListener('mousedown', handleClick);
   }, [divRef]);
 
   const [mSearchModal, setMSearchModal] = useState(false);
-  const onClickMSearch = () => {
-    // open searchModal
-    setMSearchModal((prev) => !prev);
-  };
+  const onClickMSearch = () => setMSearchModal((prev) => !prev);
+
   return (
     <>
       <Container focus={focus}>
@@ -170,8 +152,20 @@ const SearchBar = () => {
             style={inputStyle}
             ref={(el) => (inputRef.current = el as HTMLInputElement)}
             onKeyUp={addChipList}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleSubmit();
+              }
+            }}
           />
-          {focus && <SearchDropdown hashtags={chipList} deleteChip={deleteChip} />}
+          {focus && (
+            <SearchDropdown
+              searchHistory={searchHistory}
+              setSearchHistory={setSearchHistory}
+              hashtags={chipList}
+              deleteChip={deleteChip}
+            />
+          )}
           <HeaderBtn type="button" onClick={handleSubmit}>
             <SearchIcon />
           </HeaderBtn>
