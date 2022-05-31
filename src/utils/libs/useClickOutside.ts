@@ -1,28 +1,18 @@
-import { useRef, useEffect, SetStateAction, Dispatch, RefObject } from 'react';
+import { useRef, useEffect, SetStateAction, Dispatch, RefObject, MutableRefObject } from 'react';
 
 import { useRouter } from 'next/router';
 
-export const useClickOutSide = (
-  isOpen: boolean,
-  setIsOpen: Dispatch<SetStateAction<boolean>>,
-  ref: RefObject<HTMLElement>,
-  initialValue: boolean,
-  containRef: RefObject<HTMLElement>,
-): boolean => {
+export const useClickOutSide = (setIsOpen: Dispatch<SetStateAction<boolean>>): { ref: RefObject<HTMLElement> } => {
   const router = useRouter();
-  const isOpenValue = useRef(initialValue);
+
+  const elRef = useRef<HTMLElement>(null);
 
   const handleOutSide = (e: any) => {
-    console.log(e);
-    if (ref.current && !ref.current.contains(e.target)) {
-      if (e.path.includes(containRef.current) || isOpenValue.current) {
-        setIsOpen((prev) => {
-          isOpenValue.current = !prev;
-          return !prev;
-        });
-      }
+    if (elRef?.current && !elRef.current.contains(e.target)) {
+      setIsOpen(false);
     }
   };
+
   useEffect(() => {
     document.addEventListener('click', handleOutSide);
     return () => {
@@ -31,12 +21,8 @@ export const useClickOutSide = (
   }, []);
 
   useEffect(() => {
-    console.log('clicked state', isOpen);
-  }, [isOpen]);
-
-  useEffect(() => {
     setIsOpen(false);
   }, [router]);
 
-  return isOpen;
+  return { ref: elRef };
 };

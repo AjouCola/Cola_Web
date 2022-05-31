@@ -77,8 +77,7 @@ const SideBar = ({
 }) => {
   const router = useRouter();
 
-  const sidebarRef = useRef(null);
-  const sidebar = useClickOutSide(isOpen, setIsOpen, sidebarRef, false, headerRef);
+  const { ref } = useClickOutSide(setIsOpen);
 
   const CategoryCrossLine = () => (
     <div className="cross-line">
@@ -98,7 +97,7 @@ const SideBar = ({
   );
 
   return (
-    <Container isOpen={sidebar} ref={sidebarRef}>
+    <Container isOpen={isOpen} ref={ref}>
       <Link href="/">
         <a style={{ display: 'flex', gap: '1rem', justifyContent: 'center', alignItems: 'center' }}>
           <HomeIcon />
