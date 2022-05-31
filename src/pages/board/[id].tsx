@@ -130,8 +130,8 @@ const CommentForm = ({ postType, onAddComment, getPostData }: ICommentFormProps)
   );
 };
 
-const BoardDetail = ({ postData }: { postData: IPost }) => {
-  const [isLoading, setIsLoading] = useState(false);
+const BoardDetail = ({ postData, isLoading }: { postData: IPost; isLoading: boolean }) => {
+  // const [isLoading, setIsLoading] = useState(true);
   const [comments, setComments] = useState<IComment[]>([]);
   // const [postData, setPostData] = useState<IPost>({} as IPost);
   const router = useRouter();
@@ -143,7 +143,7 @@ const BoardDetail = ({ postData }: { postData: IPost }) => {
       setPostData(data);
 
       setComments(data.comments);
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 
@@ -196,10 +196,11 @@ export default BoardDetail;
 
 BoardDetail.getInitialProps = async (ctx: NextPageContext) => {
   let res;
-
+  let isLoading = true;
   if (ctx.query.id) {
     res = (await BoardApi.get(+ctx.query?.id)) as unknown as IPost;
     console.log('postData', res);
+    isLoading = false;
   } else {
     if (ctx.res) {
       ctx.res.writeHead(302, {
@@ -212,6 +213,7 @@ BoardDetail.getInitialProps = async (ctx: NextPageContext) => {
     }
   }
   return {
+    isLoading,
     postData: res,
   };
 };

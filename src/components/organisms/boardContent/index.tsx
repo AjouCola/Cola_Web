@@ -115,6 +115,7 @@ const BoardContent = ({
   const { contents: userInfo } = useRecoilValueLoadable(useUserSelector({}));
   const [menu, setMenu] = useState(false);
   const [isLiked, setIsLiked] = useState(isLike);
+  const [likes, setLikes] = useState(favorCount);
 
   const onClickMenu = () => {
     setMenu((prev) => !prev);
@@ -141,6 +142,7 @@ const BoardContent = ({
   };
 
   const onClickSaveLikes = async () => {
+    isLiked ? setLikes((prev) => prev - 1) : setLikes((prev) => prev + 1);
     await FavorApi.saveFavor({ postId, status: !isLike }).then(() => setIsLiked(!isLiked));
   };
   return (
