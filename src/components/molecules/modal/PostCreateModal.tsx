@@ -87,7 +87,7 @@ const PostCreateModal = ({
   onSubmit: (thumbnail: string, content: string) => void;
   onClose: () => void;
 }) => {
-  const [preview, setPreview] = useState(content);
+  const [preview, setPreview] = useState(content.slice(0, 150));
   const [thumbnailPath, setThumbnailPath] = useState('');
 
   const handleUploadThumbnail = async (e: ChangeEvent<HTMLInputElement>) => {
