@@ -151,8 +151,10 @@ const BoardContent = ({
         <Logo />
       </Header>
       <Content>
-        <div style={{ paddingTop: '3rem' }}>
-          <p>{postType === 'common' ? '자유게시판' : postType === 'info' ? '정보게시판' : '질문게시판'}</p>
+        <div>
+          <p style={{ padding: '1rem 0' }}>
+            {postType === 'common' ? '자유게시판' : postType === 'info' ? '정보게시판' : '질문게시판'}
+          </p>
           <Title>{title}</Title>
           <ContentDetail>
             <ContentDetailRow>
@@ -162,7 +164,7 @@ const BoardContent = ({
               </span>
               <DetailInfoWrapper>
                 <Heart style={{ opacity: isLiked ? 1 : 0.5 }} />
-                <span>{favorCount}</span>
+                <span>{likes}</span>
                 <Comment />
                 <span>{commentsCount}</span>
                 <Visit />
@@ -194,7 +196,7 @@ const BoardContent = ({
         </div>
         {/* <TextArea dangerouslySetInnerHTML={{ __html: marked(content) }}></TextArea> */}
         <PostViewer content={content} />
-        <HashTagBar data={tags ?? []} />
+        {tags && tags.length > 0 && <HashTagBar data={tags ?? []} />}
       </Content>
     </Container>
   );

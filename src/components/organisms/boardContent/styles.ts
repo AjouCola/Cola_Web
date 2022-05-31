@@ -41,7 +41,7 @@ const ContentDetailRow = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
   padding: 0.5rem 0;
   border-bottom: 2px solid ${({ theme }) => theme.colors.blue[400]};
   span {

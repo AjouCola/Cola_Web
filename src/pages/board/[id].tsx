@@ -21,6 +21,14 @@ const Container = styled.div`
   margin: 2rem 1rem;
 `;
 
+const BoardContainer = styled.div`
+  max-width: 1200px;
+  width: 100%;
+  padding: 4rem 2rem;
+  @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.sm}) {
+    padding: 1rem 0.5rem;
+  }
+`;
 const CommentInput = styled.input`
   width: 100%;
   min-height: 3rem;
@@ -147,7 +155,7 @@ const BoardDetail = ({ id }: { id: number }) => {
   else if (!postData) return 'Failed to fetch post data';
   else
     return (
-      <div style={{ maxWidth: '1200px', width: '100%', padding: '4rem 2rem' }}>
+      <BoardContainer>
         <BoardContent
           postId={postData.postId}
           postType={postData.postType}
@@ -179,9 +187,9 @@ const BoardDetail = ({ id }: { id: number }) => {
               content={content}
             />
           ))}
-          {comments.length === 0 && <p>댓글이 없습니다.</p>}
+          {comments.length === 0 && <p style={{ textAlign: 'center' }}>댓글이 없습니다.</p>}
         </CommentWrapper>
-      </div>
+      </BoardContainer>
     );
 };
 export default BoardDetail;
