@@ -156,46 +156,47 @@ const BoardDetail = ({ postData }: { postData: IPost }) => {
     if (postData) {
       setIsLoading(false);
     }
+    console.log('postData', postData);
   }, [postData]);
 
   if (isLoading) return 'Loading...';
-  return (
-    <div style={{ maxWidth: '1200px', width: '100%', padding: '4rem 2rem' }}>
-      <BoardContent
-        postId={postData.postId}
-        postType={postData.postType}
-        title={postData.title}
-        content={postData.content}
-        commentsCount={comments.length}
-        userId={postData.userInfo.userId!}
-        userName={postData.userInfo.userName || '유저이름'}
-        tags={postData.tags}
-        createdDate={postData.createdDate}
-        modifiedDate={postData.modifiedDate}
-        favorCount={postData.favorInfoResponseDto.count}
-        isLike={postData.favorInfoResponseDto.favor}
-      />
-      <CommentForm
-        postType={postData.postType}
-        onAddComment={(newComment) => setComments((prev) => [...prev, newComment])}
-        getPostData={getPostData}
-      />
-      {/* 추후 lazy loading 지원 예정  */}
-      <CommentWrapper>
-        {comments.map(({ userInfo: { userName, userId }, content, commentId }, idx) => (
-          <CommentViewer
-            key={commentId}
-            postType={postData.postType}
-            commentId={commentId}
-            userId={userId!}
-            name={userName}
-            content={content}
-          />
-        ))}
-        {comments.length === 0 && <p>댓글이 없습니다.</p>}
-      </CommentWrapper>
-    </div>
-  );
+  // return (
+  //   <div style={{ maxWidth: '1200px', width: '100%', padding: '4rem 2rem' }}>
+  //     <BoardContent
+  //       postId={postData.postId}
+  //       postType={postData.postType}
+  //       title={postData.title}
+  //       content={postData.content}
+  //       commentsCount={comments.length}
+  //       userId={postData.userInfo.userId!}
+  //       userName={postData.userInfo.userName || '유저이름'}
+  //       tags={postData.tags}
+  //       createdDate={postData.createdDate}
+  //       modifiedDate={postData.modifiedDate}
+  //       favorCount={postData.favorInfoResponseDto.count}
+  //       isLike={postData.favorInfoResponseDto.favor}
+  //     />
+  //     <CommentForm
+  //       postType={postData.postType}
+  //       onAddComment={(newComment) => setComments((prev) => [...prev, newComment])}
+  //       getPostData={getPostData}
+  //     />
+  //     {/* 추후 lazy loading 지원 예정  */}
+  //     <CommentWrapper>
+  //       {comments.map(({ userInfo: { userName, userId }, content, commentId }, idx) => (
+  //         <CommentViewer
+  //           key={commentId}
+  //           postType={postData.postType}
+  //           commentId={commentId}
+  //           userId={userId!}
+  //           name={userName}
+  //           content={content}
+  //         />
+  //       ))}
+  //       {comments.length === 0 && <p>댓글이 없습니다.</p>}
+  //     </CommentWrapper>
+  //   </div>
+  // );
 };
 export default BoardDetail;
 
