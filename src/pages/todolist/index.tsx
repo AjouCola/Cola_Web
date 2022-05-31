@@ -46,7 +46,7 @@ const Todolist: NextPage = () => {
 
   return (
     <Container>
-      <TodoContainer>
+      <TodoContainer onClick={() => setBottomSheetOnOff(false)}>
         {mode === 'default' && <TodoContent today={date} />}
         {mode === 'edit' && <EditTodoContent />}
         <MenuBtn clicked={mode === 'edit'} onClick={() => setMode((v) => (v === 'default' ? 'edit' : 'default'))}>

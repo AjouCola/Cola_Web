@@ -73,7 +73,7 @@ const CalendarContainer = styled.div<{ flag: boolean }>`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 80%;
+    width: 90%;
     padding: 1rem;
     transform: translateY(0) translateX(0);
     box-shadow: 0px 0px 3px ${theme.colors.shadow};
@@ -104,7 +104,7 @@ const SheetButton = styled.button`
   @media (max-width: ${theme.breakpoints.sm}) {
     z-index: 999;
     height: 2rem;
-    width: 80%;
+    width: 90%;
     display: flex;
     position: fixed;
     bottom: 0px;
