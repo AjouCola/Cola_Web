@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { SyntheticEvent, useEffect, useRef, useState } from 'react';
 
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -54,11 +54,12 @@ interface IQueryPage {
 const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) => {
   const { ref, inView, entry } = useInView();
   const router = useRouter();
+  const [sortBy, setSortBy] = useState<'recent' | 'favorCount'>('recent');
   const [boardType, setBoardType] = useRecoilState(boardTypeState);
 
   const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery<IQueryPage>(
-    ['boardlist', boardCategory],
-    ({ pageParam = 0 }) => BoardApi.getList({ pageParam, boardCategory }),
+    ['boardlist', boardCategory, sortBy],
+    ({ pageParam = 0 }) => BoardApi.getList({ pageParam, boardCategory, sort: sortBy }),
     {
       getNextPageParam: (lastPage, pages) => {
         if (!lastPage.isLast) return lastPage.nextPage;
@@ -85,6 +86,9 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
     }
   }, [inView]);
 
+  const handleSortChange = (e: any) => {
+    setSortBy(e.target.value);
+  };
   return (
     <Container>
       <TitleWrapper>
@@ -99,9 +103,9 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
           </FlexEnd>
           <FlexEnd>
             <FlexEnd>
-              <select name="" id="">
+              <select name="" id="" onChange={handleSortChange} value={sortBy}>
                 <option value="recent">최신순</option>
-                <option value="popular">인기순</option>
+                <option value="favorCount">인기순</option>
               </select>
             </FlexEnd>
             <FlexEnd>

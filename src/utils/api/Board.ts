@@ -43,14 +43,14 @@ export const Board = {
   }: {
     pageParam: number;
     size?: number;
-    sort?: string;
+    sort?: 'recent' | 'favorCount';
     boardCategory: 'common' | 'info' | 'qna';
   }) {
     const data = (await Api.get(`/api/v1/posts?category=${boardCategory}`, {
       params: {
         page: pageParam,
         size,
-        sort,
+        sort: sort === 'favorCount' ? 'favorCount,Desc' : '',
       },
     })) as unknown as any;
     return {
