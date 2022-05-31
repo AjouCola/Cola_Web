@@ -28,8 +28,6 @@ const BoardContent = styled.div`
   width: 100%;
   background-color: white;
   border-radius: 22px;
-  border-bottom-left-radius: 50%;
-  border-bottom-right-radius: 50%;
   box-shadow: 0px 0px 6px ${({ theme }) => theme.colors.shadow};
   transform: translateY(0) translateX(0);
 
