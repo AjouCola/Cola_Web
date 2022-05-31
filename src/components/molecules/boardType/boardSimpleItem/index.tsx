@@ -10,7 +10,7 @@ import UserIcon from '@assets/icon/userDefault.svg';
 import ViewIcon from '@assets/icon/view_small.svg';
 import { IBoardItem } from '~/types/board';
 
-const BoardSimpleItem = ({ id, title, username, createdAt }: IBoardItem) => {
+const BoardSimpleItem = ({ id, title, username, createdAt, likes, isLike }: IBoardItem) => {
   const router = useRouter();
 
   return (
@@ -29,9 +29,9 @@ const BoardSimpleItem = ({ id, title, username, createdAt }: IBoardItem) => {
         </UserDescription>
 
         <SubDescription>
-          <Likes style={{ gap: 5, fontSize: 15 }}>
+          <Likes style={{ gap: 5, fontSize: 15, opacity: isLike ? 1 : 0.5 }}>
             <HeartIcon />
-            <span>13</span>
+            <span>{likes}</span>
           </Likes>
           <Comments style={{ gap: 5, fontSize: 15 }}>
             <CommentIcon />

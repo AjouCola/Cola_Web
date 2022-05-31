@@ -23,7 +23,7 @@ import UserDefault from '@components/atoms/icon/userDefault';
 import { theme } from '@styles/theme';
 import { IBoardItem } from '~/types/board';
 
-const BoardCard = ({ id, username, createdAt, title, preview, thumbnailPath }: IBoardItem) => {
+const BoardCard = ({ id, username, createdAt, title, preview, thumbnailPath, isLike, likes }: IBoardItem) => {
   const router = useRouter();
 
   return (
@@ -59,12 +59,12 @@ const BoardCard = ({ id, username, createdAt, title, preview, thumbnailPath }: I
             </p>
             <div style={{ display: 'flex', gap: '5px' }}>
               <Likes>
-                <HeartIcon />
-                <span>13</span>
+                <HeartIcon style={{ opacity: isLike ? 1 : 0.5 }} />
+                <span>{likes}</span>
               </Likes>
               <Comments>
                 <CommentIcon />
-                <span>25</span>
+                <span>11</span>
               </Comments>
               <Views>
                 <ViewIcon />

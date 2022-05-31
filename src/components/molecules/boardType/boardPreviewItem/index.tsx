@@ -21,7 +21,7 @@ import UserIcon from '@assets/icon/userDefault.svg';
 import ViewIcon from '@assets/icon/view_small.svg';
 import { IBoardItem } from '~/types/board';
 
-const BoardPreviewItem = ({ id, title, username, createdAt, thumbnailPath, preview }: IBoardItem) => {
+const BoardPreviewItem = ({ id, title, username, createdAt, thumbnailPath, preview, isLike, likes }: IBoardItem) => {
   const router = useRouter();
   return (
     <Container onClick={() => router.push(`/board/${id}`)}>
@@ -45,8 +45,8 @@ const BoardPreviewItem = ({ id, title, username, createdAt, thumbnailPath, previ
           </WriterDescription>
           <BoardDescription>
             <LikeWrapper>
-              <HeartIcon />
-              <span>13</span>
+              <HeartIcon style={{ opacity: isLike ? 1 : 0.5 }} />
+              <span>{likes}</span>
             </LikeWrapper>
             <LikeWrapper>
               <CommentIcon />

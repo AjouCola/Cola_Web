@@ -39,6 +39,11 @@ interface IPost {
   modifiedDate: string;
   preview: string;
   thumbnailPath: string;
+  favorInfoResponseDto: {
+    postId: number;
+    count: number;
+    favor: boolean;
+  };
 }
 interface IQueryPage {
   result: IPost[];
@@ -142,6 +147,8 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
                   thumbnailPath={post.thumbnailPath}
                   username={post.userInfo.userName}
                   createdAt={post.createdDate}
+                  isLike={post.favorInfoResponseDto.favor}
+                  likes={post.favorInfoResponseDto.count}
                 />
               ))}
             {boardType === BoardLayout.PREVIEW_LIST &&
@@ -154,6 +161,8 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
                   thumbnailPath={post.thumbnailPath}
                   username={post.userInfo.userName}
                   createdAt={post.createdDate}
+                  isLike={post.favorInfoResponseDto.favor}
+                  likes={post.favorInfoResponseDto.count}
                 />
               ))}
             {boardType === BoardLayout.SIMPLE_LIST &&
@@ -164,6 +173,8 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
                   title={post.title}
                   username={post.userInfo.userName}
                   createdAt={post.createdDate}
+                  isLike={post.favorInfoResponseDto.favor}
+                  likes={post.favorInfoResponseDto.count}
                 />
               ))}
           </BoardList>
