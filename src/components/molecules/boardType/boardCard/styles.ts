@@ -4,7 +4,7 @@ import { theme } from '@styles/theme';
 
 const Container = styled.div`
   width: 18rem;
-  height: 24rem;
+  height: 28rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -28,6 +28,8 @@ const BoardContent = styled.div`
   width: 100%;
   background-color: white;
   border-radius: 22px;
+  border-bottom-left-radius: 50%;
+  border-bottom-right-radius: 50%;
   box-shadow: 0px 0px 6px ${({ theme }) => theme.colors.shadow};
   transform: translateY(0) translateX(0);
 
@@ -44,7 +46,7 @@ const BoardContent = styled.div`
 
 const BoardImage = styled.div`
   border-radius: 22px;
-  background: ${({ theme: { colors } }) => `linear-gradient(to top,${colors.blue[500]}, 50%, #c2d2f7)`};
+  background: ${({ theme: { colors } }) => `linear-gradient(310deg,${colors.blue[500]}, 60%, rgb(223 231 249))`};
   width: 100%;
   height: 100%;
   position: relative;
