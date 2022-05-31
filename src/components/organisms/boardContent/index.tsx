@@ -158,7 +158,7 @@ const BoardContent = ({
               </span>
               <DetailInfoWrapper>
                 <Heart style={{ opacity: isLiked ? 1 : 0.5 }} />
-                <span>{{ favorCount }}</span>
+                <span>{favorCount}</span>
                 <Comment />
                 <span>100</span>
                 <Visit />
