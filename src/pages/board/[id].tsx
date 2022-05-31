@@ -200,8 +200,7 @@ const BoardDetail = ({ postData }: { postData: IPost }) => {
 export default BoardDetail;
 
 export async function getServerSideProps(context: any) {
-  console.log('serversideprops', context);
-  const data = (await BoardApi.get(context.params.id)) as unknown as IPost;
+  const data = (await BoardApi.get(Number(context.params.id))) as unknown as IPost;
 
   return {
     props: {
