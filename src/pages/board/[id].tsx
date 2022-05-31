@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
-import { GetServerSideProps, InferGetServerSidePropsType, NextPageContext } from 'next';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import { useQuery } from 'react-query';
 import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
 
 import UserDefault from '@atoms/icon/userDefault';
@@ -82,9 +82,8 @@ interface IPost {
 interface ICommentFormProps {
   postType: 'qna' | 'info' | 'common';
   onAddComment: (newComment: IComment) => void;
-  getPostData: () => void;
 }
-const CommentForm = ({ postType, onAddComment, getPostData }: ICommentFormProps) => {
+const CommentForm = ({ postType, onAddComment }: ICommentFormProps) => {
   const router = useRouter();
   const { id } = router.query;
   const { contents: userInfo } = useRecoilValueLoadable(useUserSelector({}));
@@ -93,13 +92,11 @@ const CommentForm = ({ postType, onAddComment, getPostData }: ICommentFormProps)
   const onSubmit = async () => {
     console.log(comment);
     if (id && comment.trim().length > 0) {
-      const {
-        commentId,
-        content,
-        userInfo: { userId, userName },
-      } = (await CommentApi.create(+id, comment).catch((err) => console.log(err))) as unknown as any;
+      const newComment = (await CommentApi.create(+id, comment).catch((err) =>
+        console.log(err),
+      )) as unknown as IComment;
       setComment('');
-      getPostData();
+      onAddComment(newComment);
     }
   };
 
@@ -130,82 +127,68 @@ const CommentForm = ({ postType, onAddComment, getPostData }: ICommentFormProps)
   );
 };
 
-const BoardDetail = ({ postData }: { postData: IPost }) => {
-  const [isLoading, setIsLoading] = useState(true);
+const BoardDetail = ({ id }: { id: number }) => {
+  // const [isLoading, setIsLoading] = useState(true);
+  const { isLoading, data: postData } = useQuery<IPost>(
+    ['post', id],
+    () => BoardApi.get(Number(id)) as unknown as IPost,
+  );
   const [comments, setComments] = useState<IComment[]>([]);
   // const [postData, setPostData] = useState<IPost>({} as IPost);
   const router = useRouter();
 
-  const setPostData = (data: IPost) => (postData = data);
-  const getPostData = async () => {
-    if (router.query?.id && !isNaN(+router.query?.id)) {
-      const data = (await BoardApi.get(+router.query.id)) as unknown as IPost;
-      setPostData(data);
-
-      setComments(data.comments);
-      // setIsLoading(false);
-    }
-  };
-
-  // useEffect(() => {
-  //   getPostData();
-
-  //   // setIsLoading(false);
-  // }, []);\
   useEffect(() => {
-    if (postData) {
-      setIsLoading(false);
-    }
     console.log('postData', postData);
   }, [postData]);
 
   if (isLoading) return 'Loading...';
-  // return (
-  //   <div style={{ maxWidth: '1200px', width: '100%', padding: '4rem 2rem' }}>
-  //     <BoardContent
-  //       postId={postData.postId}
-  //       postType={postData.postType}
-  //       title={postData.title}
-  //       content={postData.content}
-  //       commentsCount={comments.length}
-  //       userId={postData.userInfo.userId!}
-  //       userName={postData.userInfo.userName || '유저이름'}
-  //       tags={postData.tags}
-  //       createdDate={postData.createdDate}
-  //       modifiedDate={postData.modifiedDate}
-  //       favorCount={postData.favorInfoResponseDto.count}
-  //       isLike={postData.favorInfoResponseDto.favor}
-  //     />
-  //     <CommentForm
-  //       postType={postData.postType}
-  //       onAddComment={(newComment) => setComments((prev) => [...prev, newComment])}
-  //       getPostData={getPostData}
-  //     />
-  //     {/* 추후 lazy loading 지원 예정  */}
-  //     <CommentWrapper>
-  //       {comments.map(({ userInfo: { userName, userId }, content, commentId }, idx) => (
-  //         <CommentViewer
-  //           key={commentId}
-  //           postType={postData.postType}
-  //           commentId={commentId}
-  //           userId={userId!}
-  //           name={userName}
-  //           content={content}
-  //         />
-  //       ))}
-  //       {comments.length === 0 && <p>댓글이 없습니다.</p>}
-  //     </CommentWrapper>
-  //   </div>
-  // );
+  else if (!postData) return 'Failed to fetch post data';
+  else
+    return (
+      <div style={{ maxWidth: '1200px', width: '100%', padding: '4rem 2rem' }}>
+        <BoardContent
+          postId={postData.postId}
+          postType={postData.postType}
+          title={postData.title}
+          content={postData.content}
+          commentsCount={comments.length}
+          userId={postData.userInfo.userId!}
+          userName={postData.userInfo.userName || '유저이름'}
+          tags={postData.tags}
+          createdDate={postData.createdDate}
+          modifiedDate={postData.modifiedDate}
+          favorCount={postData.favorInfoResponseDto.count}
+          isLike={postData.favorInfoResponseDto.favor}
+        />
+        <CommentForm
+          postType={postData.postType}
+          onAddComment={(newComment) => setComments((prev) => [...prev, newComment])}
+        />
+        {/* 추후 lazy loading 지원 예정  */}
+        <CommentWrapper>
+          {comments.map(({ userInfo: { userName, userId }, content, commentId }, idx) => (
+            <CommentViewer
+              key={commentId}
+              postType={postData.postType}
+              commentId={commentId}
+              userId={userId!}
+              name={userName}
+              content={content}
+            />
+          ))}
+          {comments.length === 0 && <p>댓글이 없습니다.</p>}
+        </CommentWrapper>
+      </div>
+    );
 };
 export default BoardDetail;
 
 export async function getServerSideProps(context: any) {
-  const data = (await BoardApi.get(Number(context.params.id))) as unknown as IPost;
+  const { id } = context.params;
 
   return {
     props: {
-      postData: data,
+      id: +id,
     }, // will be passed to the page component as props
   };
 }
