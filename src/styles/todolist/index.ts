@@ -196,7 +196,7 @@ const MenuBtn = styled.button<{ clicked: boolean }>`
   span {
     position: absolute;
     right: 0.5rem;
-    width: 3rem;
+    width: 2rem;
     height: 0.3rem;
     background: white;
     transition: all 200ms linear;
@@ -219,6 +219,24 @@ const MenuBtn = styled.button<{ clicked: boolean }>`
     :nth-of-type(5) {
       top: 1.5rem;
       opacity: ${({ clicked }) => (clicked ? 0 : 1)};
+    }
+    @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.sm}) {
+      top: 0;
+      right: -0.9rem;
+      width: 2rem;
+      height: 0.2rem;
+      :nth-of-type(2) {
+        top: 0.5rem;
+      }
+      :nth-of-type(3) {
+        top: 0.5rem;
+      }
+      :nth-of-type(4) {
+        top: 0.5rem;
+      }
+      :nth-of-type(5) {
+        top: 1rem;
+      }
     }
   }
   @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.sm}) {
