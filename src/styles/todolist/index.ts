@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 import { theme } from '@styles/theme';
 
 const Container = styled.div`
@@ -179,11 +180,51 @@ const DeleteBtn = styled.div<{ deleteMode: boolean }>`
   transition: all 200ms linear;
 `;
 
-const MenuBtn = styled.button`
+const MenuBtn = styled.button<{ clicked: boolean }>`
   position: absolute;
   z-index: 999;
-  top: 4rem;
-  right: 4rem;
+  top: 3rem;
+  right: 3.6rem;
+
+  display: flex;
+  flex-direction: column;
+  background: none;
+  border: none;
+  // gap: 0.3rem;
+  // gap: 0;
+  cursor: pointer;
+  span {
+    position: absolute;
+    right: 0.5rem;
+    width: 3rem;
+    height: 0.3rem;
+    background: white;
+    transition: all 200ms linear;
+
+    :nth-of-type(1) {
+      opacity: ${({ clicked }) => (clicked ? 0 : 1)};
+    }
+    :nth-of-type(2) {
+      top: 0.75rem;
+      transform: ${({ clicked }) => (clicked ? 'rotate(45deg)' : '')};
+    }
+    :nth-of-type(3) {
+      top: 0.75rem;
+      opacity: ${({ clicked }) => (clicked ? 0 : 1)};
+    }
+    :nth-of-type(4) {
+      top: 0.75rem;
+      transform: ${({ clicked }) => (clicked ? 'rotate(-45deg)' : '')};
+    }
+    :nth-of-type(5) {
+      top: 1.5rem;
+      opacity: ${({ clicked }) => (clicked ? 0 : 1)};
+    }
+  }
+  @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.sm}) {
+    top: 2.4rem;
+    right: 2rem;
+  }
 `;
 
 export {
