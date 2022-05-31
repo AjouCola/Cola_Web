@@ -130,12 +130,13 @@ const CommentForm = ({ postType, onAddComment, getPostData }: ICommentFormProps)
   );
 };
 
-const BoardDetail = () => {
-  const [isLoading, setIsLoading] = useState(true);
+const BoardDetail = ({ postData }: { postData: IPost }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [comments, setComments] = useState<IComment[]>([]);
-  const [postData, setPostData] = useState<IPost>({} as IPost);
+  // const [postData, setPostData] = useState<IPost>({} as IPost);
   const router = useRouter();
 
+  const setPostData = (data: IPost) => (postData = data);
   const getPostData = async () => {
     if (router.query?.id && !isNaN(+router.query?.id)) {
       const data = (await BoardApi.get(+router.query.id)) as unknown as IPost;
@@ -146,11 +147,11 @@ const BoardDetail = () => {
     }
   };
 
-  useEffect(() => {
-    getPostData();
+  // useEffect(() => {
+  //   getPostData();
 
-    // setIsLoading(false);
-  }, []);
+  //   // setIsLoading(false);
+  // }, []);
 
   if (isLoading) return <div>Loading...</div>;
   return (
@@ -192,24 +193,24 @@ const BoardDetail = () => {
 };
 export default BoardDetail;
 
-// BoardDetail.getInitialProps = async (ctx: NextPageContext) => {
-//   let res;
+BoardDetail.getInitialProps = async (ctx: NextPageContext) => {
+  let res;
 
-//   if (ctx.query.id) {
-//     res = await BoardApi.get(+ctx.query?.id);
-//     console.log('postData', res);
-//   } else {
-//     if (ctx.res) {
-//       ctx.res.writeHead(302, {
-//         Location: '/',
-//         'Content-Type': 'text/html; charset=utf-8',
-//       });
-//       ctx.res.end();
+  if (ctx.query.id) {
+    res = (await BoardApi.get(+ctx.query?.id)) as unknown as IPost;
+    console.log('postData', res);
+  } else {
+    if (ctx.res) {
+      ctx.res.writeHead(302, {
+        Location: '/',
+        'Content-Type': 'text/html; charset=utf-8',
+      });
+      ctx.res.end();
 
-//       return {};
-//     }
-//   }
-//   return {
-//     postData: res,
-//   };
-// };
+      return {};
+    }
+  }
+  return {
+    postData: res,
+  };
+};
