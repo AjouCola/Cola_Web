@@ -18,5 +18,8 @@ const Auth = {
   async getUser() {
     return await Api.get('/api/v1/users').catch((err) => console.log(err));
   },
+  async logout() {
+    return await Api.get('/api/v1/auth/logout');
+  },
 };
 export default Auth;

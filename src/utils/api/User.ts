@@ -7,9 +7,6 @@ const User = {
   async edit(params: { name: string; department: string; gitEmail: string }) {
     return await Api.put(`/api/v1/users`, params).catch((err) => console.error(err));
   },
-  async logout() {
-    return await Api.get('/logout');
-  },
 };
 
 export default User;

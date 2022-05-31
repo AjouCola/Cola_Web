@@ -26,7 +26,7 @@ import NotifyDropdown from '@components/organisms/notifyDropdown';
 import { NAV_MENU } from '@constants/index';
 import SideBarContents from '@molecules/sidebar';
 import { IUserInfo, useUserSelector } from '@store/selector/user';
-import User from '@utils/api/User';
+import Auth from '@utils/api/Auth';
 
 const Header = () => {
   const router = useRouter();
@@ -88,7 +88,7 @@ const Header = () => {
         key={menu.id}
         onClick={async () => {
           if (menu.id === 'logout') {
-            await User.logout();
+            await Auth.logout();
             setUser({} as IUserInfo);
 
             router.push('/');
