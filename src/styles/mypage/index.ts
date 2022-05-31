@@ -59,7 +59,7 @@ const ContentContainer = styled.div`
 `;
 
 const BackgroundImage = styled.div`
-  z-index: 999;
+  z-index: 5;
   position: absolute;
   left: -7.9rem;
   width: 8rem;
