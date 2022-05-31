@@ -45,6 +45,7 @@ interface Props {
   userId: number;
   userName: string;
   content: string;
+  commentsCount: number;
   tags?: string[];
   createdDate: string;
   modifiedDate: string;
@@ -102,6 +103,7 @@ const BoardContent = ({
   tags,
   userName,
   content,
+  commentsCount,
   createdDate,
   modifiedDate,
   isLike,
@@ -160,7 +162,7 @@ const BoardContent = ({
                 <Heart style={{ opacity: isLiked ? 1 : 0.5 }} />
                 <span>{favorCount}</span>
                 <Comment />
-                <span>100</span>
+                <span>{commentsCount}</span>
                 <Visit />
                 <span>100</span>
               </DetailInfoWrapper>
@@ -171,7 +173,7 @@ const BoardContent = ({
                 <span>{userName}</span>
               </DetailInfoWrapper>
               <DetailIconWrapper>
-                <HeartBig />
+                <HeartBig onClick={onClickSaveLikes} />
                 <CommentBig />
                 {(userInfo?.id ?? null) === userId && (
                   <MenuBtn onClick={onClickMenu}>

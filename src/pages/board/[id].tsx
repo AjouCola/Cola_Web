@@ -161,6 +161,7 @@ const BoardDetail = ({ postData }: { postData: IPost }) => {
         postType={postData.postType}
         title={postData.title}
         content={postData.content}
+        commentsCount={comments.length}
         userId={postData.userInfo.userId!}
         userName={postData.userInfo.userName || '유저이름'}
         tags={postData.tags}

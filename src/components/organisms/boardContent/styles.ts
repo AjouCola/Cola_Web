@@ -59,7 +59,9 @@ const DetailInfoWrapper = styled.div`
   font-weight: medium;
   padding: 0.5rem;
   border-radius: 12px;
-
+  svg {
+    cursor: pointer;
+  }
   svg:hover {
     opacity: 0.8;
   }
