@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
 
 import UserDefault from '@atoms/icon/userDefault';
@@ -80,14 +80,17 @@ interface IPost {
   };
 }
 interface ICommentFormProps {
+  postId: number;
   postType: 'qna' | 'info' | 'common';
   onAddComment: (newComment: IComment) => void;
 }
-const CommentForm = ({ postType, onAddComment }: ICommentFormProps) => {
+const CommentForm = ({ postId, postType, onAddComment }: ICommentFormProps) => {
   const router = useRouter();
   const { id } = router.query;
   const { contents: userInfo } = useRecoilValueLoadable(useUserSelector({}));
   const [comment, setComment] = useState('');
+
+  const queryClient = useQueryClient();
 
   const onSubmit = async () => {
     console.log(comment);
@@ -97,6 +100,7 @@ const CommentForm = ({ postType, onAddComment }: ICommentFormProps) => {
       )) as unknown as IComment;
       setComment('');
       onAddComment(newComment);
+      queryClient.invalidateQueries(['post', postId]);
     }
   };
 
@@ -128,13 +132,11 @@ const CommentForm = ({ postType, onAddComment }: ICommentFormProps) => {
 };
 
 const BoardDetail = ({ id }: { id: number }) => {
-  // const [isLoading, setIsLoading] = useState(true);
   const { isLoading, data: postData } = useQuery<IPost>(
     ['post', id],
     () => BoardApi.get(Number(id)) as unknown as IPost,
   );
   const [comments, setComments] = useState<IComment[]>([]);
-  // const [postData, setPostData] = useState<IPost>({} as IPost);
   const router = useRouter();
 
   useEffect(() => {
@@ -161,6 +163,7 @@ const BoardDetail = ({ id }: { id: number }) => {
           isLike={postData.favorInfoResponseDto.favor}
         />
         <CommentForm
+          postId={id}
           postType={postData.postType}
           onAddComment={(newComment) => setComments((prev) => [...prev, newComment])}
         />
