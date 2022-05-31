@@ -131,7 +131,7 @@ const CommentForm = ({ postType, onAddComment, getPostData }: ICommentFormProps)
 };
 
 const BoardDetail = ({ postData }: { postData: IPost }) => {
-  // const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [comments, setComments] = useState<IComment[]>([]);
   // const [postData, setPostData] = useState<IPost>({} as IPost);
   const router = useRouter();
@@ -151,8 +151,14 @@ const BoardDetail = ({ postData }: { postData: IPost }) => {
   //   getPostData();
 
   //   // setIsLoading(false);
-  // }, []);
+  // }, []);\
+  useEffect(() => {
+    if (postData) {
+      setIsLoading(false);
+    }
+  }, [postData]);
 
+  if (isLoading) return 'Loading...';
   return (
     <div style={{ maxWidth: '1200px', width: '100%', padding: '4rem 2rem' }}>
       <BoardContent
