@@ -140,7 +140,7 @@ const BoardDetail = ({ id }: { id: number }) => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log('postData', postData);
+    if (postData) setComments(postData.comments);
   }, [postData]);
 
   if (isLoading) return 'Loading...';
