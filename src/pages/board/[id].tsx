@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
-import { NextPageContext } from 'next';
+import { GetServerSideProps, InferGetServerSidePropsType, NextPageContext } from 'next';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
@@ -130,7 +130,7 @@ const CommentForm = ({ postType, onAddComment, getPostData }: ICommentFormProps)
   );
 };
 
-const BoardDetail = ({ postData, isLoading }: { postData: IPost; isLoading: boolean }) => {
+const BoardDetail = ({ postData }: { postData: IPost }) => {
   // const [isLoading, setIsLoading] = useState(true);
   const [comments, setComments] = useState<IComment[]>([]);
   // const [postData, setPostData] = useState<IPost>({} as IPost);
@@ -153,7 +153,6 @@ const BoardDetail = ({ postData, isLoading }: { postData: IPost; isLoading: bool
   //   // setIsLoading(false);
   // }, []);
 
-  if (isLoading) return <div>Loading...</div>;
   return (
     <div style={{ maxWidth: '1200px', width: '100%', padding: '4rem 2rem' }}>
       <BoardContent
@@ -194,26 +193,13 @@ const BoardDetail = ({ postData, isLoading }: { postData: IPost; isLoading: bool
 };
 export default BoardDetail;
 
-BoardDetail.getInitialProps = async (ctx: NextPageContext) => {
-  let res;
-  let isLoading = true;
-  if (ctx.query.id) {
-    res = (await BoardApi.get(+ctx.query?.id)) as unknown as IPost;
-    console.log('postData', res);
-    isLoading = false;
-  } else {
-    if (ctx.res) {
-      ctx.res.writeHead(302, {
-        Location: '/',
-        'Content-Type': 'text/html; charset=utf-8',
-      });
-      ctx.res.end();
+export async function getServerSideProps(context: any) {
+  console.log('serversideprops', context);
+  const data = (await BoardApi.get(context.params.id)) as unknown as IPost;
 
-      return {};
-    }
-  }
   return {
-    isLoading,
-    postData: res,
+    props: {
+      postData: data,
+    }, // will be passed to the page component as props
   };
-};
+}
