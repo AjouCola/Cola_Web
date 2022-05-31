@@ -29,6 +29,19 @@ const BoardContainer = styled.div`
     padding: 1rem 0.5rem;
   }
 `;
+const MenuWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem;
+  button {
+    padding: 0.4rem 0.9rem;
+    background: white;
+    border: 1px solid;
+    border-radius: 11px;
+    color: ${({ theme: { colors } }) => colors.blue[500]};
+  }
+`;
 const CommentInput = styled.input`
   width: 100%;
   min-height: 3rem;
@@ -151,6 +164,12 @@ const BoardDetail = ({ id }: { id: number }) => {
     if (postData) setComments(postData.comments);
   }, [postData]);
 
+  const onClickMenu = () => {
+    if (postData?.postType) {
+      router.push(`/board/${postData.postType}`);
+    }
+  };
+
   if (isLoading) return 'Loading...';
   else if (!postData) return 'Failed to fetch post data';
   else
@@ -170,6 +189,9 @@ const BoardDetail = ({ id }: { id: number }) => {
           favorCount={postData.favorInfoResponseDto.count}
           isLike={postData.favorInfoResponseDto.favor}
         />
+        <MenuWrapper>
+          <button onClick={onClickMenu}>메뉴</button>
+        </MenuWrapper>
         <CommentForm
           postId={id}
           postType={postData.postType}
