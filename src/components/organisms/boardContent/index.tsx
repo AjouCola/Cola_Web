@@ -28,6 +28,7 @@ import UserDefault from '@components/atoms/icon/userDefault';
 import { editPostData } from '@store/post';
 import { IUserInfo, useUserSelector } from '@store/selector/user';
 import { Board } from '@utils/api/Board';
+import FavorApi from '@utils/api/PostFavor';
 import Comment from 'public/comment.svg';
 import CommentBig from 'public/comment_Big.svg';
 // import Edit from 'public/edit.svg';
@@ -47,6 +48,8 @@ interface Props {
   tags?: string[];
   createdDate: string;
   modifiedDate: string;
+  isLike: boolean;
+  likes: number;
 }
 
 const HashTagBar = ({ data }: { data: string[] }) => {
@@ -101,12 +104,15 @@ const BoardContent = ({
   content,
   createdDate,
   modifiedDate,
+  isLike,
+  likes,
 }: Props) => {
   const router = useRouter();
 
   const [postData, setEditPostData] = useRecoilState(editPostData);
   const { contents: userInfo } = useRecoilValueLoadable(useUserSelector({}));
   const [menu, setMenu] = useState(false);
+  const [isLiked, setIsLiked] = useState(isLike);
 
   const onClickMenu = () => {
     setMenu((prev) => !prev);
@@ -132,6 +138,9 @@ const BoardContent = ({
     }
   };
 
+  const onClickSaveLikes = async () => {
+    await FavorApi.saveFavor({ postId, status: !isLike }).then(() => setIsLiked(!isLiked));
+  };
   return (
     <Container>
       <Header>
@@ -148,8 +157,8 @@ const BoardContent = ({
                 {createdDate !== modifiedDate ? '(수정됨)' : ''}
               </span>
               <DetailInfoWrapper>
-                <Heart />
-                <span>100</span>
+                <Heart style={{ opacity: isLiked ? 1 : 0.5 }} />
+                <span>{{ likes }}</span>
                 <Comment />
                 <span>100</span>
                 <Visit />

@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { useRouter } from 'next/router';
 
 import {
@@ -21,11 +23,16 @@ import HeartIcon from '@assets/icon/heart_small.svg';
 import ViewIcon from '@assets/icon/view_small.svg';
 import UserDefault from '@components/atoms/icon/userDefault';
 import { theme } from '@styles/theme';
+import FavorApi from '@utils/api/PostFavor';
 import { IBoardItem } from '~/types/board';
 
 const BoardCard = ({ id, username, createdAt, title, preview, thumbnailPath, isLike, likes }: IBoardItem) => {
   const router = useRouter();
+  const [isLiked, setIsLiked] = useState(isLike);
 
+  const saveLikes = async () => {
+    await FavorApi.saveFavor({ postId: id, status: !isLike }).then(() => setIsLiked(!isLiked));
+  };
   return (
     <Container>
       <BoardContent onClick={() => router.push(`/board/${id}`)}>
@@ -58,8 +65,8 @@ const BoardCard = ({ id, username, createdAt, title, preview, thumbnailPath, isL
               <b>{username}</b>
             </p>
             <div style={{ display: 'flex', gap: '5px' }}>
-              <Likes>
-                <HeartIcon style={{ opacity: isLike ? 1 : 0.5 }} />
+              <Likes onClick={saveLikes}>
+                <HeartIcon style={{ opacity: isLiked ? 1 : 0.5 }} />
                 <span>{likes}</span>
               </Likes>
               <Comments>
