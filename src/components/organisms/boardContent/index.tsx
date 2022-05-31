@@ -49,7 +49,7 @@ interface Props {
   createdDate: string;
   modifiedDate: string;
   isLike: boolean;
-  likes: number;
+  favorCount: number;
 }
 
 const HashTagBar = ({ data }: { data: string[] }) => {
@@ -105,7 +105,7 @@ const BoardContent = ({
   createdDate,
   modifiedDate,
   isLike,
-  likes,
+  favorCount,
 }: Props) => {
   const router = useRouter();
 
@@ -158,7 +158,7 @@ const BoardContent = ({
               </span>
               <DetailInfoWrapper>
                 <Heart style={{ opacity: isLiked ? 1 : 0.5 }} />
-                <span>{{ likes }}</span>
+                <span>{{ favorCount }}</span>
                 <Comment />
                 <span>100</span>
                 <Visit />

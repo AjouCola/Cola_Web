@@ -74,8 +74,8 @@ interface IPost {
   createdDate: string;
   modifiedDate: string;
   favorInfoResponseDto: {
-    isLike: boolean;
-    likes: number;
+    favor: boolean;
+    count: number;
     postId: number;
   };
 }
@@ -166,8 +166,8 @@ const BoardDetail = ({ postData }: { postData: IPost }) => {
         tags={postData.tags}
         createdDate={postData.createdDate}
         modifiedDate={postData.modifiedDate}
-        likes={postData.favorInfoResponseDto.likes}
-        isLike={postData.favorInfoResponseDto.isLike}
+        favorCount={postData.favorInfoResponseDto.count}
+        isLike={postData.favorInfoResponseDto.favor}
       />
       <CommentForm
         postType={postData.postType}

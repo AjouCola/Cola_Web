@@ -148,7 +148,7 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
                   username={post.userInfo.userName}
                   createdAt={post.createdDate}
                   isLike={post.favorInfoResponseDto.favor}
-                  likes={post.favorInfoResponseDto.count}
+                  favorCount={post.favorInfoResponseDto.count}
                 />
               ))}
             {boardType === BoardLayout.PREVIEW_LIST &&
@@ -162,7 +162,7 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
                   username={post.userInfo.userName}
                   createdAt={post.createdDate}
                   isLike={post.favorInfoResponseDto.favor}
-                  likes={post.favorInfoResponseDto.count}
+                  favorCount={post.favorInfoResponseDto.count}
                 />
               ))}
             {boardType === BoardLayout.SIMPLE_LIST &&
@@ -174,7 +174,7 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
                   username={post.userInfo.userName}
                   createdAt={post.createdDate}
                   isLike={post.favorInfoResponseDto.favor}
-                  likes={post.favorInfoResponseDto.count}
+                  favorCount={post.favorInfoResponseDto.count}
                 />
               ))}
           </BoardList>

@@ -7,6 +7,6 @@ export interface IBoardItem {
   preview?: string;
   thumbnailPath?: string;
   isLike: boolean;
-  likes: number;
+  favorCount: number;
 }
 /* eslint-disable */

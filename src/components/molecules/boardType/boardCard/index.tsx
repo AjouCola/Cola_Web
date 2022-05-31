@@ -26,14 +26,14 @@ import { theme } from '@styles/theme';
 import FavorApi from '@utils/api/PostFavor';
 import { IBoardItem } from '~/types/board';
 
-const BoardCard = ({ id, username, createdAt, title, preview, thumbnailPath, isLike, likes }: IBoardItem) => {
+const BoardCard = ({ id, username, createdAt, title, preview, thumbnailPath, isLike, favorCount }: IBoardItem) => {
   const router = useRouter();
   const [isLiked, setIsLiked] = useState(isLike);
-  const [likeCount, setLikeCount] = useState(likes);
+  const [likes, setLikes] = useState<number>(favorCount);
 
-  const saveLikes = async () => {
+  const saveFavor = async () => {
     await FavorApi.saveFavor({ postId: id, status: !isLike }).then(() => {
-      isLiked ? setLikeCount((prev) => prev - 1) : setLikeCount((prev) => prev + 1);
+      isLiked ? setLikes((prev) => prev - 1) : setLikes((prev) => prev + 1);
       setIsLiked(!isLiked);
     });
   };
@@ -72,11 +72,11 @@ const BoardCard = ({ id, username, createdAt, title, preview, thumbnailPath, isL
               <Likes
                 onClick={(e) => {
                   e.stopPropagation();
-                  saveLikes();
+                  saveFavor();
                 }}
               >
                 <HeartIcon style={{ opacity: isLiked ? 1 : 0.5 }} />
-                <span>{likeCount}</span>
+                <span>{likes}</span>
               </Likes>
               <Comments>
                 <CommentIcon />
