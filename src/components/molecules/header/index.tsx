@@ -91,7 +91,7 @@ const Header = () => {
             await Auth.logout();
             setUser({} as IUserInfo);
 
-            location.href = '/';
+            location.href = '/signIn';
           } else {
             router.push(menu.link);
           }
