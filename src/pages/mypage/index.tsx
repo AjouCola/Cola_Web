@@ -21,9 +21,9 @@ const Mypage: NextPage = () => {
         <Title>마이페이지</Title>
         <CardContainer>
           <BackgroundImage>
-            <img src='/character/mascot.png' />
+            <img src="/character/mascot.png" />
             <div>
-              <img src='/character/mascotArm.png' />
+              <img src="/character/mascotArm.png" />
             </div>
           </BackgroundImage>
           <Card
