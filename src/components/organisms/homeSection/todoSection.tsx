@@ -280,9 +280,7 @@ const TodoSection = () => {
   const [today, date, setDate, handleChangeMonth] = useCalendar();
   const { isLoading, todoList, handleTodoCheck } = useTodayTodo(date.toISOString().slice(0, 10));
 
-  const flattenTodoList = useMemo(() => {
-    return todoList.map((folder) => folder?.todos.map((todo) => ({ ...todo, ...folder }))).flat();
-  }, [todoList]);
+  const flattenTodoList = todoList.map((folder) => folder?.todos.map((todo) => ({ ...todo, ...folder }))).flat();
 
   return (
     <>
