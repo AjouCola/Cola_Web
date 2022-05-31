@@ -22,6 +22,11 @@ const Header = styled.h2`
   background-position: center;
   background-size: cover;
   text-align: center;
+
+  @media (max-width: ${({ theme: { breakpoints } }) => breakpoints.sm}){
+    height: 6rem;
+    padding: 1.5rem;
+  }
 `;
 
 const Content = styled.div`
