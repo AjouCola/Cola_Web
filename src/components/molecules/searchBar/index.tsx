@@ -17,6 +17,7 @@ import SearchIcon from '@assets/icon/search.svg';
 import HashtagChip from '@components/atoms/hashtagChip';
 import Input from '@components/atoms/input';
 import MobileSearchModal from '@components/molecules/modal/mobileSearchModal';
+import { dateFormatYYYYmmDD } from '@utils/libs/formatDate';
 
 interface ISearch {
   id: number;
@@ -27,52 +28,52 @@ const searchHistory: ISearch[] = [
   {
     id: 1,
     keyword: '리액트 구조',
-    date: new Date().toISOString(),
+    date: dateFormatYYYYmmDD(new Date()),
   },
   {
     id: 2,
     keyword: 'NextJS 배포',
-    date: new Date().toISOString(),
+    date: dateFormatYYYYmmDD(new Date()),
   },
   {
     id: 3,
     keyword: '이벤트 버블링',
-    date: new Date().toISOString(),
+    date: dateFormatYYYYmmDD(new Date()),
   },
   {
     id: 4,
     keyword: '자소서',
-    date: new Date().toISOString(),
+    date: dateFormatYYYYmmDD(new Date()),
   },
   {
     id: 5,
     keyword: '삼성 코테',
-    date: new Date().toISOString(),
+    date: dateFormatYYYYmmDD(new Date()),
   },
   {
     id: 6,
     keyword: 'react-query',
-    date: new Date().toISOString(),
+    date: dateFormatYYYYmmDD(new Date()),
   },
   {
     id: 7,
     keyword: 'asdlfkj',
-    date: new Date().toISOString(),
+    date: dateFormatYYYYmmDD(new Date()),
   },
   {
     id: 8,
     keyword: '삼성 코테',
-    date: new Date().toISOString(),
+    date: dateFormatYYYYmmDD(new Date()),
   },
   {
     id: 9,
     keyword: 'react-query',
-    date: new Date().toISOString(),
+    date: dateFormatYYYYmmDD(new Date()),
   },
   {
     id: 10,
     keyword: 'asdlfkj',
-    date: new Date().toISOString(),
+    date: dateFormatYYYYmmDD(new Date()),
   },
 ];
 

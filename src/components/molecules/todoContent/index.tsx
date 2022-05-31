@@ -26,6 +26,7 @@ import TodoMenuModal from '@components/molecules/todoMenuModal';
 import TodoArea from '@molecules/todoArea';
 import { todoModal } from '@store/todo';
 import TodoApi, { IFolder, IFolders, ITodo } from '@utils/api/Todo';
+import { dateFormatYYYYmmDD } from '@utils/libs/formatDate';
 import { ITodoFolder, todoListState } from 'src/store';
 
 const useDraggableTodo = (date: Date) => {
@@ -52,7 +53,7 @@ const useDraggableTodo = (date: Date) => {
 
         currentAllFolders[currentFolderIndex].todos = todos;
         (async function () {
-          await TodoApi.saveTodoList(date.toISOString().slice(0, 10), currentAllFolders);
+          await TodoApi.saveTodoList(dateFormatYYYYmmDD(date), currentAllFolders);
         })();
         return currentAllFolders;
       });
@@ -75,7 +76,7 @@ const useDraggableTodo = (date: Date) => {
         newTodoList[srcFolderIndex].todos = newSrcTodos;
         newTodoList[destFolderIndex].todos = newDestTodos;
         (async function () {
-          await TodoApi.saveTodoList(date.toISOString().slice(0, 10), newTodoList);
+          await TodoApi.saveTodoList(dateFormatYYYYmmDD(date), newTodoList);
         })();
         return newTodoList;
       });
@@ -129,7 +130,7 @@ const useDeleteTodo = (date: Date): [boolean, () => void, (todoArea: number, tod
         }
         currentFolders[+currentFolderIndex].todos = currentTodos;
         (async function () {
-          await TodoApi.saveTodoList(date.toISOString().slice(0, 10), currentFolders);
+          await TodoApi.saveTodoList(dateFormatYYYYmmDD(date), currentFolders);
         })();
         return currentFolders;
       });
@@ -150,7 +151,7 @@ const TodoContent = ({ today }: { today: Date }) => {
 
   useEffect(() => {
     async function getTodoList() {
-      const { date, folders } = await TodoApi.getTodoList(today.toISOString().slice(0, 10));
+      const { date, folders } = await TodoApi.getTodoList(dateFormatYYYYmmDD(today));
 
       const todoList: ITodoFolder[] =
         folders?.map(
@@ -197,7 +198,7 @@ const TodoContent = ({ today }: { today: Date }) => {
                 {(provided, snapshot) => (
                   <div ref={provided.innerRef} {...provided.droppableProps}>
                     <TodoArea
-                      date={today.toISOString().slice(0, 10)}
+                      date={dateFormatYYYYmmDD(today)}
                       todoItems={folder.todos}
                       area={folder.name}
                       areaId={folder.folder_id}

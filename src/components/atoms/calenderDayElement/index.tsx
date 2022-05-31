@@ -13,7 +13,13 @@ interface Props {
 }
 const CalenderDayElement = ({ status, elementData, day, setDate }: Props) => {
   return (
-    <Container status={status} onClick={() => setDate(day)}>
+    <Container
+      status={status}
+      onClick={() => {
+        console.log(status, elementData, day, day.getDay(), day.getDate());
+        setDate(day);
+      }}
+    >
       <DayText status={status}>{day.getDate()}</DayText>
       <DoneImg data={elementData === undefined ? [] : elementData} />
     </Container>

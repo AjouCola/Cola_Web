@@ -6,6 +6,7 @@ import LeftArrow from '@assets/icon/left_arrow_primary.svg';
 import RightArrow from '@assets/icon/right_arrow_primary.svg';
 import CalenderDayElement from '@atoms/calenderDayElement';
 import Api from '@utils/api/core';
+import { dateFormatYYYYmmDD } from '@utils/libs/formatDate';
 
 interface DataProps {
   date: string;
@@ -47,7 +48,7 @@ const Calender = ({ date, handleChangeMonth, setDate }: Props) => {
 
   useEffect(() => {
     async function getData() {
-      const data = (await Api.get(`/api/v1/todos/progress/${date.toISOString().slice(0, 7)}-01`)) as DataProps[];
+      const data = (await Api.get(`/api/v1/todos/progress/${dateFormatYYYYmmDD(date).slice(0, 7)}-01`)) as DataProps[];
       setData(
         data.reduce((r, { date, todoProgress }) => {
           r[date] = todoProgress;
@@ -100,10 +101,6 @@ const Calender = ({ date, handleChangeMonth, setDate }: Props) => {
   const handleUp = () => handleChangeMonth(1);
   const handleDown = () => handleChangeMonth(-1);
 
-  function getDateFormat(date: Date) {
-    return date.toISOString().slice(0, 10);
-  }
-
   const getCurrentDate = (): string => {
     const todayArr = today.toDateString().split(' ');
     const upperCaseDate = todayArr[0].toUpperCase();
@@ -138,7 +135,7 @@ const Calender = ({ date, handleChangeMonth, setDate }: Props) => {
             key={index}
             day={element}
             date={(index + 1) % 7}
-            elementData={data[getDateFormat(element)]}
+            elementData={data[dateFormatYYYYmmDD(element)]}
             setDate={setDate}
           />
         ))}
@@ -148,7 +145,7 @@ const Calender = ({ date, handleChangeMonth, setDate }: Props) => {
             key={index}
             day={element}
             date={(index + 1) % 7}
-            elementData={data[getDateFormat(element)]}
+            elementData={data[dateFormatYYYYmmDD(element)]}
             setDate={setDate}
           />
         ))}

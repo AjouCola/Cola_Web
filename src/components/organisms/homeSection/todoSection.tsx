@@ -11,6 +11,7 @@ import { useCalendar } from '@pages/todolist';
 import { ITodoFolder } from '@store/index';
 import { theme } from '@styles/theme';
 import TodoApi, { IFolder, IFolders, ITodo } from '@utils/api/Todo';
+import { dateFormatYYYYmmDD } from '@utils/libs/formatDate';
 
 const CalendarWrapper = styled.div`
   display: flex;
@@ -282,7 +283,7 @@ const useTodayTodo = (today: string) => {
 
 const TodoSection = () => {
   const [today, date, setDate, handleChangeMonth] = useCalendar();
-  const { isLoading, todoList, handleTodoCheck } = useTodayTodo(date.toISOString().slice(0, 10));
+  const { isLoading, todoList, handleTodoCheck } = useTodayTodo(dateFormatYYYYmmDD(date));
 
   const flattenTodoList = todoList.map((folder) => folder?.todos.map((todo) => ({ ...todo, ...folder }))).flat();
 
