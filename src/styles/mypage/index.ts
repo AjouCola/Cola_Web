@@ -12,8 +12,9 @@ const Container = styled.div`
     'info content' 10fr
     / 5fr 5fr;
   column-gap: 4rem;
-  padding: 4rem;
+  padding: 0px 6rem;
   @media (max-width: ${theme.breakpoints.md}) {
+    padding: 0px 8rem;
     grid-template:
       'title' 2rem
       'info ' 2fr
@@ -58,9 +59,9 @@ const ContentContainer = styled.div`
 `;
 
 const BackgroundImage = styled.div`
-  z-index: 2;
+  z-index: 999;
   position: absolute;
-  left: -5rem;
+  left: -7.9rem;
   width: 8rem;
   height: 8rem;
   border-radius: 100vw;
@@ -70,8 +71,13 @@ const BackgroundImage = styled.div`
   align-items: center;
   text-align: center;
   justify-content: center;
+  div{
+    position:absolute;
+  }
   @media (max-width: ${theme.breakpoints.md}) {
-    /* display: none; */
+    left: -5.9rem;
+    width: 4rem;
+    height: 4rem;
   }
   @media (max-width: ${theme.breakpoints.sm}) {
     display: none;
