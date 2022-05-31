@@ -9,7 +9,7 @@ import Api from '@utils/api/core';
 
 interface DataProps {
   date: string;
-  progress: { color: string; name: string; progress: number }[];
+  todoProgress: { color: string; name: string; progress: number }[];
 }
 
 interface ChangedDateProps {
@@ -49,14 +49,16 @@ const Calender = ({ date, handleChangeMonth, setDate }: Props) => {
     async function getData() {
       const data = (await Api.get(`/api/v1/todos/progress/${date.toISOString().slice(0, 7)}-01`)) as DataProps[];
       setData(
-        data.reduce((r, { date, progress }) => {
-          r[date] = progress;
+        data.reduce((r, { date, todoProgress }) => {
+          r[date] = todoProgress;
           return r;
         }, {} as ChangedDateProps),
       );
     }
     getData();
   }, []);
+
+  useEffect(() => console.log(data), [data]);
 
   const currentMonth = useMemo(() => {
     const month = date.getMonth() + 1;
