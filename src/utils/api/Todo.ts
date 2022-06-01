@@ -47,7 +47,7 @@ const TodoApi = {
     // if (!res?.data?.success) retu rn false;
   },
   createFolder: async (name: string, color: string) => {
-    await Api.post('/api/v1/folder', {
+    return await Api.post('/api/v1/folder', {
       name,
       color,
     });

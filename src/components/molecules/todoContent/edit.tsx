@@ -39,8 +39,17 @@ const FolderContent = ({ setIsEdit }: { setIsEdit: Dispatch<SetStateAction<any>>
     /** dummy */
     const color = '#9779D3';
     const name = inputRef.current?.value;
-    if (name !== '' && name !== undefined) await TodoApi.createFolder(name, color);
-    else alert('입력해주세요!');
+    if (name !== '' && name !== undefined) {
+      const id = await TodoApi.createFolder(name, color);
+      setfolders((prev: { folderId: number; color: string; name: string }[]) => [
+        ...prev,
+        {
+          folderId: id,
+          color,
+          name,
+        },
+      ]);
+    } else alert('입력해주세요!');
     setEditState(false);
   };
   return (
