@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
+import { useQuery } from 'react-query';
 
 import { IPost } from '../boardPageTemplate';
 
@@ -103,26 +104,22 @@ const IsOn = styled.span<{ isOn: boolean }>`
 `;
 
 const BoardSection = ({ type }: { type: string }) => {
+  const { isLoading, data } = useQuery(['boardSection', type], () =>
+    Board.getList({ pageParam: 0, sort: type === '최신글' ? 'recent' : 'favorCount' }),
+  );
   const [boardItems, setBoardItems] = useState<IPost[]>();
   const [on, setOn] = useState(false);
-
-  useEffect(() => {
-    (async function () {
-      const data = (await Board.getList({
-        pageParam: 0,
-        sort: type === '최신글' ? 'recent' : 'favorCount',
-      })) as unknown as IPost[];
-      setBoardItems(data);
-    })();
-  }, []);
-  useEffect(() => {
-    if (boardItems) console.log('홈 게시글 리스트', boardItems);
-  }, [boardItems]);
 
   const onClickInterest = () => {
     setOn((prev) => !prev);
   };
 
+  useEffect(() => {
+    if (data) {
+      const { result } = data;
+      setBoardItems(result);
+    }
+  }, [data]);
   return (
     <Container>
       <BoardTitle>{type}</BoardTitle>
@@ -133,14 +130,17 @@ const BoardSection = ({ type }: { type: string }) => {
         </InterestBtn>
       </InterestBtnWrapper>
       <BoardItemSection>
-        {boardItems?.map((post: IPost, idx: number) => (
-          <BoardItem
-            key={idx}
-            title={post.title}
-            userName={post.userInfo.userName}
-            date={post.createdDate.slice(0, 10)}
-          />
-        ))}
+        {!isLoading &&
+          boardItems
+            ?.slice(0, 7)
+            .map((post: IPost, idx: number) => (
+              <BoardItem
+                key={idx}
+                title={post.title}
+                userName={post.userInfo.userName}
+                date={post.createdDate.slice(0, 10)}
+              />
+            ))}
       </BoardItemSection>
     </Container>
   );
