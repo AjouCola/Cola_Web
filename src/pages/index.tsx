@@ -8,6 +8,7 @@ import { theme } from '@styles/theme';
 const SectionWrapper = styled.div`
   /* gap: 2rem; */
   width: 100%;
+  align-items: stretch;
   row-gap: 1rem;
   display: grid;
   height: 100%;
