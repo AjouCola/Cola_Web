@@ -21,7 +21,10 @@ const Mypage: NextPage = () => {
         <Title>마이페이지</Title>
         <CardContainer>
           <BackgroundImage>
-            <pre>{`캐릭터가\n명함을 쥐고\n매달려 있는 느낌`}</pre>
+            <img src="/character/mascot.png" />
+            <div>
+              <img src="/character/mascotArm.png" />
+            </div>
           </BackgroundImage>
           <Card
             name={userInfo?.name ?? '이름'}

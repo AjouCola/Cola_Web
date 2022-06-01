@@ -50,15 +50,123 @@ const Container = styled.div`
 
 const Banner = styled.div`
   min-height: 40vh;
+  position: relative;
   background: url('/home_banner.svg');
   background-position: center;
   background-size: cover;
+  overflow: hidden;
+  div:nth-child(1) {
+    position: absolute;
+    bottom: -6rem;
+    left: 4rem;
+    img {
+      width: 14rem;
+      height: 14rem;
+    }
+    @media (max-width: ${theme.breakpoints.md}) {
+      bottom: -4rem;
+      left: 4rem;
+      img {
+        width: 8rem;
+        height: 8rem;
+      }
+    }
+    @media (max-width: ${theme.breakpoints.sm}) {
+      bottom: -1.6rem;
+      left: 2rem;
+      img {
+        width: 3rem;
+        height: 3rem;
+      }
+    }
+  }
+  div:nth-child(2) {
+    position: absolute;
+    top: 4rem;
+    left: 20rem;
+    img {
+      width: 7rem;
+      height: 7rem;
+    }
+    @media (max-width: ${theme.breakpoints.md}) {
+      top: 2rem;
+      left: 16rem;
+      img {
+        width: 5rem;
+        height: 5rem;
+      }
+    }
+    @media (max-width: ${theme.breakpoints.sm}) {
+      top: 2rem;
+      left: 8rem;
+      img {
+        width: 3rem;
+        height: 3rem;
+      }
+    }
+  }
+  div:nth-child(3) {
+    position: absolute;
+    bottom: -6rem;
+    right: 10rem;
+    img {
+      width: 20rem;
+      height: 20rem;
+    }
+    @media (max-width: ${theme.breakpoints.md}) {
+      right: 2rem;
+      bottom: -4rem;
+      img {
+        width: 12rem;
+        height: 12rem;
+      }
+    }
+    @media (max-width: ${theme.breakpoints.sm}) {
+      right: 2rem;
+      bottom: -2rem;
+      img {
+        width: 8rem;
+        height: 8rem;
+      }
+    }
+  }
+  div:nth-child(4) {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    img {
+      width: 24rem;
+      height: 24rem;
+      @media (max-width: ${theme.breakpoints.md}) {
+        width: 18rem;
+        height: 18rem;
+      }
+      @media (max-width: ${theme.breakpoints.sm}) {
+        width: 10rem;
+        height: 10rem;
+      }
+    }
+  }
 `;
 
 const Home: NextPage = () => {
   return (
     <Container>
-      <Banner></Banner>
+      <Banner>
+        <div>
+          <img src="/circle_s.svg" />
+        </div>
+        <div>
+          <img src="/circle_s.svg" />
+        </div>
+        <div>
+          <img src="/circle.svg" />
+        </div>
+        <div>
+          <img src="/logo.svg" />
+        </div>
+      </Banner>
       <SectionWrapper>
         <TodoSection />
       </SectionWrapper>

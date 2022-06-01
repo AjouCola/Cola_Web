@@ -1,0 +1,14 @@
+<svg id="그룹_25" data-name="그룹 25" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="462.807" height="462.86" viewBox="0 0 462.807 462.86">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="패스_26" data-name="패스 26" d="M35.346,108.556C-32.508,216.847.263,359.648,108.542,427.509s251.064,35.088,318.917-73.2,35.085-251.093-73.194-318.955a231.273,231.273,0,0,0-318.919,73.2" transform="translate(0 0)" fill="none"/>
+    </clipPath>
+    <radialGradient id="radial-gradient" cx="0.675" cy="0.409" r="0.699" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#3c65e5"/>
+    </radialGradient>
+  </defs>
+  <g id="그룹_24" data-name="그룹 24" transform="translate(0 0)" clip-path="url(#clip-path)">
+    <rect id="사각형_15" data-name="사각형 15" width="585.471" height="557.274" transform="translate(-93.766 7.69) rotate(-7.157)" fill="url(#radial-gradient)"/>
+  </g>
+</svg>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="343.5" height="343.46" viewBox="0 0 343.5 343.46">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="패스_27" data-name="패스 27" d="M80.5,26.272a171.713,171.713,0,1,0,263,145.735v-.878A171.721,171.721,0,0,0,80.5,26.272" transform="translate(0 0)" fill="none"/>
+    </clipPath>
+    <radialGradient id="radial-gradient" cx="0.715" cy="0.588" r="0.704" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="0.808" stop-color="#3c65e5"/>
+      <stop offset="1" stop-color="#3c65e5"/>
+    </radialGradient>
+  </defs>
+  <g id="그룹_27" data-name="그룹 27" transform="translate(0)">
+    <g id="그룹_26" data-name="그룹 26" transform="translate(0 0)" clip-path="url(#clip-path)">
+      <rect id="사각형_16" data-name="사각형 16" width="410.409" height="410.411" transform="translate(-69.404 361.932) rotate(-82.869)" fill="url(#radial-gradient)"/>
+    </g>
+  </g>
+</svg>
