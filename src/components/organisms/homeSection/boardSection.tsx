@@ -136,6 +136,7 @@ const BoardSection = ({ type }: { type: string }) => {
             .map((post: IPost, idx: number) => (
               <BoardItem
                 key={idx}
+                id={post.postId}
                 title={post.title}
                 userName={post.userInfo.userName}
                 date={post.createdDate.slice(0, 10)}
