@@ -63,8 +63,10 @@ const Home: NextPage = () => {
         <TodoSection />
       </SectionWrapper>
       <BoardSectionWrapper>
-        <BoardSection />
-        <BoardSection />
+        {/* 인기글 */}
+        <BoardSection type="인기글" />
+        {/* 최신글 */}
+        <BoardSection type="최신글" />
       </BoardSectionWrapper>
     </Container>
   );

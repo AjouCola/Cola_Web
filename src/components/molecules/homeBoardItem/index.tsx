@@ -2,20 +2,30 @@ import { Container, Title, InfoWrapper, Profile, DateWrapper, ProfileWrapper } f
 
 import ProfileImg from '@assets/icon/user_default_small.svg';
 
-const BoardItem = () => {
+const BoardItem = ({
+  title,
+  userName,
+  date,
+  profileThumbnail,
+}: {
+  title: string;
+  userName: string;
+  date: string;
+  profileThumbnail?: string;
+}) => {
   return (
     <Container>
-      <Title>글 제목입니다.</Title>
+      <Title>{title}</Title>
 
       <InfoWrapper>
         <ProfileWrapper>
           <Profile>
             <ProfileImg />
           </Profile>
-          <p>이름</p>
+          <p>{userName}</p>
         </ProfileWrapper>
         <DateWrapper style={{ padding: '0 0.2rem' }}>
-          <span>05/14 20:12</span>
+          <span>{date}</span>
         </DateWrapper>
       </InfoWrapper>
     </Container>

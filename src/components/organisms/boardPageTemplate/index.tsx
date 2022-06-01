@@ -27,7 +27,7 @@ import {
 } from '@styles/board';
 import { Board as BoardApi } from '@utils/api/Board';
 
-interface IPost {
+export interface IPost {
   postId: number;
   title: string;
   content: string;

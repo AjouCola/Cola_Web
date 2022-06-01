@@ -1,9 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
 
+import { IPost } from '../boardPageTemplate';
+
 import BoardItem from '@components/molecules/homeBoardItem';
 import { theme } from '@styles/theme';
+import { Board } from '@utils/api/Board';
 
 const Container = styled.div`
   width: 100%;
@@ -99,9 +102,22 @@ const IsOn = styled.span<{ isOn: boolean }>`
   background: ${({ theme: { colors } }) => colors.blue[500]};
 `;
 
-const BoardSection = () => {
-  const [boardItems, setBoardItems] = useState([1, 1, 1, 1, 1, 1, 1]);
+const BoardSection = ({ type }: { type: string }) => {
+  const [boardItems, setBoardItems] = useState<IPost[]>();
   const [on, setOn] = useState(false);
+
+  useEffect(() => {
+    (async function () {
+      const data = (await Board.getList({
+        pageParam: 0,
+        sort: type === '최신글' ? 'recent' : 'favorCount',
+      })) as unknown as IPost[];
+      setBoardItems(data);
+    })();
+  }, []);
+  useEffect(() => {
+    if (boardItems) console.log('홈 게시글 리스트', boardItems);
+  }, [boardItems]);
 
   const onClickInterest = () => {
     setOn((prev) => !prev);
@@ -117,8 +133,13 @@ const BoardSection = () => {
         </InterestBtn>
       </InterestBtnWrapper>
       <BoardItemSection>
-        {boardItems.map((_, idx) => (
-          <BoardItem key={idx} />
+        {boardItems?.map((post: IPost, idx: number) => (
+          <BoardItem
+            key={idx}
+            title={post.title}
+            userName={post.userInfo.userName}
+            date={post.createdDate.slice(0, 10)}
+          />
         ))}
       </BoardItemSection>
     </Container>
