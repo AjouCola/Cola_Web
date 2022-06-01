@@ -125,7 +125,7 @@ const BoardSection = ({ type }: { type: string }) => {
 
   return (
     <Container>
-      <BoardTitle>인기글</BoardTitle>
+      <BoardTitle>{type}</BoardTitle>
       <InterestBtnWrapper>
         <span>관심</span>
         <InterestBtn onClick={onClickInterest}>
