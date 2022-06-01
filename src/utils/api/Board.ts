@@ -46,7 +46,7 @@ export const Board = {
     sort?: 'recent' | 'favorCount';
     boardCategory?: 'common' | 'info' | 'qna';
   }) {
-    const data = (await Api.get(`/api/v1/posts?category=${boardCategory}`, {
+    const data = (await Api.get(`/api/v1/posts?category=${boardCategory ?? ''}`, {
       params: {
         page: pageParam,
         size,
