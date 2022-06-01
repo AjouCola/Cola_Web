@@ -121,7 +121,7 @@ const FolderItemContainer = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
-  max-height: 20vh;
+  // max-height: 20vh;
   overflow-y: scroll;
   padding: 0px 0.4rem;
   &::-webkit-scrollbar {
