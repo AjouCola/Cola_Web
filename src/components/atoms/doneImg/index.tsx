@@ -19,9 +19,23 @@ interface Props {
 const DoneImg = ({ data }: Props) => {
   return (
     <Svg viewBox="-17 -3 39 39">
-      {data.map(({ color }, i) => (
-        <Rect key={i} rotate={i} x="0" y="0" width="7" height="33" rx="4" ry="4" fill={color} />
-      ))}
+      {data.map(
+        ({ color, progress }, i) =>
+          progress > 0 && (
+            <Rect
+              key={i}
+              rotate={i}
+              x="0"
+              y="0"
+              width="7"
+              height="33"
+              rx="4"
+              ry="4"
+              fill={color}
+              opacity={progress / 100}
+            />
+          ),
+      )}
     </Svg>
   );
 };
