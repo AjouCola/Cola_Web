@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import Modal from '@components/molecules/modal';
 import MajorModal from '@components/molecules/modal/majorModal';
 import SignUpForm from '@components/organisms/signUpForm';
+import Seo from '@components/Seo';
 import { MAJOR_TYPE } from '@constants/index';
 import { Container, Title } from '@styles/signUp';
 import Auth from '@utils/api/Auth';
@@ -25,6 +26,7 @@ const SignUp = () => {
   return (
     <>
       <Container>
+        <Seo title="회원가입" />
         <Title>SIGN UP</Title>
         <SignUpForm
           handleModalOnOff={handleModalOnOff}

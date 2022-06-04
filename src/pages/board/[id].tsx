@@ -7,6 +7,7 @@ import { useQuery, useQueryClient } from 'react-query';
 import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
 
 import UserDefault from '@atoms/icon/userDefault';
+import Seo from '@components/Seo';
 import BoardContent from '@organisms/boardContent';
 import Comment from '@organisms/comment';
 import { useUserSelector } from '@store/selector/user';
@@ -175,6 +176,7 @@ const BoardDetail = ({ id }: { id: number }) => {
   else
     return (
       <BoardContainer>
+        <Seo title={postData.title} />
         <BoardContent
           postId={postData.postId}
           postType={postData.postType}

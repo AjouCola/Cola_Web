@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 
 import Button from '@components/atoms/button/submit';
 import Input from '@components/atoms/input';
+import Seo from '@components/Seo';
 import socket from '@store/gatherSocket';
 import { FlexColumn, Container } from '@styles/gather';
 
@@ -23,6 +24,7 @@ const Gather: NextPage = () => {
   };
   return (
     <Container>
+      <Seo title="게더타운" />
       <h2>Ajou Mogakco에 오신 것을 환영합니다</h2>
       <FlexColumn>
         <Input

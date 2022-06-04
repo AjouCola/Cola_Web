@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import type { NextPage } from 'next';
 
 import TodoSection from '@components/organisms/homeSection/todoSection';
+import Seo from '@components/Seo';
 import BoardSection from '@organisms/homeSection/boardSection';
 import { theme } from '@styles/theme';
 
@@ -153,6 +154,7 @@ const Banner = styled.div`
 const Home: NextPage = () => {
   return (
     <Container>
+      <Seo title="홈" />
       <Banner>
         <div>
           <img src="/circle_s.svg" />

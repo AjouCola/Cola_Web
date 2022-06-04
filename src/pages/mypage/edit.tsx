@@ -6,6 +6,7 @@ import { useRecoilValue } from 'recoil';
 import Modal from '@components/molecules/modal';
 import MajorModal from '@components/molecules/modal/majorModal';
 import SignUpForm from '@components/organisms/signUpForm';
+import Seo from '@components/Seo';
 import { MAJOR_TYPE } from '@constants/index';
 import { ContentContainer, Title, EditProfileContainer } from '@styles/mypage';
 import UserApi from '@utils/api/User';
@@ -36,6 +37,7 @@ const Modify = () => {
   };
   return (
     <>
+      <Seo title="마이페이지 정보수정" />
       <EditProfileContainer>
         <Title>정보 수정</Title>
         <ContentContainer>
