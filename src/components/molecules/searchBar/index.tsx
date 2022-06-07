@@ -18,10 +18,12 @@ import {
 import SearchIcon from '@assets/icon/search.svg';
 import HashtagChip from '@components/atoms/hashtagChip';
 import Input from '@components/atoms/input';
+import SearchHistoryItem from '@components/atoms/searchHistoryItem';
 import MobileSearchModal from '@components/molecules/modal/mobileSearchModal';
 import { dateFormatYYYYmmDD } from '@utils/libs/formatDate';
+import useSearchHistory from '@utils/libs/useSearchHistory';
 
-interface ISearch {
+export interface ISearch {
   id: number;
   keyword: string;
   date: string;
@@ -36,10 +38,12 @@ interface ISearchDropdown {
 
 const SearchDropdown = ({ searchHistory, setSearchHistory, hashtags, deleteChip }: ISearchDropdown) => {
   const router = useRouter();
-  const onClickDelete = (idx: number) => {
+  const onClickDelete = (id: number) => {
     setSearchHistory((prev) => {
       const newHistory = [...prev];
-      newHistory.splice(idx, 1);
+      const historyIndex = newHistory.findIndex((v) => v.id === id);
+
+      newHistory.splice(historyIndex, 1);
 
       localStorage.setItem('cola-search-history', JSON.stringify(newHistory));
       return newHistory;
@@ -64,12 +68,8 @@ const SearchDropdown = ({ searchHistory, setSearchHistory, hashtags, deleteChip 
         </HashtagWrapper>
       )}
       <HistoryWrapper>
-        {searchHistory.map((history, index) => (
-          <HistoryItem key={history.id}>
-            <div className="icon"></div>
-            <span onClick={() => onClickItem(history.keyword)}>{history.keyword}</span>
-            <button onClick={() => onClickDelete(index)}>X</button>
-          </HistoryItem>
+        {searchHistory.map((history) => (
+          <SearchHistoryItem key={history.id} history={history} onClickDelete={onClickDelete} />
         ))}
       </HistoryWrapper>
       <HistoryControlWrapper>
@@ -85,20 +85,13 @@ const SearchDropdown = ({ searchHistory, setSearchHistory, hashtags, deleteChip 
 
 const SearchBar = () => {
   const router = useRouter();
-  const [searchHistory, setSearchHistory] = useState<ISearch[]>([]);
+  const [searchHistory, setSearchHistory] = useSearchHistory();
   const [focus, setFocus] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>();
   const divRef = useRef<HTMLDivElement>();
   const [chipList, setChipList] = useState<string[]>([]);
-
-  useEffect(() => {
-    const storedSearchHistory = JSON.parse(localStorage.getItem('cola-search-history') ?? '[]');
-    if (storedSearchHistory && Array.isArray(storedSearchHistory)) {
-      setSearchHistory(storedSearchHistory);
-    } else {
-      localStorage.setItem('cola-search-history', JSON.stringify([]));
-    }
-  }, []);
+  const [mSearchModal, setMSearchModal] = useState(false);
+  const onClickMSearch = () => setMSearchModal((prev) => !prev);
 
   const inputStyle = {
     zIndex: 10,
@@ -154,11 +147,9 @@ const SearchBar = () => {
   useEffect(() => {
     if (router.query?.keyword) {
       setFocus(false);
+      setMSearchModal(false);
     }
   }, [router.query.keyword]);
-
-  const [mSearchModal, setMSearchModal] = useState(false);
-  const onClickMSearch = () => setMSearchModal((prev) => !prev);
 
   return (
     <>
