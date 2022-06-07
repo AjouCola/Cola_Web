@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
+import { throttle } from 'lodash';
 
 import Up from 'public/up.svg';
 
@@ -40,6 +41,7 @@ const TopButton = () => {
 
   useEffect(() => {
     const showTopBtn = () => {
+      console.log('throttled show Top Button function');
       if (window.pageYOffset > 100) {
         setScrollTopBtnVisible(true);
       } else {
@@ -47,7 +49,10 @@ const TopButton = () => {
       }
     };
 
-    window.addEventListener('scroll', showTopBtn);
+    window.addEventListener(
+      'scroll',
+      throttle(() => showTopBtn(), 200),
+    );
     return () => {
       window.removeEventListener('scroll', showTopBtn);
     };
