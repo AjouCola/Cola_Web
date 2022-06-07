@@ -7,6 +7,7 @@ import { useRecoilValueLoadable } from 'recoil';
 import Card from '@components/atoms/card';
 import Modal from '@components/molecules/modal';
 import PostContent from '@components/molecules/postContent';
+import Seo from '@components/Seo';
 import { useUserSelector } from '@store/selector/user';
 import { Container, Title, CardContainer, ContentContainer, BackgroundImage, ModalContainer } from '@styles/mypage';
 
@@ -18,6 +19,7 @@ const Mypage: NextPage = () => {
   return (
     <>
       <Container>
+        <Seo title="마이페이지" />
         <Title>마이페이지</Title>
         <CardContainer>
           <BackgroundImage>

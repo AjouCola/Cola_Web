@@ -8,7 +8,7 @@ import { Container, Header, AuthContentWrapper } from '@styles/signIn';
 const SignIn = () => {
   return (
     <Container>
-      <Seo title="SignIn" />
+      <Seo title="로그인" />
       <Header>로그인</Header>
       <AuthContentWrapper>
         <Link href={GOOGLE_OAUTH_URL}>

@@ -10,6 +10,7 @@ import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from 'recoil';
 import TodoArea from '@components/molecules/todoArea';
 import { DeleteBlock, TodoInfoWrapper, TodoWrapper } from '@components/molecules/todoContent/styles';
 import TodoMenuModal from '@components/molecules/todoMenuModal';
+import Seo from '@components/Seo';
 import Calender from '@molecules/calender';
 import TodoContent from '@molecules/todoContent';
 import EditTodoContent from '@molecules/todoContent/edit';
@@ -46,6 +47,7 @@ const Todolist: NextPage = () => {
 
   return (
     <Container>
+      <Seo title="TODO LIST" />
       <TodoContainer onClick={() => setBottomSheetOnOff(false)}>
         {mode === 'default' && <TodoContent today={date} />}
         {mode === 'edit' && <EditTodoContent />}
