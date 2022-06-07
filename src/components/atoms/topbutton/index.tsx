@@ -1,3 +1,5 @@
+import { useCallback, useEffect, useState } from 'react';
+
 import styled from '@emotion/styled';
 
 import Up from 'public/up.svg';
@@ -33,23 +35,43 @@ const Button = styled.button`
   }
 `;
 
-const handleScroll = () => {
-  if (typeof window === undefined) return;
-  if (window.scrollY < 100) return;
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth',
-  });
-};
-
 const TopButton = () => {
-  return (
-    <PositionContainer>
-      <Button onClick={handleScroll}>
-        <Up type="arrow" height="40px" />
-      </Button>
-    </PositionContainer>
-  );
+  const [scrollTopBtnVisible, setScrollTopBtnVisible] = useState(false);
+
+  useEffect(() => {
+    const showTopBtn = () => {
+      if (window.pageYOffset > 100) {
+        setScrollTopBtnVisible(true);
+      } else {
+        setScrollTopBtnVisible(false);
+      }
+    };
+
+    window.addEventListener('scroll', showTopBtn);
+    return () => {
+      window.removeEventListener('scroll', showTopBtn);
+    };
+  }, []);
+
+  const handleScroll = useCallback(() => {
+    if (typeof window === undefined) return;
+    if (window.scrollY < 100) return;
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, []);
+
+  if (scrollTopBtnVisible) {
+    return (
+      <PositionContainer>
+        <Button onClick={handleScroll}>
+          <Up type="arrow" height="40px" />
+        </Button>
+      </PositionContainer>
+    );
+  }
+  return null;
 };
 
 export default TopButton;
