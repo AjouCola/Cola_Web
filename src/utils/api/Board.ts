@@ -59,4 +59,28 @@ export const Board = {
       isLast: data.last,
     };
   },
+  async getSearch({
+    pageParam = 0,
+    size,
+    sort,
+    keyword,
+  }: {
+    pageParam: number;
+    size?: number;
+    sort?: 'recent' | 'favorCount';
+    keyword: string;
+  }) {
+    const data = (await Api.get(`/api/v1/posts/search/${keyword}`, {
+      params: {
+        page: pageParam,
+        size,
+        sort: sort === 'favorCount' ? 'favorCount,Desc' : '',
+      },
+    })) as unknown as any;
+    return {
+      result: data.content,
+      nextPage: data.pageable.pageNumber + 1,
+      isLast: data.last,
+    };
+  },
 };

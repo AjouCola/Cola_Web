@@ -51,7 +51,7 @@ interface IQueryPage {
   isLast: boolean;
 }
 
-const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) => {
+const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' | 'search' }) => {
   const { ref, inView, entry } = useInView();
   const router = useRouter();
   const [sortBy, setSortBy] = useState<'recent' | 'favorCount'>('recent');
@@ -59,7 +59,10 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
 
   const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery<IQueryPage>(
     ['boardlist', boardCategory, sortBy],
-    ({ pageParam = 0 }) => BoardApi.getList({ pageParam, boardCategory, sort: sortBy }),
+    ({ pageParam = 0 }) =>
+      boardCategory === 'search'
+        ? BoardApi.getSearch({ pageParam, sort: sortBy, keyword: router.query?.keyword!.toString() })
+        : BoardApi.getList({ pageParam, boardCategory, sort: sortBy }),
     {
       getNextPageParam: (lastPage, pages) => {
         if (!lastPage.isLast) return lastPage.nextPage;
@@ -93,13 +96,21 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' }) 
     <Container>
       <TitleWrapper>
         <BoardListTitle>
-          {boardCategory === 'common' ? '자유' : boardCategory === 'info' ? '정보' : '질문'}게시판
+          {boardCategory === 'search'
+            ? router.query.keyword + ' 검색 결과'
+            : boardCategory === 'common'
+            ? '자유게시판'
+            : boardCategory === 'info'
+            ? '정보게시판'
+            : '질문게시판'}
         </BoardListTitle>
         <BoardListUtilWrapper>
           <FlexEnd>
-            <Link href={`/board/${boardCategory}/write`}>
-              <WritePost>글쓰기</WritePost>
-            </Link>
+            {boardCategory !== 'search' && (
+              <Link href={`/board/${boardCategory}/write`}>
+                <WritePost>글쓰기</WritePost>
+              </Link>
+            )}
           </FlexEnd>
           <FlexEnd>
             <FlexEnd>

@@ -1,5 +1,7 @@
 import { DetailedHTMLProps, Dispatch, InputHTMLAttributes, SetStateAction, useEffect, useRef, useState } from 'react';
 
+import { useRouter } from 'next/router';
+
 import {
   Container,
   InputWrapper,
@@ -33,6 +35,7 @@ interface ISearchDropdown {
 }
 
 const SearchDropdown = ({ searchHistory, setSearchHistory, hashtags, deleteChip }: ISearchDropdown) => {
+  const router = useRouter();
   const onClickDelete = (idx: number) => {
     setSearchHistory((prev) => {
       const newHistory = [...prev];
@@ -40,6 +43,14 @@ const SearchDropdown = ({ searchHistory, setSearchHistory, hashtags, deleteChip 
 
       localStorage.setItem('cola-search-history', JSON.stringify(newHistory));
       return newHistory;
+    });
+  };
+  const onClickItem = (keyword: string) => {
+    router.push({
+      pathname: '/board/search',
+      query: {
+        keyword,
+      },
     });
   };
   return (
@@ -56,7 +67,7 @@ const SearchDropdown = ({ searchHistory, setSearchHistory, hashtags, deleteChip 
         {searchHistory.map((history, index) => (
           <HistoryItem key={history.id}>
             <div className="icon"></div>
-            <span>{history.keyword}</span>
+            <span onClick={() => onClickItem(history.keyword)}>{history.keyword}</span>
             <button onClick={() => onClickDelete(index)}>X</button>
           </HistoryItem>
         ))}
@@ -73,6 +84,7 @@ const SearchDropdown = ({ searchHistory, setSearchHistory, hashtags, deleteChip 
 };
 
 const SearchBar = () => {
+  const router = useRouter();
   const [searchHistory, setSearchHistory] = useState<ISearch[]>([]);
   const [focus, setFocus] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>();
@@ -106,7 +118,7 @@ const SearchBar = () => {
 
   const deleteChip = (index: number) => setChipList(chipList.filter((v, i) => i !== index));
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!inputRef.current) return;
 
     const currentHistory = JSON.parse(localStorage.getItem('cola-search-history') ?? '[]');
@@ -121,7 +133,12 @@ const SearchBar = () => {
       setSearchHistory((prev) => [searchKeywordItem, ...prev]);
       inputRef.current.value = '';
       setFocus(false);
-      // TODO: search API
+      router.push({
+        pathname: '/board/search',
+        query: {
+          keyword: searchKeywordItem.keyword,
+        },
+      });
     }
   };
 
@@ -133,6 +150,12 @@ const SearchBar = () => {
     document.addEventListener('mousedown', handleClick);
     return () => document.removeEventListener('mousedown', handleClick);
   }, [divRef]);
+
+  useEffect(() => {
+    if (router.query?.keyword) {
+      setFocus(false);
+    }
+  }, [router.query.keyword]);
 
   const [mSearchModal, setMSearchModal] = useState(false);
   const onClickMSearch = () => setMSearchModal((prev) => !prev);
