@@ -25,19 +25,6 @@ interface SelectBoxProps extends Props {
   register: UseFormRegister<SignUpFormInterface>;
 }
 
-// const MajorSelectBox = ({ major, handleModalOnOff, register }: SelectBoxProps) => {
-//   return (
-//     <div style={{ position: 'relative' }}>
-//       <Select onClick={handleModalOnOff} {...register('department', SignUpData.department)}>
-//         <option value={MAJOR_TYPE[major]} hidden>
-//           {MAJOR_TYPE[major]}
-//         </option>
-//       </Select>
-//       <Triangle />
-//     </div>
-//   );
-// };
-
 const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
   const router = useRouter();
   const isEditMode = router.pathname === '/mypage/edit';
@@ -67,7 +54,7 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
       setValue('name', userInfo.name);
       setValue('department', MAJOR_TYPE[major]);
       setValue('gitEmailId', userInfo.gitEmail ?? '');
-      console.log('edit', major, MAJOR_TYPE[major]);
+      // console.log('edit', major, MAJOR_TYPE[major]);
     }
   }, []);
 
@@ -85,9 +72,9 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
       try {
         setEmailCheckLoading(true);
         setCheckEmail(true);
-        const data = await Auth.checkEmail(emailValue);
+        await Auth.checkEmail(emailValue);
         setEmailCheckLoading(false);
-        console.log('checkEmail data:', data);
+        // console.log('checkEmail data:', data);
       } catch (err) {
         console.log(err);
       }
@@ -95,7 +82,7 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
       // 이메일 인증 코드 확인
       try {
         const resData = await Auth.checkEmailCode(emailCodeValue);
-        console.log('checkEmailCode data : ', resData);
+
         if (resData) {
           setIsEmailValid(true);
         }
@@ -107,7 +94,7 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
 
   const onSubmit = (data: SignUpFormInterface) => {
     if (!isEmailValid && !isEditMode) return;
-    console.log(data);
+
     onSubmitForm(data.name, major, data.gitEmailId, data.email);
   };
 
