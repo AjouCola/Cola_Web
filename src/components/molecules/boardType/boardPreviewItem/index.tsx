@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import {
@@ -34,7 +35,9 @@ const BoardPreviewItem = ({
   const router = useRouter();
   return (
     <Container onClick={() => router.push(`/board/${id}`)}>
-      <Thumbnail>{thumbnailPath && <img src={thumbnailPath} alt={thumbnailPath + ' 이미지'} />}</Thumbnail>
+      <Thumbnail>
+        {thumbnailPath && <Image src={thumbnailPath} alt={thumbnailPath + ' 이미지'} placeholder="blur" />}
+      </Thumbnail>
       <TextWrapper>
         <TopContent>
           <Title>{title}</Title>
@@ -46,7 +49,6 @@ const BoardPreviewItem = ({
             <a style={{ display: 'inline-block' }}>
               <ProfileThumb>
                 <UserIcon />
-                {/* <img src="" alt="" /> */}
               </ProfileThumb>
             </a>
             <span>{username}</span>

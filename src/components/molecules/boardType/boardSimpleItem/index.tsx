@@ -20,7 +20,6 @@ const BoardSimpleItem = ({ id, title, username, createdAt, favorCount, isLike }:
         <a>
           <ProfileThumb>
             <UserIcon />
-            <img src="" alt="" />
           </ProfileThumb>
         </a>
         <UserDescription>

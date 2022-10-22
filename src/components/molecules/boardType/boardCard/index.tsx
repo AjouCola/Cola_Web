@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import {
@@ -15,7 +16,6 @@ import {
   Likes,
   Comments,
   Views,
-  Divider,
 } from './styles';
 
 import CommentIcon from '@assets/icon/comment_small.svg';
@@ -31,17 +31,26 @@ const BoardCard = ({ id, username, createdAt, title, preview, thumbnailPath, isL
   const [isLiked, setIsLiked] = useState(isLike);
   const [likes, setLikes] = useState<number>(favorCount);
 
-  const saveFavor = async () => {
-    await FavorApi.saveFavor({ postId: id, status: !isLike }).then(() => {
-      isLiked ? setLikes((prev) => prev - 1) : setLikes((prev) => prev + 1);
-      setIsLiked(!isLiked);
+  const toggleLike = (newLike: boolean) => {
+    setIsLiked(!newLike);
+    setLikes((prevLikes) => {
+      const newLikes = prevLikes + (newLike ? 1 : -1);
+      return newLikes;
     });
   };
+
+  const saveFavor = async () => {
+    await FavorApi.saveFavor({ postId: id, status: !isLike });
+    toggleLike(!isLiked);
+  };
+
   return (
     <Container>
       <BoardContent onClick={() => router.push(`/board/${id}`)}>
         <a href="#" style={{ height: '70%', display: 'block', color: 'inherit', textDecoration: 'none' }}>
-          <BoardImage>{thumbnailPath && <img src={thumbnailPath} alt={title + ' 이미지'} />}</BoardImage>
+          <BoardImage>
+            {thumbnailPath && <Image src={thumbnailPath} alt={title + ' 이미지'} placeholder="blur" />}
+          </BoardImage>
         </a>
         <TextWrapper>
           <a href="#">
