@@ -1,27 +1,18 @@
-import { Dispatch, SetStateAction } from 'react';
-
 import DoneImg from '../doneImg';
 
 import { Container, DayText } from './styles';
 
 interface Props {
-  date: number;
   day: Date;
   status: 'prev' | 'this' | 'today';
   elementData: { color: string; name: string; progress: number }[] | undefined;
-  setDate: Dispatch<SetStateAction<Date>>;
+  setDay: () => void;
 }
-const CalenderDayElement = ({ status, elementData, day, setDate }: Props) => {
+const CalenderDayElement = ({ status, elementData, day, setDay }: Props) => {
   return (
-    <Container
-      status={status}
-      onClick={() => {
-        console.log(status, elementData, day, day.getDay(), day.getDate());
-        setDate(day);
-      }}
-    >
+    <Container status={status} onClick={setDay}>
       <DayText status={status}>{day.getDate()}</DayText>
-      <DoneImg data={elementData === undefined ? [] : elementData} />
+      <DoneImg data={elementData ?? []} />
     </Container>
   );
 };

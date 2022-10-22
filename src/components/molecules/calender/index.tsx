@@ -22,7 +22,6 @@ interface Props {
   setDate: Dispatch<SetStateAction<Date>>;
 }
 
-// const Day = ['월', '화', '수', '목', '금', '토', '일'];
 const Day = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
 const getDate = (date: Date) => {
@@ -42,6 +41,35 @@ const getDate = (date: Date) => {
   return { thisDates, prevDates };
 };
 
+const getMonthString = (month: number) => {
+  switch (month) {
+    case 1:
+      return 'JANUARY';
+    case 2:
+      return 'FABURARY';
+    case 3:
+      return 'MARCH';
+    case 4:
+      return 'APRIL';
+    case 5:
+      return 'MAY';
+    case 6:
+      return 'JUNE';
+    case 7:
+      return 'JULY';
+    case 8:
+      return 'AUGUST';
+    case 9:
+      return 'SEPTEMBER';
+    case 10:
+      return 'OCTOBER';
+    case 11:
+      return 'NOVEMBER';
+    case 12:
+      return 'DECEMBER';
+  }
+};
+
 const Calender = ({ date, handleChangeMonth, setDate }: Props) => {
   const today = new Date();
   const [data, setData] = useState<ChangedDateProps>({});
@@ -49,46 +77,21 @@ const Calender = ({ date, handleChangeMonth, setDate }: Props) => {
   useEffect(() => {
     async function getData() {
       const data = (await Api.get(`/api/v1/todos/progress/${dateFormatYYYYmmDD(date).slice(0, 7)}-01`)) as DataProps[];
-      setData(
-        data.reduce((r, { date, todoProgress }) => {
-          r[date] = todoProgress;
-          return r;
-        }, {} as ChangedDateProps),
-      );
+
+      const progressData = new Map();
+      data.forEach(({ date, todoProgress }) => {
+        progressData.set(date, todoProgress);
+      });
+      setData(Object.fromEntries(progressData));
     }
     getData();
   }, []);
 
   useEffect(() => console.log(data), [data]);
 
-  const currentMonth = useMemo(() => {
+  const currentMonthString = useMemo(() => {
     const month = date.getMonth() + 1;
-    switch (month) {
-      case 1:
-        return 'JANUARY';
-      case 2:
-        return 'FABURARY';
-      case 3:
-        return 'MARCH';
-      case 4:
-        return 'APRIL';
-      case 5:
-        return 'MAY';
-      case 6:
-        return 'JUNE';
-      case 7:
-        return 'JULY';
-      case 8:
-        return 'AUGUST';
-      case 9:
-        return 'SEPTEMBER';
-      case 10:
-        return 'OCTOBER';
-      case 11:
-        return 'NOVEMBER';
-      case 12:
-        return 'DECEMBER';
-    }
+    return getMonthString(month);
   }, [date]);
 
   const handleCheckToday = (element: Date) =>
@@ -106,6 +109,11 @@ const Calender = ({ date, handleChangeMonth, setDate }: Props) => {
     const upperCaseDate = todayArr[0].toUpperCase();
     return upperCaseDate;
   };
+
+  const setDay = (day: Date) => {
+    setDate(day);
+  };
+
   return (
     <>
       <CalenderNav>
@@ -114,7 +122,7 @@ const Calender = ({ date, handleChangeMonth, setDate }: Props) => {
         </button>
 
         <DateWrapper>
-          <MonthText>{currentMonth}</MonthText>
+          <MonthText>{currentMonthString}</MonthText>
           <YearText>{date.getFullYear()}</YearText>
         </DateWrapper>
 
@@ -134,9 +142,8 @@ const Calender = ({ date, handleChangeMonth, setDate }: Props) => {
             status="prev"
             key={index}
             day={element}
-            date={(index + 1) % 7}
             elementData={data[dateFormatYYYYmmDD(element)]}
-            setDate={setDate}
+            setDay={() => setDay(element)}
           />
         ))}
         {thisDates.map((element, index) => (
@@ -144,9 +151,8 @@ const Calender = ({ date, handleChangeMonth, setDate }: Props) => {
             status={handleCheckToday(element) ? 'today' : 'this'}
             key={index}
             day={element}
-            date={(index + 1) % 7}
             elementData={data[dateFormatYYYYmmDD(element)]}
-            setDate={setDate}
+            setDay={() => setDay(element)}
           />
         ))}
       </DayWrapper>
