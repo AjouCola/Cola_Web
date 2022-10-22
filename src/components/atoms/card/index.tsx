@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { ChangeEvent, SyntheticEvent, useState } from 'react';
+
+import Image from 'next/image';
 
 import {
   Container,
@@ -14,6 +16,7 @@ import Modal from '@components/molecules/modal';
 import Api from '@utils/api/core';
 import Logo from 'public/logo.svg';
 import Setting from 'public/setting.svg';
+
 interface Props {
   name: string;
   profilePath: string | null;
@@ -23,12 +26,16 @@ interface Props {
   handleModalOnOff: () => void;
 }
 
+type ImageType = {
+  preview: string;
+  raw: File | null;
+};
 const Card = ({ name, profilePath, department, ajouEmail, githubEmail, handleModalOnOff }: Props) => {
   const [modalOnOff, setModalOnOff] = useState(false);
-  const [image, setImage] = useState({ preview: '', raw: '' });
+  const [image, setImage] = useState<ImageType>({ preview: '', raw: null });
 
-  const handleChange = (e: any) => {
-    if (e.target.files.length) {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length) {
       setImage({
         preview: URL.createObjectURL(e.target.files[0]),
         raw: e.target.files[0],
@@ -36,7 +43,9 @@ const Card = ({ name, profilePath, department, ajouEmail, githubEmail, handleMod
     }
   };
 
-  const handleUpload = async (e: any) => {
+  const handleUpload = async (e: SyntheticEvent<HTMLButtonElement>) => {
+    if (!image.raw) return;
+
     e.preventDefault();
     const formData = new FormData();
     formData.append('profileImage', image.raw);
@@ -54,7 +63,7 @@ const Card = ({ name, profilePath, department, ajouEmail, githubEmail, handleMod
       <Container>
         <CardWrapper>
           <UserProfileWarpper onClick={() => setModalOnOff(true)}>
-            {profilePath === null ? <UserProfile /> : <img src={profilePath} />}
+            {profilePath === null ? <UserProfile /> : <Image src={profilePath} alt="프로필 사진" />}
           </UserProfileWarpper>
           <TextWrapper>
             <h2>{name}</h2>
@@ -76,7 +85,11 @@ const Card = ({ name, profilePath, department, ajouEmail, githubEmail, handleMod
           <ModalContainer>
             <h2>이미지 변경하기</h2>
             <label htmlFor="upload-button">
-              {image.preview ? <img src={image.preview} alt="img" /> : <h3 className="text-center">눌러주세요</h3>}
+              {image.preview ? (
+                <Image src={image.preview} alt="새 프로필 미리보기" />
+              ) : (
+                <h3 className="text-center">눌러주세요</h3>
+              )}
             </label>
             <input type="file" id="upload-button" style={{ display: 'none' }} onChange={handleChange} />
             <br />

@@ -1,5 +1,10 @@
 import styled from '@emotion/styled';
 import type { NextPage } from 'next';
+import Image from 'next/image';
+
+import circle from '../../public/circle.svg';
+import smallCircle from '../../public/circle_s.svg';
+import logo from '../../public/logo.svg';
 
 import TodoSection from '@components/organisms/homeSection/todoSection';
 import Seo from '@components/Seo';
@@ -158,16 +163,16 @@ const Home: NextPage = () => {
       <Seo title="홈" />
       <Banner>
         <div>
-          <img src="/circle_s.svg" />
+          <Image src={smallCircle} alt="작은 원1" placeholder="blur" />
         </div>
         <div>
-          <img src="/circle_s.svg" />
+          <Image src={smallCircle} alt="작은 원2" placeholder="blur" />
         </div>
         <div>
-          <img src="/circle.svg" />
+          <Image src={circle} alt="원" placeholder="blur" />
         </div>
         <div>
-          <img src="/logo.svg" />
+          <Image src={logo} alt="로고" placeholder="blur" />
         </div>
       </Banner>
       <SectionWrapper>

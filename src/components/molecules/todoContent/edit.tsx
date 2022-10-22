@@ -1,7 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 
-// import { useRecoilValueLoadable } from 'recoil';
-
 import FolderProperty from '../folderProperty';
 
 import {
@@ -15,21 +13,19 @@ import {
 } from './styles';
 
 import FolderItem from '@atoms/folderItem';
-// import { IUserInfo, useUserSelector } from '@store/selector/user';
 import Api from '@utils/api/core';
 import TodoApi from '@utils/api/Todo';
 
 const FolderContent = ({ setIsEdit }: { setIsEdit: Dispatch<SetStateAction<any>> }) => {
-  // const { contents: user } = useRecoilValueLoadable(useUserSelector({}));
   const [isLoading, setIsLoading] = useState(true);
   const [editState, setEditState] = useState(false);
-  const [folders, setfolders] = useState<any>([]);
+  const [folders, setFolders] = useState<any>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     async function getfolders() {
       const data = await Api.get('/api/v1/folder');
-      setfolders(data);
+      setFolders(data);
       setIsLoading(false);
     }
     getfolders();
@@ -41,7 +37,7 @@ const FolderContent = ({ setIsEdit }: { setIsEdit: Dispatch<SetStateAction<any>>
     const name = inputRef.current?.value;
     if (name !== '' && name !== undefined) {
       const id = await TodoApi.createFolder(name, color);
-      setfolders((prev: { folderId: number; color: string; name: string }[]) => [
+      setFolders((prev: { folderId: number; color: string; name: string }[]) => [
         ...prev,
         {
           folderId: id,

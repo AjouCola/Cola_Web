@@ -183,7 +183,7 @@ const TodoContent = ({ today }: { today: Date }) => {
           <span>{today.toDateString().split(' ')[0].toUpperCase()}</span>
           <DeleteBtn deleteMode={deleteMode} onClick={onClickDelete}>
             <DeleteBlock deleteMode={deleteMode}>
-              <Image src="/trash.svg" alt="삭제 버튼 이미지" width={18} height={36} />
+              <Image src="/trash.svg" alt="삭제 버튼 이미지" width={18} height={36} placeholder="blur" />
             </DeleteBlock>
             삭제
           </DeleteBtn>

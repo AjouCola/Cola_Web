@@ -1,8 +1,12 @@
 import { useState } from 'react';
 
 import type { NextPage } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRecoilValueLoadable } from 'recoil';
+
+import mascot from '../../../public/character/mascot.png';
+import mascotArm from '../../../public/character/mascotArm.png';
 
 import Card from '@components/atoms/card';
 import Modal from '@components/molecules/modal';
@@ -23,9 +27,9 @@ const Mypage: NextPage = () => {
         <Title>마이페이지</Title>
         <CardContainer>
           <BackgroundImage>
-            <img src="/character/mascot.png" />
+            <Image src={mascot} alt="Cola 마스코트" placeholder="blur" />
             <div>
-              <img src="/character/mascotArm.png" />
+              <Image src={mascotArm} alt="Cola 마스코트 팔" placeholder="blur" />
             </div>
           </BackgroundImage>
           <Card
