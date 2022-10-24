@@ -1,4 +1,4 @@
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { ModalBg, ModalContent, MenuItem, TodoTitle } from './styles';
 
@@ -6,7 +6,7 @@ import { todoEditMode, todoModal, todoModalContent } from '@store/todo';
 
 const TodoMenuModal = () => {
   const setTodoMenuModal = useSetRecoilState(todoModal);
-  const [todo, setTodoModalContent] = useRecoilState(todoModalContent);
+  const todo = useRecoilValue(todoModalContent);
   const setTodoEditMode = useSetRecoilState(todoEditMode);
 
   const onClickEditTodo = () => {

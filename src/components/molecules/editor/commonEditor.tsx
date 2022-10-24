@@ -1,9 +1,5 @@
 import { useEffect, useRef } from 'react';
 
-import styled from '@emotion/styled';
-import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
-import { Editor } from '@toast-ui/react-editor';
-import Prism from 'prismjs';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import 'prismjs/themes/prism.css';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
@@ -16,7 +12,7 @@ interface IEditor {
   placeholder?: string;
 }
 
-function CommonEditor({ comment, setComment, initialValue, placeholder }: IEditor) {
+function CommonEditor({ comment, setComment, initialValue }: IEditor) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -36,10 +32,6 @@ function CommonEditor({ comment, setComment, initialValue, placeholder }: IEdito
       setComment(inputRef.current.value);
     }
   };
-  return (
-    <>
-      <input ref={inputRef} onChange={onChangeValue} />
-    </>
-  );
+  return <input ref={inputRef} onChange={onChangeValue} />;
 }
 export default CommonEditor;

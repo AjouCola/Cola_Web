@@ -1,7 +1,6 @@
 import { DetailedHTMLProps, InputHTMLAttributes, useRef, useState, useEffect } from 'react';
 
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
 
@@ -50,7 +49,6 @@ const WritePost = ({
       const { postId, title, content, tags } = postData;
       if (!postId) router.push('/'); // wrong access
 
-      console.log('post edit mode', postData);
       if (tags.length > 0) {
         setChipList(tags);
       }
@@ -72,7 +70,8 @@ const WritePost = ({
 
   const deleteChip = (index: number) => setChipList(chipList.filter((v, i) => i !== index));
 
-  const [submitData, setSubmitData] = useState({});
+  // eslint-disable-next-line no-unused-vars
+  const [_, setSubmitData] = useState({});
 
   const onSubmit = async () => {
     if (editorContent.trim().length === 0) {
@@ -91,10 +90,6 @@ const WritePost = ({
       tags: chipList,
       boardCategory,
     });
-  };
-
-  const onEditSubmit = async () => {
-    setModal(true);
   };
 
   const handleSubmit = () => {

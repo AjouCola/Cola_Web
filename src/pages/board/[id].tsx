@@ -4,12 +4,11 @@ import styled from '@emotion/styled';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useQuery, useQueryClient } from 'react-query';
-import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
+import { useRecoilValueLoadable } from 'recoil';
 
 import UserDefault from '@atoms/icon/userDefault';
 import Seo from '@components/Seo';
 import BoardContent from '@organisms/boardContent';
-import Comment from '@organisms/comment';
 import { useUserSelector } from '@store/selector/user';
 import { theme } from '@styles/theme';
 import { Board as BoardApi } from '@utils/api/Board';
@@ -115,11 +114,10 @@ const CommentForm = ({ postId, postType, onAddComment }: ICommentFormProps) => {
   const queryClient = useQueryClient();
 
   const onSubmit = async () => {
-    console.log(comment);
     if (id && comment.trim().length > 0) {
-      const newComment = (await CommentApi.create(+id, comment).catch((err) =>
-        console.log(err),
-      )) as unknown as IComment;
+      const newComment = (await CommentApi.create(+id, comment) //
+        .catch((err) => console.log(err))) as unknown as IComment;
+
       setComment('');
       onAddComment(newComment);
       queryClient.invalidateQueries(['post', postId]);
@@ -199,7 +197,6 @@ const BoardDetail = ({ id }: { id: number }) => {
           postType={postData.postType}
           onAddComment={(newComment) => setComments((prev) => [...prev, newComment])}
         />
-        {/* 추후 lazy loading 지원 예정  */}
         <CommentWrapper>
           {comments.map(({ userInfo: { userName, userId }, content, commentId }, idx) => (
             <CommentViewer
@@ -224,6 +221,6 @@ export async function getServerSideProps(context: any) {
   return {
     props: {
       id: +id,
-    }, // will be passed to the page component as props
+    },
   };
 }

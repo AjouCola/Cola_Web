@@ -10,7 +10,7 @@ interface Props {
 
 const Background = ({ marginBackground }: Props) => {
   const canvasBackgroundRef = useRef<HTMLCanvasElement>(null);
-  const [background, setBackground] = useState<any>(new Image());
+  const [background] = useState<any>(new Image());
 
   useEffect(() => {
     if (typeof window === undefined) return;

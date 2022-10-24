@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 
-import styled from '@emotion/styled';
-
 import { Container, DropdownWrapper } from './styles';
 
 import DropdownItem from '@components/molecules/profileDropdownItem';

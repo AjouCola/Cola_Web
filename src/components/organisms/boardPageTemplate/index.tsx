@@ -1,4 +1,4 @@
-import { SyntheticEvent, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -52,7 +52,7 @@ interface IQueryPage {
 }
 
 const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' | 'search' }) => {
-  const { ref, inView, entry } = useInView();
+  const { ref, inView } = useInView();
   const router = useRouter();
   const [sortBy, setSortBy] = useState<'recent' | 'favorCount'>('recent');
   const [boardType, setBoardType] = useRecoilState(boardTypeState);
@@ -64,7 +64,7 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' | '
         ? BoardApi.getSearch({ pageParam, sort: sortBy, keyword: router.query?.keyword!.toString() })
         : BoardApi.getList({ pageParam, boardCategory, sort: sortBy }),
     {
-      getNextPageParam: (lastPage, pages) => {
+      getNextPageParam: (lastPage) => {
         if (!lastPage.isLast) return lastPage.nextPage;
         return undefined;
       },
@@ -153,7 +153,7 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' | '
               </div>
             ) : null}
             {boardType === BoardLayout.TILE &&
-              posts.map((post, i) => (
+              posts.map((post) => (
                 <BoardCard
                   key={post.postId}
                   id={post.postId}
@@ -167,7 +167,7 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' | '
                 />
               ))}
             {boardType === BoardLayout.PREVIEW_LIST &&
-              posts.map((post, i) => (
+              posts.map((post) => (
                 <BoardPreviewItem
                   key={post.postId}
                   title={post.title}
@@ -181,7 +181,7 @@ const Board = ({ boardCategory }: { boardCategory: 'common' | 'info' | 'qna' | '
                 />
               ))}
             {boardType === BoardLayout.SIMPLE_LIST &&
-              posts.map((post, i) => (
+              posts.map((post) => (
                 <BoardSimpleItem
                   key={post.postId}
                   id={post.postId}

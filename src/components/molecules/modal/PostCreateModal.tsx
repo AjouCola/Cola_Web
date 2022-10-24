@@ -1,4 +1,4 @@
-import { ChangeEvent, SyntheticEvent, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 import styled from '@emotion/styled';
 

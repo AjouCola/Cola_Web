@@ -2,39 +2,23 @@
 import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
-import {
-  useRecoilValue,
-  useRecoilState,
-  useRecoilValueLoadable,
-  useRecoilStateLoadable,
-  useSetRecoilState,
-} from 'recoil';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';
 
-import {
-  TodoContainer,
-  TodoInfoWrapper,
-  Title,
-  TodoUtils,
-  DeleteBtn,
-  DeleteBlock,
-  TodoWrapper,
-  TodoDate,
-} from './styles';
+import { TodoContainer, TodoInfoWrapper, Title, TodoUtils, DeleteBtn, DeleteBlock, TodoWrapper } from './styles';
 
-import { DragDropContext, DropResult, Droppable, resetServerContext } from 'react-beautiful-dnd'; // eslint-disable-line
 import TodoMenuModal from '@components/molecules/todoMenuModal';
 import TodoArea from '@molecules/todoArea';
 import { todoModal } from '@store/todo';
-import TodoApi, { IFolder, IFolders, ITodo } from '@utils/api/Todo';
+import TodoApi, { IFolder } from '@utils/api/Todo';
 import { dateFormatYYYYmmDD } from '@utils/libs/formatDate';
 import { ITodoFolder, todoListState } from 'src/store';
 
 const useDraggableTodo = (date: Date) => {
   const setTodoList = useSetRecoilState(todoListState);
 
-  const onDragEnd = (info: DropResult) => {
-    const { destination, draggableId, source } = info;
-    console.log(info);
+  const onDragEnd = (info: any) => {
+    const { destination, source } = info;
 
     if (!destination) return;
     if (destination?.droppableId === source.droppableId) {
@@ -58,17 +42,14 @@ const useDraggableTodo = (date: Date) => {
         return currentAllFolders;
       });
     }
-    // console.log(destFolder, srcFolder);
 
     if (destination.droppableId !== source.droppableId) {
       // cross board movement
       setTodoList((prev) => {
         const newTodoList = JSON.parse(JSON.stringify(prev));
-        // droppableId === folderId
         const srcFolderIndex = prev.findIndex((f) => f.folder_id === +source.droppableId);
         const destFolderIndex = prev.findIndex((f) => f.folder_id === +destination.droppableId);
 
-        // source.index에서 1개 잘라서 destination.index에 1개 넣기
         const newSrcTodos = Array.from(newTodoList[srcFolderIndex].todos);
         const newDestTodos = Array.from(newTodoList[destFolderIndex].todos);
         const item = newSrcTodos.splice(source.index, 1)[0];
@@ -86,7 +67,7 @@ const useDraggableTodo = (date: Date) => {
   return onDragEnd;
 };
 const useDeleteTodo = (date: Date): [boolean, () => void, (todoArea: number, todoId: number) => void] => {
-  const [todoList, setTodoList] = useRecoilState(todoListState);
+  const setTodoList = useSetRecoilState(todoListState);
 
   const [deleteMode, setDeleteMode] = useState(false);
   const [toDeleteItems, setToDeleteItems] = useState<{
@@ -151,7 +132,7 @@ const TodoContent = ({ today }: { today: Date }) => {
 
   useEffect(() => {
     async function getTodoList() {
-      const { date, folders } = await TodoApi.getTodoList(dateFormatYYYYmmDD(today));
+      const { folders } = await TodoApi.getTodoList(dateFormatYYYYmmDD(today));
 
       const todoList: ITodoFolder[] =
         folders?.map(
@@ -167,8 +148,6 @@ const TodoContent = ({ today }: { today: Date }) => {
         ) ?? ([] as ITodoFolder[]);
       setTodoList(todoList);
       setIsLoading(false);
-      console.log('Todo List', todoList);
-      console.log('fetch todo list done');
     }
     if (today) {
       getTodoList();
@@ -195,7 +174,7 @@ const TodoContent = ({ today }: { today: Date }) => {
           {!isLoading &&
             todoList.map((folder: ITodoFolder, idx: number) => (
               <Droppable key={folder?.folder_id ?? Date.now()} droppableId={folder.folder_id + ''}>
-                {(provided, snapshot) => (
+                {(provided) => (
                   <div ref={provided.innerRef} {...provided.droppableProps}>
                     <TodoArea
                       date={dateFormatYYYYmmDD(today)}

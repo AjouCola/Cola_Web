@@ -3,7 +3,7 @@ import { DetailedHTMLProps, InputHTMLAttributes, useRef, useState } from 'react'
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 
-import { HashtagWrapper, HistoryItem, HistoryWrapper, HistoryControlWrapper } from '../searchBar/styles';
+import { HistoryWrapper } from '../searchBar/styles';
 
 import SearchIcon from '@assets/icon/search.svg';
 import Input from '@components/atoms/input';

@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useRef, useState } from 'react';
+import { RefObject, useEffect, useState } from 'react';
 
 import { GetServerSideProps } from 'next';
 import { resetServerContext } from 'react-beautiful-dnd';

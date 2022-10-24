@@ -1,5 +1,4 @@
-import { AxiosResponse } from 'axios';
-import { selector, selectorFamily, atom } from 'recoil';
+import { selectorFamily, atom } from 'recoil';
 
 import Auth from '@utils/api/Auth';
 

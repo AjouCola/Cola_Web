@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 
 import { Type } from '@components/atoms/todoCheckBox';
 import Calender from '@components/molecules/calender';
@@ -10,7 +10,7 @@ import { progressDummy } from '@constants/homeDummy';
 import { useCalendar } from '@pages/todolist';
 import { ITodoFolder } from '@store/index';
 import { theme } from '@styles/theme';
-import TodoApi, { IFolder, IFolders, ITodo } from '@utils/api/Todo';
+import TodoApi, { IFolder, IFolders } from '@utils/api/Todo';
 import { dateFormatYYYYmmDD } from '@utils/libs/formatDate';
 
 const CalendarWrapper = styled.div`
@@ -210,11 +210,14 @@ const TodoFolderInfo = styled.div<{ folderColor: string }>`
 const DAY = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
 
 const useTodayTodo = (today: string) => {
-  const { isLoading, data } = useQuery(['todoList', today], () => TodoApi.getTodoList(today) as unknown as IFolders, {
-    staleTime: 0,
-    cacheTime: 0,
-  });
-  // const [isLoading, setIsLoading] = useState(true);
+  const { isLoading, data } = useQuery(
+    ['todoList', today], //
+    () => TodoApi.getTodoList(today) as unknown as IFolders, //
+    {
+      staleTime: 0,
+      cacheTime: 0,
+    },
+  );
   const [todoList, setTodoList] = useState<ITodoFolder[]>([]);
 
   useEffect(() => {
@@ -277,7 +280,7 @@ const useTodayTodo = (today: string) => {
 };
 
 const TodoSection = () => {
-  const [today, date, setDate, handleChangeMonth] = useCalendar();
+  const { date, setDate, handleChangeMonth } = useCalendar();
   const { isLoading, todoList, handleTodoCheck } = useTodayTodo(dateFormatYYYYmmDD(date));
 
   const flattenTodoList = todoList.map((folder) => folder?.todos.map((todo) => ({ ...todo, ...folder }))).flat();

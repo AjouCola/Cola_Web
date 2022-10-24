@@ -1,4 +1,4 @@
-import { Dispatch, ReactElement, SetStateAction, useRef } from 'react';
+import { Dispatch, ReactElement, SetStateAction } from 'react';
 
 import Link from 'next/link';
 import { useRouter } from 'next/router';

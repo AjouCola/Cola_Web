@@ -1,9 +1,8 @@
 /* eslint-disable camelcase */
-import { atom, selector, selectorFamily } from 'recoil';
+import { atom, selector } from 'recoil';
 
-import TodoApi, { ITodo } from '@utils/api/Todo';
+import { ITodo } from '@utils/api/Todo';
 
-// import { any } from '@utils/api/Todo';
 export interface ITodoState {
   [key: string]: ITodo[];
 }

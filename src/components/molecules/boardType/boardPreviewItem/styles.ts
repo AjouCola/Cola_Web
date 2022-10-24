@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import { Likes, Views, Comments } from '../boardCard/styles';
+import { Likes } from '../boardCard/styles';
 
 import { theme } from '@styles/theme';
 

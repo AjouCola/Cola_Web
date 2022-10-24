@@ -6,7 +6,6 @@ import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import { Editor } from '@toast-ui/react-editor';
 
 import '@toast-ui/editor/dist/toastui-editor.css';
-import { WRITE_EXAMPLE, MODE } from '@constants/index';
 import Api from '@utils/api/core';
 
 const CustomEditor = styled(Editor)`

@@ -101,13 +101,6 @@ const Header = () => {
       </DropDownItem>
     ));
 
-  const notAuthMenu = () =>
-    NAV_MENU.filter((v) => v.division === 'NOT_AUTH').map((menu) => (
-      <DropDownItem key={menu.id} onClick={() => router.push(menu.link)}>
-        {menu.content}
-      </DropDownItem>
-    ));
-
   return (
     <Container isTransparent={isTransparent}>
       <SideBar ref={headerRef}>

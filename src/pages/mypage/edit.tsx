@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
-import { useRecoilValue } from 'recoil';
 
 import Modal from '@components/molecules/modal';
 import MajorModal from '@components/molecules/modal/majorModal';
@@ -12,7 +11,6 @@ import { ContentContainer, Title, EditProfileContainer } from '@styles/mypage';
 import UserApi from '@utils/api/User';
 
 const Modify = () => {
-  // const userInfo = useRecoilValue(userState);
   const userInfo = {
     name: '김이름',
     department: '소프트웨어학과',
@@ -24,13 +22,13 @@ const Modify = () => {
 
   useEffect(() => {
     const department = userInfo.department?.toLowerCase() as keyof typeof MAJOR_TYPE;
-    setMajor(department); // sw
+    setMajor(department);
   }, []);
   const [modalOnOff, setModalOnOff] = useState(false);
 
   const handleModalOnOff = () => setModalOnOff(!modalOnOff);
 
-  const onSubmitForm = async (name: string, department: string, gitEmail: string, ajouEmail: string) => {
+  const onSubmitForm = async (name: string, department: string, gitEmail: string) => {
     await UserApi.edit({ name, department, gitEmail });
 
     router.push('/mypage');

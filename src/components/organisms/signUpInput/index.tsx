@@ -1,11 +1,8 @@
 import { MouseEvent, forwardRef } from 'react';
 
-import styled from '@emotion/styled';
-
-import { Title, InputStyle, Wrapper, ErrorMessage, Spinner } from './styles';
+import { Title, InputStyle, ErrorMessage, Spinner } from './styles';
 
 import AuthBtn from '@components/atoms/button/auth';
-import { FlexDiv } from '@styles/index';
 
 interface InputProps {
   content?: string;
@@ -18,8 +15,6 @@ interface InputProps {
   authBtnSuspense?: boolean;
   disabled?: boolean;
 }
-
-const InputWrapper = styled.div``;
 
 const SignUpInput = forwardRef<HTMLInputElement, InputProps>(
   (
