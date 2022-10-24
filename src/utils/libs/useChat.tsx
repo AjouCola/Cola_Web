@@ -1,19 +1,12 @@
-import { useState, useEffect, Dispatch, SetStateAction, useRef, MutableRefObject } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { Socket } from 'socket.io-client';
 
-import useInput, { UseInputProps } from './useInput';
+import useInput from './useInput';
 
 import { IUser, IChat } from '~/types/gather';
 
-type UseChatProps = [
-  ...UseInputProps,
-  (e: React.KeyboardEvent<HTMLInputElement>) => void,
-  IChat[],
-  Dispatch<SetStateAction<IChat[]>>,
-  MutableRefObject<HTMLSelectElement | undefined>,
-];
-export default function useChat(socket: Socket, user: IUser): UseChatProps {
+export default function useChat(socket: Socket, user: IUser) {
   const selectRef = useRef<HTMLSelectElement>();
   const [chatInput, setChatInput, onChangeChatInput] = useInput('');
   const [chatList, setChatList] = useState<IChat[]>([]);
@@ -42,5 +35,5 @@ export default function useChat(socket: Socket, user: IUser): UseChatProps {
     }
   };
 
-  return [chatInput, setChatInput, onChangeChatInput, onKeyPressEnter, chatList, setChatList, selectRef];
+  return { chatInput, setChatInput, onChangeChatInput, onKeyPressEnter, chatList, setChatList, selectRef };
 }

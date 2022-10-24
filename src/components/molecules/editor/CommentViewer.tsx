@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import { Viewer } from '@toast-ui/react-editor';
 import { useRouter } from 'next/router';
-import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
+import { useRecoilValueLoadable } from 'recoil';
 
 import CommonEditor from './commonEditor';
 import QnaEditor from './qnaEditor';
@@ -11,7 +11,7 @@ import QnaEditor from './qnaEditor';
 import CommentIcon from '@assets/icon/comment_primary.svg';
 import Heart from '@assets/icon/heart_primary.svg';
 import UserDefault from '@components/atoms/icon/userDefault';
-import { IUserInfo, useUserSelector } from '@store/selector/user';
+import { useUserSelector } from '@store/selector/user';
 import { FlexDiv } from '@styles/index';
 import { CommentApi } from '@utils/api/Comment';
 

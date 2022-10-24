@@ -8,7 +8,6 @@ import {
   HeaderBtn,
   InputModal,
   HashtagWrapper,
-  HistoryItem,
   HistoryWrapper,
   HistoryControlWrapper,
   MSearchIconWrapper,
@@ -37,7 +36,6 @@ interface ISearchDropdown {
 }
 
 const SearchDropdown = ({ searchHistory, setSearchHistory, hashtags, deleteChip }: ISearchDropdown) => {
-  const router = useRouter();
   const onClickDelete = (id: number) => {
     setSearchHistory((prev) => {
       const newHistory = [...prev];
@@ -49,14 +47,7 @@ const SearchDropdown = ({ searchHistory, setSearchHistory, hashtags, deleteChip 
       return newHistory;
     });
   };
-  const onClickItem = (keyword: string) => {
-    router.push({
-      pathname: '/board/search',
-      query: {
-        keyword,
-      },
-    });
-  };
+
   return (
     <InputModal>
       <Divider />

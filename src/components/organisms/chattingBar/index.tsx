@@ -11,10 +11,8 @@ interface Props {
 }
 
 const ChattingBar = ({ user, users }: Props) => {
-  const [chatInput, setChatInput, onChangeChatInput, onKeyPressEnter, chatList, setChatList, selectRef] = useChat(
-    socket,
-    user as IUser,
-  );
+  const { chatInput, onChangeChatInput, onKeyPressEnter, chatList, selectRef } = useChat(socket, user as IUser);
+
   return (
     <>
       <h3>유저 목록</h3>

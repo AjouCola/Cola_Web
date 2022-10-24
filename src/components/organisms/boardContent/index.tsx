@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 
-import { marked } from 'marked';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { useRecoilState, useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValueLoadable } from 'recoil';
 
 import {
   Container,
@@ -16,7 +15,6 @@ import {
   MenuBtn,
   MenuDropdown,
   Title,
-  TextArea,
   HashTagBarStyle,
   HashTagWrapper,
 } from './styles';
@@ -26,12 +24,11 @@ import Logo from '@assets/icon/logo.svg';
 import HashtagChip from '@atoms/hashtagChip';
 import UserDefault from '@components/atoms/icon/userDefault';
 import { editPostData } from '@store/post';
-import { IUserInfo, useUserSelector } from '@store/selector/user';
+import { useUserSelector } from '@store/selector/user';
 import { Board } from '@utils/api/Board';
 import FavorApi from '@utils/api/PostFavor';
 import Comment from 'public/comment.svg';
 import CommentBig from 'public/comment_Big.svg';
-// import Edit from 'public/edit.svg';
 import HeartBig from 'public/heart_Big.svg';
 import LeftArrow from 'public/left_arrow.svg';
 import RightArrow from 'public/right_arrow.svg';
@@ -121,7 +118,6 @@ const BoardContent = ({
     setMenu((prev) => !prev);
   };
   const onClickEdit = () => {
-    // alert('준비중입니다');
     if (confirm('게시글을 수정하시겠습니까?')) {
       setEditPostData({
         postId,
@@ -194,7 +190,6 @@ const BoardContent = ({
             </ContentDetailRow>
           </ContentDetail>
         </div>
-        {/* <TextArea dangerouslySetInnerHTML={{ __html: marked(content) }}></TextArea> */}
         <PostViewer content={content} />
         {tags && tags.length > 0 && <HashTagBar data={tags ?? []} />}
       </Content>

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';

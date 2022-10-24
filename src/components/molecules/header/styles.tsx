@@ -57,12 +57,7 @@ const TitleWrapper = styled.div`
 const MenuWrapper = styled.div`
   display: flex;
 `;
-const MenuBtn = styled.span`
-  border: none;
-  background: none;
-  padding: 0 1rem;
-  cursor: pointer;
-`;
+
 const Title = styled.span`
   cursor: pointer;
   padding: 0px 10px;

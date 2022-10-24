@@ -1,8 +1,8 @@
 import { MouseEvent, useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
-import { useForm, UseFormRegister } from 'react-hook-form';
-import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
+import { useForm } from 'react-hook-form';
+import { useRecoilValueLoadable } from 'recoil';
 
 import { SignUpFormInterface, SignUpData } from './index.type';
 import { SignUpFormStyle, CheckIcon } from './styles';
@@ -10,19 +10,15 @@ import { SignUpFormStyle, CheckIcon } from './styles';
 import SubmitBtn from '@components/atoms/button/submit';
 import SignUpInput from '@components/organisms/signUpInput';
 import { MAJOR_TYPE } from '@constants/index';
-import { IUserInfo, useUserSelector } from '@store/selector/user';
+import { useUserSelector } from '@store/selector/user';
 import { FlexDiv } from '@styles/index';
-import { Select, Triangle, SubTitle, MajorWrapper } from '@styles/signUp';
+import { Select, SubTitle, MajorWrapper } from '@styles/signUp';
 import Auth from '@utils/api/Auth';
 
 interface Props {
   handleModalOnOff: () => void;
   major: keyof typeof MAJOR_TYPE;
   onSubmitForm: (name: string, department: string, ajouEmail: string, gitEmail: string) => void;
-}
-
-interface SelectBoxProps extends Props {
-  register: UseFormRegister<SignUpFormInterface>;
 }
 
 const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
@@ -54,7 +50,6 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
       setValue('name', userInfo.name);
       setValue('department', MAJOR_TYPE[major]);
       setValue('gitEmailId', userInfo.gitEmail ?? '');
-      // console.log('edit', major, MAJOR_TYPE[major]);
     }
   }, []);
 
@@ -74,7 +69,6 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
         setCheckEmail(true);
         await Auth.checkEmail(emailValue);
         setEmailCheckLoading(false);
-        // console.log('checkEmail data:', data);
       } catch (err) {
         console.log(err);
       }
@@ -144,7 +138,6 @@ const SignUpForm = ({ handleModalOnOff, major, onSubmitForm }: Props) => {
               {MAJOR_TYPE[major]}
             </option>
           </Select>
-          {/* <Triangle /> */}
         </div>
       </MajorWrapper>
       <SignUpInput
